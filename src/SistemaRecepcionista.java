@@ -9,13 +9,11 @@ public class SistemaRecepcionista
 
     private ArrayList<Servicio> servicios;
 
-    public SistemaRecepcionista(ArrayList<Habitacion> habitaciones, ArrayList<Pasajero> pasajeros, ArrayList<Servicio> servicios) {
-        this.habitaciones = habitaciones;
-        this.pasajeros = pasajeros;
-        this.servicios = servicios;
-    }
-
-    public SistemaRecepcionista() {
+    public SistemaRecepcionista()
+    {
+        this.habitaciones = new ArrayList<Habitacion>();
+        this.pasajeros = new ArrayList<Pasajero>();
+        this.servicios = new ArrayList<Servicio>();
     }
 
     public ArrayList<Habitacion> getHabitaciones() {
@@ -42,7 +40,7 @@ public class SistemaRecepcionista
         this.servicios = servicios;
     }
 
-    public void reserva ()
+    public void reserva (Habitacion habitacionAReservar, Pasajero pasajeroReservador)
     {
 
     }
