@@ -6,11 +6,41 @@ public class Habitacion
 
     public enum motivo
     {
+
+         LIMPIEZA ("Disculpe, esta habitacion, esta siendo en proceso de higienizacion"),
+         REPARACION ("Disculpe, estamos haciendo remodelaciones en esta habitacion"),
+         DESINFECCION ("Disculpe, esta habitacion esta siento desinfectada");
+
+        private String descripcion;
+
+       private motivo(String descripcion) {
+            this.descripcion = descripcion;
+        }
+
+        public String getDescripcion() {
+            return descripcion;
+        }
+
+
+
     }
 
     public enum tipo
     {
 
+        SIMPLE (10000 ),
+        DOBLE (17000),
+        CUADRUPLE (24000);
+
+        private double precioDia;
+
+        private tipo(double precioDia) {
+            this.precioDia=precioDia;
+        }
+
+        public double getPrecioDia() {
+            return precioDia;
+        }
     }
 
     public Habitacion(Boolean ocupadaONo, int numero, double montoPorDia) {
@@ -38,11 +68,13 @@ public class Habitacion
 
     public double valorMonto ()
     {
-        return  0;
+        return 0;
+
     }
 
     public double calculoPorDias (int cantDias)
     {
-        return 0;
+        return montoPorDia*cantDias;
+
     }
 }

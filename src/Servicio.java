@@ -55,4 +55,29 @@ public class Servicio
         System.out.println("ABIERTO DE " + horarioDeApertura + "hs HASTA " + horarioDeCerrado + "hs");
         System.out.println("CANTIDAD DE CUPOS: " + cantCupos);
     }
+
+    public boolean reservarTurno (){
+
+        if(cantCupos>0){
+            cantCupos--;
+            System.out.println("Ya tiene su turno para el servicio de:  " + tipoServicio);
+            return true;
+
+        }
+        else{
+
+            System.out.println("Disculpe, el turno del servicio elegido no cuenta con disponibilidad de cupos. Intente mas tarde.");
+            return false;
+        }
+    }
+
+
+    public boolean cancelarTurno (String dni){
+
+        System.out.println("Por favor ingrese su DNI para verificar sus turnos pendientes: ");
+
+
+          return false;
+
+    }
 }
