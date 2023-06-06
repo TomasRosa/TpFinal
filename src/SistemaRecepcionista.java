@@ -40,9 +40,10 @@ public class SistemaRecepcionista
         this.servicios = servicios;
     }
 
-    public void reserva (Habitacion habitacionAReservar, Pasajero pasajeroReservador)
+    public Factura reserva (Habitacion habitacionAReservar, Pasajero pasajeroReservador)
     {
-
+        Factura factura = new Factura();
+        return factura;
     }
 
     public void checkIn ()
