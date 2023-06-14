@@ -59,11 +59,11 @@ public abstract class Persona
 
     public void mostrarPersona ()
     {
-        System.out.println("NOMBRE: ");
-        System.out.println("APELLIDO: ");
-        System.out.println("DNI: ");
-        System.out.println("TELEFONO: ");
-        System.out.println("DIRECCION: ");
+        System.out.println("NOMBRE: " + getNombre());
+        System.out.println("APELLIDO: " + getApellido());
+        System.out.println("DNI: " + getDni());
+        System.out.println("TELEFONO: " + getTelefono());
+        System.out.println("DIRECCION: " + getDomicilio());
     }
 
     public abstract void mostrar ();

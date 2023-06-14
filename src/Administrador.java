@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 
-public class Administrador extends Persona
+public class Administrador extends Persona //hay que utilizar interfaz generica
 {
     private ArrayList <Empleado> empleados = new ArrayList<>();
     private String codigo;

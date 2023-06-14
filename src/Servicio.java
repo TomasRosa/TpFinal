@@ -2,14 +2,13 @@ public class Servicio
 {
     private int horarioDeApertura;
 
-    private int horarioDeCerrado;
-
+    private int horarioDeCierre;
     private int cantCupos;
-    private String tipoServicio;
+    private TiposDeServicios tipoServicio;
 
-    public Servicio(int horarioDeApertura, int horarioDeCerrado, int cantCupos, String tipoServicio) {
+    public Servicio(int horarioDeApertura, int horarioDeCerrado, int cantCupos, TiposDeServicios tipoServicio) {
         this.horarioDeApertura = horarioDeApertura;
-        this.horarioDeCerrado = horarioDeCerrado;
+        this.horarioDeCierre = horarioDeCerrado;
         this.cantCupos = cantCupos;
         this.tipoServicio = tipoServicio;
     }
@@ -25,12 +24,12 @@ public class Servicio
         this.horarioDeApertura = horarioDeApertura;
     }
 
-    public int getHorarioDeCerrado() {
-        return horarioDeCerrado;
+    public int getHorarioDeCierre() {
+        return horarioDeCierre;
     }
 
-    public void setHorarioDeCerrado(int horarioDeCerrado) {
-        this.horarioDeCerrado = horarioDeCerrado;
+    public void setHorarioDeCierre(int horarioDeCierre) {
+        this.horarioDeCierre = horarioDeCierre;
     }
 
     public int getCantCupos() {
@@ -41,18 +40,18 @@ public class Servicio
         this.cantCupos = cantCupos;
     }
 
-    public String getTipoServicio() {
+    public TiposDeServicios getTipoServicio() {
         return tipoServicio;
     }
 
-    public void setTipoServicio(String tipoServicio) {
+    public void setTipoServicio(TiposDeServicios tipoServicio) {
         this.tipoServicio = tipoServicio;
     }
 
-    public void mostrarServicio ()
+    public void mostrarServicio (TiposDeServicios servicio)
     {
-        System.out.println("\n---------------------SERVICIO: " + tipoServicio.toUpperCase() + "---------------------");
-        System.out.println("ABIERTO DE " + horarioDeApertura + "hs HASTA " + horarioDeCerrado + "hs");
+        System.out.println("\n---------------------SERVICIO: " + servicio + "---------------------");
+        System.out.println("ABIERTO DE " + horarioDeApertura + "hs HASTA " + horarioDeCierre + "hs");
         System.out.println("CANTIDAD DE CUPOS: " + cantCupos);
     }
 

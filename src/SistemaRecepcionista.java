@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 
-public class SistemaRecepcionista
+public class SistemaRecepcionista //hay q implementar interfaz generica
 {
     static final String nombreHotel = "Harmony Retreat";
     private ArrayList<Habitacion> habitaciones;
