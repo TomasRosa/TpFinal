@@ -1,3 +1,5 @@
+package Empleados;
+
 public class Conserje extends Empleado implements Sueldos
 {
     private int horasExtras;

@@ -1,3 +1,5 @@
+package Empleados;
+
 public abstract class Empleado extends Persona
 {
     private int experiencia;

@@ -1,3 +1,5 @@
+package Reservas;
+
 public class Tarjeta{
     private double numeroTarjeta;
     private String nombreYapellido;

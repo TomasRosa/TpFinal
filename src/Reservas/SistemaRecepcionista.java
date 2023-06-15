@@ -1,7 +1,12 @@
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.LinkedHashMap;
-import java.util.Set;
+package Reservas;
+
+import java.time.LocalDate;
+import java.util.*;
+
+import Reservas.Factura;
+import Reservas.Pasajero;
+import Servicios.Servicio;
+import Enum.TiposDeMontosHabitaciones;
 
 public class SistemaRecepcionista //hay q implementar interfaz generica
 {
@@ -44,7 +49,26 @@ public class SistemaRecepcionista //hay q implementar interfaz generica
 
     public Factura reserva (Habitacion habitacionAReservar, Pasajero pasajeroReservador)
     {
-        Factura factura = new Factura();
+        ///Se le dice al usuario que ingrese que habitacion quiere (SIMPLE-NORMAL-PREMIUM).
+        //Se busca la primer habitacion con esas caracteristicas y se pasa por parametro.
+        //Se reserva esa habitacion y se realiza el pago.
+        double monto;
+        switch (habitacionAReservar.getTipo()) {
+            case SIMPLE:
+                monto = TiposDeMontosHabitaciones.SIMPLE.getPrecioDia();
+                break;
+            case DOBLE:
+                monto = TiposDeMontosHabitaciones.DOBLE.getPrecioDia();
+                break;
+            case CUADRUPLE:
+                monto = TiposDeMontosHabitaciones.CUADRUPLE.getPrecioDia();
+                break;
+            default:
+                throw new IllegalArgumentException("Tipo de habitación inválido");
+        }
+
+        Factura factura = new Factura(pasajeroReservador, UUID.randomUUID(), LocalDate.now(), monto, habitacionAReservar);
+
         return factura;
     }
 

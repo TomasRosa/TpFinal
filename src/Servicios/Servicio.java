@@ -1,3 +1,5 @@
+package Servicios;
+
 public class Servicio
 {
     private int horarioDeApertura;

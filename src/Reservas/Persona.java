@@ -1,3 +1,5 @@
+package Reservas;
+
 public abstract class Persona
 {
     private String nombre;

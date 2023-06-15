@@ -1,3 +1,7 @@
+package Empleados;
+
+import Empleados.Empleado;
+
 public class Recepcionista extends Empleado implements Sueldos
 {
     private int clientesAtendidos;

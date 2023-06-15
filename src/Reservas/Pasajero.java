@@ -1,3 +1,5 @@
+package Reservas;
+
 public class Pasajero extends Persona
 {
     private String origen;
@@ -32,7 +34,7 @@ public class Pasajero extends Persona
     }
     public void muestraTarjeta ()
     {
-        System.out.println("\n---------------------Tarjeta---------------------");
+        System.out.println("\n---------------------Reservas.Tarjeta---------------------");
         System.out.println(tarjeta.getNumeroTarjeta());
         System.out.println(tarjeta.getNombreYapellido());
         System.out.println(tarjeta.getDniTitular());
