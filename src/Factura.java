@@ -5,10 +5,8 @@ public class Factura
 {
     Pasajero pasajero;
     private UUID id;
-
     private LocalDate fecha;
     private double monto;
-
     Habitacion habitacion;
 
     public void mostrarFactura ()

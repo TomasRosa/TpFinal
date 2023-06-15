@@ -117,6 +117,5 @@ public class Habitacion
     public double calculoPorDias (int cantDias)
     {
         return montoPorDia*cantDias;
-
     }
 }
