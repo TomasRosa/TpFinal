@@ -1,6 +1,6 @@
 package Reservas;
 import Enum.TiposDeMontosHabitaciones;
-
+import Enum.MotivoHabitacion;
 public class Habitacion {
     private Boolean ocupadaONo = false; ///La habitacion comienza vacia, una vez que la reserven su estado cambia a true.
     private int numero; ///Numero de habitacion, distintivo.
@@ -9,24 +9,7 @@ public class Habitacion {
     private int cantDiasQueSeraOcupada; ///Cantidad de dias que estara reservada la habitacion.
     private TiposDeMontosHabitaciones tipo;
 
-    public enum motivo {
 
-        LIMPIEZA("Disculpe, esta habitacion esta siendo en proceso de higienizacion"),
-        REPARACION("Disculpe, estamos haciendo remodelaciones en esta habitacion"),
-        DESINFECCION("Disculpe, esta habitacion esta siento desinfectada");
-
-        private String descripcion;
-
-        private motivo(String descripcion) {
-            this.descripcion = descripcion;
-        }
-
-        public String getDescripcion() {
-            return descripcion;
-        }
-
-
-    }
 
     public Habitacion(Boolean ocupadaONo, int numero, Pasajero pasajeroQueLaOcupa, int cantDiasQueSeraOcupada, TiposDeMontosHabitaciones tipo) {
         this.ocupadaONo = ocupadaONo;

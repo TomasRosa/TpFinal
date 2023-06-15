@@ -7,6 +7,7 @@ import Reservas.Factura;
 import Reservas.Pasajero;
 import Servicios.Servicio;
 import Enum.TiposDeMontosHabitaciones;
+import Enum.TiposDeServicios;
 
 public class SistemaRecepcionista //hay q implementar interfaz generica
 {
@@ -72,45 +73,76 @@ public class SistemaRecepcionista //hay q implementar interfaz generica
         return factura;
     }
 
-    public void checkIn ()
+    public void checkIn (Habitacion habitacion, Pasajero pasajero)
     {
-
+        //Este metodo le asigna un pasajero a la habitacion y asigna la habitacion como ocupada
+        //En el main se utiliza cuando el pasajero quiere hospedarse en el hotel
+        habitacion.setOcupadaONo(true);
+        habitacion.setPasajeroQueLaOcupa(pasajero);
     }
 
-    public void checkOut ()
+    public void checkOut (Habitacion habitacion)
     {
-
+        //Este metodo libera la habitacion cuando el huesped finaliza su estadia
+        //En el main se utilizaria cuando el huesped abandonda el hotel
+        habitacion.setOcupadaONo(false);
+        habitacion.setPasajeroQueLaOcupa(null);
     }
 
     public void mostrarHabitacionesYdatosDeOcupantes ()
     {
-
+        for (Habitacion habi: habitaciones.values())
+        {
+            if (habi.getOcupadaONo() == false)
+            {
+                habi.toString();
+                Pasajero pasajero = habi.getPasajeroQueLaOcupa();
+                pasajero.mostrar();
+            }
+        }
     }
 
     public void mostrarHabitacionesDisponibles ()
     {
-
+        for (Habitacion habi: habitaciones.values())
+        {
+            if (habi.getOcupadaONo() == false)
+            {
+                habi.toString();
+            }
+        }
     }
 
     ///DETALLAR MOTIVO
     public void mostrarHabitacionesNoDisponibles ()
     {
-
+        for (Habitacion habi: habitaciones.values())
+        {
+            if (habi.getOcupadaONo() == true)
+            {
+                habi.toString();
+                //System.out.println(habi.getMotivo().name()); HACER EL ENUM "TIPO" DE HABITACION EN EL PACKAGE DE ENUM
+            }
+        }
     }
 
-    public void verHistorialGeneral()
+    public void verHistorialGeneral() //ESTO ES CON ARCHIVO
     {
 
     }
 
-    public void verHistorialPasajeroParticular()
+    public void verHistorialPasajeroParticular() //ESTO ES CON ARCHIVO
     {
 
     }
 
     public void mostrarTodosServicios()
     {
-
+        TiposDeServicios[] tipos = TiposDeServicios.values();
+        for (int i = 0; i < tipos.length; i++)
+        {
+            System.out.println(tipos[i]);
+        }
     }
 
     public void verReservaPorDNI(String dni)
