@@ -1,5 +1,4 @@
 package Enum;
-
 public enum TiposDeMontosHabitaciones
 {
     SIMPLE (10000 ),
