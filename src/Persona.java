@@ -5,6 +5,7 @@ public abstract class Persona
     private String dni;
     private String telefono;
     private String domicilio;
+    private Tarjeta tarjeta;
 
     public Persona(String nombre, String apellido, String dni, String telefono, String domicilio) {
         this.nombre = nombre;
@@ -67,4 +68,18 @@ public abstract class Persona
     }
 
     public abstract void mostrar ();
+    public void agregarTarjeta (double nroTarjeta, String nombreApellido, String fechaVencimiento, int codigoSeguridad, double dni)
+    {
+        tarjeta = new Tarjeta(nroTarjeta, nombreApellido, fechaVencimiento, codigoSeguridad, dni);
+
+    }
+    public void muestraTarjeta ()
+    {
+        System.out.println("\n---------------------Tarjeta---------------------");
+        System.out.println(tarjeta.getNumeroTarjeta());
+        System.out.println(tarjeta.getNombreYapellido());
+        System.out.println(tarjeta.getDniTitular());
+        System.out.println(tarjeta.getFechaVencimiento());
+        System.out.println(tarjeta.getCodigoSeguridad());
+    }
 }

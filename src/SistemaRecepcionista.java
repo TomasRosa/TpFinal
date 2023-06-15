@@ -1,34 +1,36 @@
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.Set;
 
 public class SistemaRecepcionista //hay q implementar interfaz generica
 {
     static final String nombreHotel = "Harmony Retreat";
-    private ArrayList<Habitacion> habitaciones;
-
-    private ArrayList<Pasajero> pasajeros;
+    private LinkedHashMap<Integer, Habitacion> habitaciones;
+    private Set<Pasajero> pasajeros;
 
     private ArrayList<Servicio> servicios;
 
     public SistemaRecepcionista()
     {
-        this.habitaciones = new ArrayList<Habitacion>();
-        this.pasajeros = new ArrayList<Pasajero>();
+        this.habitaciones = new LinkedHashMap<>();
+        this.pasajeros = new HashSet<>();
         this.servicios = new ArrayList<Servicio>();
     }
 
-    public ArrayList<Habitacion> getHabitaciones() {
+    public LinkedHashMap<Integer, Habitacion> getHabitaciones() {
         return habitaciones;
     }
 
-    public void setHabitaciones(ArrayList<Habitacion> habitaciones) {
+    public void setHabitaciones(LinkedHashMap<Integer, Habitacion> habitaciones) {
         this.habitaciones = habitaciones;
     }
 
-    public ArrayList<Pasajero> getPasajeros() {
+    public Set<Pasajero> getPasajeros() {
         return pasajeros;
     }
 
-    public void setPasajeros(ArrayList<Pasajero> pasajeros) {
+    public void setPasajeros(Set<Pasajero> pasajeros) {
         this.pasajeros = pasajeros;
     }
 
