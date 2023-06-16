@@ -1,5 +1,8 @@
 package Empleados;
 
+import Interfaces.MetodosBasicos;
+import Reservas.Persona;
+
 import java.util.HashSet;
 import java.util.Set;
 

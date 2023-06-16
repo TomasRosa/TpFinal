@@ -12,7 +12,7 @@ import Enum.TiposDeServicios;
 public class SistemaRecepcionista //hay q implementar interfaz generica
 {
     static final String nombreHotel = "Harmony Retreat";
-    private LinkedHashMap<Integer, Habitacion> habitaciones;
+    private LinkedHashMap<Integer, List<Habitacion>> habitaciones;
     private Set<Pasajero> pasajeros;
 
     private ArrayList<Servicio> servicios;
