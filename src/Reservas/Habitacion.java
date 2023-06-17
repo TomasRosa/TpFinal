@@ -4,11 +4,11 @@ import Enum.MotivoHabitacion;
 public class Habitacion {
     private Boolean ocupadaONo = false; ///La habitacion comienza vacia, una vez que la reserven su estado cambia a true.
     private int numero; ///Numero de habitacion, distintivo.
-
     private Pasajero pasajeroQueLaOcupa = null; ///Ya que la habitacion comienza vacia esto quiere decir que el pasajero que la ocupa es nulo.
     private int cantDiasQueSeraOcupada; ///Cantidad de dias que estara reservada la habitacion.
     private TiposDeMontosHabitaciones tipo;
 
+    ///consultar que les parece la idea de hacer un fecha inicio y fecha fin
 
 
     public Habitacion(Boolean ocupadaONo, int numero, Pasajero pasajeroQueLaOcupa, int cantDiasQueSeraOcupada, TiposDeMontosHabitaciones tipo) {

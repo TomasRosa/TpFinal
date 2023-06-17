@@ -67,6 +67,31 @@ public class Servicio
         System.out.println("CANTIDAD DE CUPOS: " + cantCupos);
     }
 
+    public void busquedaPorDniServicios(String dni){
+
+        if(turnos.containsKey(dni)){
+            boolean turno=turnos.get(dni);
+
+            System.out.println("En la busqueda de servicios, el dni: " + dni + " tiene el siguiente historial: ");
+
+            if(turno=true){
+
+                System.out.println("Turnos reservados para el servicio: " + tipoServicio);
+
+            }
+            else if(turno=false){
+
+                System.out.println("Turnos cancelados para el servicio: " + tipoServicio);
+            }
+            else{
+
+                System.out.println("El dni no tiene servicios en su historial.");
+            }
+
+        }
+
+    }
+
     public boolean reservarTurnoPortipo (String dni, String tipo){ ///en el limitamos que el enum no salga de los limites
 
         boolean reservar=false;
