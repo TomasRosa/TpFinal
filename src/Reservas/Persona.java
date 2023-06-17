@@ -1,5 +1,7 @@
 package Reservas;
 
+import java.util.Objects;
+
 public abstract class Persona
 {
     private String nombre;
@@ -57,6 +59,19 @@ public abstract class Persona
 
     public void setDomicilio(String domicilio) {
         this.domicilio = domicilio;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Persona persona = (Persona) o;
+        return Objects.equals(dni, persona.dni);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(dni);
     }
 
     public void mostrarPersona ()

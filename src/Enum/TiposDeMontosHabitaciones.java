@@ -5,7 +5,7 @@ public enum TiposDeMontosHabitaciones
     DOBLE (17000),
     CUADRUPLE (24000);
 
-    private double precioDia;
+    private final double precioDia;
 
     private TiposDeMontosHabitaciones(double precioDia) {
         this.precioDia=precioDia;

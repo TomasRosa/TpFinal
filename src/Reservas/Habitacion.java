@@ -7,16 +7,26 @@ public class Habitacion {
     private Pasajero pasajeroQueLaOcupa = null; ///Ya que la habitacion comienza vacia esto quiere decir que el pasajero que la ocupa es nulo.
     private int cantDiasQueSeraOcupada; ///Cantidad de dias que estara reservada la habitacion.
     private TiposDeMontosHabitaciones tipo;
+    private MotivoHabitacion motivo;
 
     ///consultar que les parece la idea de hacer un fecha inicio y fecha fin
 
 
-    public Habitacion(Boolean ocupadaONo, int numero, Pasajero pasajeroQueLaOcupa, int cantDiasQueSeraOcupada, TiposDeMontosHabitaciones tipo) {
+    public Habitacion(Boolean ocupadaONo, int numero, Pasajero pasajeroQueLaOcupa, int cantDiasQueSeraOcupada, TiposDeMontosHabitaciones tipo, MotivoHabitacion motivo) {
         this.ocupadaONo = ocupadaONo;
         this.numero = numero;
         this.pasajeroQueLaOcupa = pasajeroQueLaOcupa;
         this.cantDiasQueSeraOcupada = cantDiasQueSeraOcupada;
         this.tipo = tipo;
+        this.motivo = motivo;
+    }
+
+    public MotivoHabitacion getMotivo() {
+        return motivo;
+    }
+
+    public void setMotivo(MotivoHabitacion motivo) {
+        this.motivo = motivo;
     }
 
     public TiposDeMontosHabitaciones getTipo() {

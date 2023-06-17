@@ -4,9 +4,13 @@ public enum TiposDeServicios {
     GIMNASIO("Gimnasio"),
     PILETA("Pileta"),
     DESAYUNADOR("Desayunador");
-    String servicios;
+    private final String servicios;
 
     TiposDeServicios(String servicios) {
         this.servicios = servicios;
+    }
+
+    public String getServicios() {
+        return servicios;
     }
 }

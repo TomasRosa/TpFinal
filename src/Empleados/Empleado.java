@@ -1,14 +1,18 @@
 package Empleados;
 
+import Reservas.Persona;
+
 public abstract class Empleado extends Persona
 {
     private int experiencia;
     private double salario;
+    private boolean altaOno;
 
-    public Empleado(String nombre, String apellido, String dni, String telefono, String domicilio, int experiencia, double salario) {
+    public Empleado(String nombre, String apellido, String dni, String telefono, String domicilio, int experiencia, double salario, boolean altaOno) {
         super(nombre, apellido, dni, telefono, domicilio);
         this.experiencia = experiencia;
         this.salario = salario;
+        this.altaOno = altaOno;
     }
 
     public Empleado() {
@@ -29,6 +33,15 @@ public abstract class Empleado extends Persona
     public void setSalario(double salario) {
         this.salario = salario;
     }
+
+    public boolean isAltaOno() {
+        return altaOno;
+    }
+
+    public void setAltaOno(boolean altaOno) {
+        this.altaOno = altaOno;
+    }
+
     @Override
     public void mostrar()
     {

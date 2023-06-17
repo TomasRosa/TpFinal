@@ -21,14 +21,14 @@ public class SistemaRecepcionista //hay q implementar interfaz generica
     {
         this.habitaciones = new LinkedHashMap<>();
         this.pasajeros = new HashSet<>();
-        this.servicios = new ArrayList<Servicio>();
+        this.servicios = new ArrayList<>();
     }
 
-    public LinkedHashMap<Integer, Habitacion> getHabitaciones() {
+    public LinkedHashMap<Integer, List<Habitacion>> getHabitaciones() {
         return habitaciones;
     }
 
-    public void setHabitaciones(LinkedHashMap<Integer, Habitacion> habitaciones) {
+    public void setHabitaciones(LinkedHashMap<Integer, List<Habitacion>> habitaciones) {
         this.habitaciones = habitaciones;
     }
 
@@ -91,37 +91,45 @@ public class SistemaRecepcionista //hay q implementar interfaz generica
 
     public void mostrarHabitacionesYdatosDeOcupantes ()
     {
-        for (Habitacion habi: habitaciones.values())
+        int i = 0;
+
+        for (List <Habitacion> habi: habitaciones.values())
         {
-            if (habi.getOcupadaONo() == false)
+            if (habi.get(i).getOcupadaONo())
             {
-                habi.toString();
-                Pasajero pasajero = habi.getPasajeroQueLaOcupa();
+                System.out.println(habi);
+                Pasajero pasajero = habi.get(i).getPasajeroQueLaOcupa();
                 pasajero.mostrar();
             }
+            i++;
         }
     }
 
     public void mostrarHabitacionesDisponibles ()
     {
-        for (Habitacion habi: habitaciones.values())
+        int i = 0;
+
+        for (List <Habitacion> habi: habitaciones.values())
         {
-            if (habi.getOcupadaONo() == false)
+            if (!habi.get(i).getOcupadaONo())
             {
-                habi.toString();
+                System.out.println(habi);
             }
+            i++;
         }
     }
 
     ///DETALLAR MOTIVO
     public void mostrarHabitacionesNoDisponibles ()
     {
-        for (Habitacion habi: habitaciones.values())
+        int i = 0;
+
+        for (List <Habitacion> habi: habitaciones.values())
         {
-            if (habi.getOcupadaONo() == true)
+            if (habi.get(i).getOcupadaONo())
             {
-                habi.toString();
-                //System.out.println(habi.getMotivo().name()); HACER EL ENUM "TIPO" DE HABITACION EN EL PACKAGE DE ENUM
+                System.out.println(habi);
+                System.out.println(habi.get(i).getMotivo().getDescripcion()); //HACER EL ENUM "TIPO" DE HABITACION EN EL PACKAGE DE ENUM
             }
         }
     }
