@@ -1,5 +1,7 @@
 package Empleados;
 
+import Interfaces.Sueldos;
+
 public class Conserje extends Empleado implements Sueldos
 {
     private int horasExtras;

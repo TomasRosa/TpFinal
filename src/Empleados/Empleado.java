@@ -8,7 +8,7 @@ public abstract class Empleado extends Persona
     private double salario;
     private boolean altaOno;
 
-    public Empleado(String nombre, String apellido, String dni, String telefono, String domicilio, int experiencia, double salario, boolean altaOno) {
+    public Empleado(String nombre, String apellido, String dni, String telefono, String domicilio, int experiencia, double salario) {
         super(nombre, apellido, dni, telefono, domicilio);
         this.experiencia = experiencia;
         this.salario = salario;
@@ -42,7 +42,6 @@ public abstract class Empleado extends Persona
         this.altaOno = altaOno;
     }
 
-    @Override
     public void mostrar()
     {
         System.out.println("\n-------------------------EMPLEADO-------------------------");

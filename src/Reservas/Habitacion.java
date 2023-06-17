@@ -109,8 +109,6 @@ public class Habitacion {
 
     public double calculoPorDias(String tipo, int cantDias) ///ver en donde lo implemnetamos en el main
     {
-
-
         if (tipo.equalsIgnoreCase(String.valueOf(TiposDeMontosHabitaciones.SIMPLE))) {
             return TiposDeMontosHabitaciones.SIMPLE.getPrecioDia() * cantDias;
         }

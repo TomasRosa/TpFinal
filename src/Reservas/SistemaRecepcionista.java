@@ -155,6 +155,26 @@ public class SistemaRecepcionista //hay q implementar interfaz generica
 
     public void verReservaPorDNI(String dni)
     {
+        boolean encontrada = false;
 
+        for (List<Habitacion> listaHabitaciones : this.habitaciones.values())
+        {
+            for (Habitacion habitacion : listaHabitaciones)
+            {
+                if (habitacion.getPasajeroQueLaOcupa() != null && habitacion.getPasajeroQueLaOcupa().getDni().equals(dni)) {
+                    System.out.println(habitacion);
+                    encontrada = true;
+                    break; // Sale del bucle cuando se encuentra la reserva
+                }
+            }
+            if (encontrada) {
+                break; // Sale del bucle externo cuando se encuentra la reserva
+            }
+        }
+
+        if (!encontrada)
+        {
+            System.out.println("No se encontró ninguna reserva con el DNI especificado.");
+        }
     }
 }

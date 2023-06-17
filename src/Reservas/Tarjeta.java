@@ -1,13 +1,13 @@
 package Reservas;
 
 public class Tarjeta{
-    private double numeroTarjeta;
+    private String numeroTarjeta;
     private String nombreYapellido;
     private String fechaVencimiento; //preguntar
     private int codigoSeguridad;
-    private double dniTitular;
+    private String  dniTitular;
 
-    public Tarjeta(double numeroTarjeta, String nombreYapellido, String fechaVencimiento, int codigoSeguridad, double dniTitular) {
+    public Tarjeta(String numeroTarjeta, String nombreYapellido, String fechaVencimiento, int codigoSeguridad, String dniTitular) {
         this.numeroTarjeta = numeroTarjeta;
         this.nombreYapellido = nombreYapellido;
         this.fechaVencimiento = fechaVencimiento;
@@ -15,11 +15,14 @@ public class Tarjeta{
         this.dniTitular = dniTitular;
     }
 
-    public double getNumeroTarjeta() {
+    public Tarjeta() {
+    }
+
+    public String getNumeroTarjeta() {
         return numeroTarjeta;
     }
 
-    public void setNumeroTarjeta(double numeroTarjeta) {
+    public void setNumeroTarjeta(String numeroTarjeta) {
         this.numeroTarjeta = numeroTarjeta;
     }
 
@@ -47,11 +50,11 @@ public class Tarjeta{
         this.codigoSeguridad = codigoSeguridad;
     }
 
-    public double getDniTitular() {
+    public String getDniTitular() {
         return dniTitular;
     }
 
-    public void setDniTitular(double dniTitular) {
+    public void setDniTitular(String dniTitular) {
         this.dniTitular = dniTitular;
     }
 

@@ -1,13 +1,18 @@
 package Archivos;
 
+import Reservas.Pasajero;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.Serializable;
+import java.lang.reflect.Type;
 import java.util.*;
 
-public class ManejoArchivo <T>{
-    public void escribirArchivoList (String path, List<T> lista) throws IOException
+public class ManejoArchivo <T> implements Serializable {
+    public void escribirArchivoList (String path, ArrayList<T> lista) throws IOException
     {
         File file = new File(path);
         ObjectMapper mapper = new ObjectMapper();
@@ -15,30 +20,34 @@ public class ManejoArchivo <T>{
         if (!file.exists())
         {
             file.createNewFile();
-            throw new IOException();
+            //throw new IOException();
         }
 
-        try {
+        try
+        {
             mapper.writeValue(file, lista);
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
     }
-    public void leerArchivoList (String path) throws IOException
+    public ArrayList<T> leerArchivoList (String path) throws IOException
     {
         File file = new File(path);
         ObjectMapper mapper = new ObjectMapper();
-        List<T> Lista;
+        ArrayList<T> Lista = new ArrayList<>();
 
         if(!file.exists()) throw new IOException();
 
-        try {
-            Lista = mapper.readValue(file, List.class);
-            System.out.println(Lista);
+        try
+        {
+            JavaType type = mapper.getTypeFactory().constructParametricType(ArrayList.class, Pasajero.class);
+            Lista = mapper.readValue(file, type);
         } catch (IOException e)
         {
             System.out.println(e.getMessage());
         }
+
+        return Lista;
     }
     public void escribirArchivoSet (String path, Set<T> set) throws IOException
     {

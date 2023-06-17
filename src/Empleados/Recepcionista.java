@@ -1,6 +1,7 @@
 package Empleados;
 
 import Empleados.Empleado;
+import Interfaces.Sueldos;
 
 public class Recepcionista extends Empleado implements Sueldos
 {

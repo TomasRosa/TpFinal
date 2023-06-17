@@ -5,9 +5,10 @@ public class Pasajero extends Persona
     private String origen;
     private Tarjeta tarjeta;
 
-    public Pasajero(String nombre, String apellido, String dni, String telefono, String domicilio, String origen) {
+    public Pasajero(String nombre, String apellido, String dni, String telefono, String domicilio, String origen, Tarjeta tarjeta) {
         super(nombre, apellido, dni, telefono, domicilio);
         this.origen = origen;
+        this.tarjeta = tarjeta;
     }
 
     public Pasajero() {
@@ -19,31 +20,30 @@ public class Pasajero extends Persona
     public void setOrigen(String origen) {
         this.origen = origen;
     }
-    @Override
+
+    public Tarjeta getTarjeta() {
+        return tarjeta;
+    }
+
+    public void setTarjeta(Tarjeta tarjeta) {
+        this.tarjeta = tarjeta;
+    }
+
     public void mostrar()
     {
         System.out.println("\n-----------------------PASAJERO-----------------------");
         super.mostrarPersona();
         System.out.println("ORIGEN: " + origen);
+        muestraTarjeta();
     }
 
-    public void agregarTarjeta (double nroTarjeta, String nombreApellido, String fechaVencimiento, int codigoSeguridad, double dni)
-    {
-        tarjeta = new Tarjeta(nroTarjeta, nombreApellido, fechaVencimiento, codigoSeguridad, dni);
-
-    }
     public void muestraTarjeta ()
     {
-        System.out.println("\n---------------------Reservas.Tarjeta---------------------");
-        System.out.println(tarjeta.getNumeroTarjeta());
-        System.out.println(tarjeta.getNombreYapellido());
-        System.out.println(tarjeta.getDniTitular());
-        System.out.println(tarjeta.getFechaVencimiento());
-        System.out.println(tarjeta.getCodigoSeguridad());
-    }
-    ///CON LOS ARCHIVOS
-    public void verHistorial ()
-    {
-
+        System.out.println("\n---------------------TARJETA---------------------");
+        System.out.println("NUMERO DE TARJETA: " + tarjeta.getNumeroTarjeta());
+        System.out.println("NOMBRE Y APELLIDO DEL TITULAR: " + tarjeta.getNombreYapellido());
+        System.out.println("DNI DEL TITULAR: " + tarjeta.getDniTitular());
+        System.out.println("FECHA DE VENCIMIENTO: " + tarjeta.getFechaVencimiento());
+        System.out.println("CODIGO DE SEGURIDAD: " + tarjeta.getCodigoSeguridad());
     }
 }
