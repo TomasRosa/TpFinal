@@ -8,7 +8,7 @@ public class Recepcionista extends Empleado implements Sueldos
     private int clientesAtendidos;
 
     public Recepcionista(String nombre, String apellido, String dni, String telefono, String domicilio, int experiencia, double salario, int clientesAtendidos) {
-        super(nombre, apellido, dni, telefono, domicilio, experiencia, salario);
+        super(nombre, apellido, dni, telefono, domicilio, experiencia, salario, true);
         this.clientesAtendidos = clientesAtendidos;
     }
 
@@ -24,7 +24,7 @@ public class Recepcionista extends Empleado implements Sueldos
     }
 
     @Override
-    public void mostrarEmpleado()
+    public void mostrar()
     {
         super.mostrar();
         System.out.println("CLIENTES ATENDIDOS: " + clientesAtendidos);

@@ -1,5 +1,7 @@
 package Reservas;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 public class Pasajero extends Persona
 {
     private String origen;
@@ -29,6 +31,7 @@ public class Pasajero extends Persona
         this.tarjeta = tarjeta;
     }
 
+    @Override
     public void mostrar()
     {
         System.out.println("\n-----------------------PASAJERO-----------------------");

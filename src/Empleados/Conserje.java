@@ -7,7 +7,7 @@ public class Conserje extends Empleado implements Sueldos
     private int horasExtras;
 
     public Conserje(String nombre, String apellido, String dni, String telefono, String domicilio, int experiencia, double salario, int horasExtras) {
-        super(nombre, apellido, dni, telefono, domicilio, experiencia, salario);
+        super(nombre, apellido, dni, telefono, domicilio, experiencia, salario, true);
         this.horasExtras = horasExtras;
     }
 
@@ -23,7 +23,7 @@ public class Conserje extends Empleado implements Sueldos
     }
 
     @Override
-    public void mostrarEmpleado()
+    public void mostrar()
     {
         super.mostrar();
         System.out.println("HORAS EXTRAS: " + horasExtras);

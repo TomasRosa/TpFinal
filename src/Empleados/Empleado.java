@@ -2,13 +2,15 @@ package Empleados;
 
 import Reservas.Persona;
 
-public abstract class Empleado extends Persona
+import java.io.Serializable;
+
+public class Empleado extends Persona implements Serializable
 {
     private int experiencia;
     private double salario;
     private boolean altaOno;
 
-    public Empleado(String nombre, String apellido, String dni, String telefono, String domicilio, int experiencia, double salario) {
+    public Empleado(String nombre, String apellido, String dni, String telefono, String domicilio, int experiencia, double salario, boolean altaOno) {
         super(nombre, apellido, dni, telefono, domicilio);
         this.experiencia = experiencia;
         this.salario = salario;
@@ -42,6 +44,7 @@ public abstract class Empleado extends Persona
         this.altaOno = altaOno;
     }
 
+    @Override
     public void mostrar()
     {
         System.out.println("\n-------------------------EMPLEADO-------------------------");
@@ -49,6 +52,4 @@ public abstract class Empleado extends Persona
         System.out.println("AÑOS DE EXPERIENCIA: " + experiencia);
         System.out.println("SALARIO: " + salario);
     }
-
-    public abstract void mostrarEmpleado ();
 }

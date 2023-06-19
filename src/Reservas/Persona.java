@@ -82,6 +82,5 @@ public abstract class Persona
         System.out.println("TELEFONO: " + getTelefono());
         System.out.println("DIRECCION: " + getDomicilio());
     }
-
-    //public abstract void mostrar ();
+    public abstract void mostrar ();
 }

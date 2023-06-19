@@ -14,17 +14,20 @@ import java.util.Set;
 public class Administrador extends Persona implements MetodosBasicos<Empleado>//hay que utilizar interfaz generica
 {
     private Set<Empleado> empleados = new HashSet<>();
-    private String codigo;
+    private final String codigo = "12ab";
     private final String nombreArchivoEmpleados = "Empleados.json";
     private final ManejoArchivo<Empleado> manejoArchivo = new ManejoArchivo<>();
 
-    public Administrador(String nombre, String apellido, String dni, String telefono, String domicilio, HashSet<Empleado> empleados, String codigo) {
+    public Administrador(String nombre, String apellido, String dni, String telefono, String domicilio, HashSet<Empleado> empleados) {
         super(nombre, apellido, dni, telefono, domicilio);
         this.empleados = empleados;
-        this.codigo = codigo;
     }
 
     public Administrador() {
+    }
+
+    public String getNombreArchivoEmpleados() {
+        return nombreArchivoEmpleados;
     }
 
     public Set<Empleado> getEmpleados() {
@@ -37,10 +40,6 @@ public class Administrador extends Persona implements MetodosBasicos<Empleado>//
 
     public String getCodigo() {
         return codigo;
-    }
-
-    public void setCodigo(String codigo) {
-        this.codigo = codigo;
     }
 
     @Override
@@ -100,7 +99,7 @@ public class Administrador extends Persona implements MetodosBasicos<Empleado>//
 
         try
         {
-            Validacion.validarDNI(dni);
+            Validacion.validarStringNoLetras(dni);
 
             while (i < empleados1.length && !flag)
             {
@@ -247,7 +246,7 @@ public class Administrador extends Persona implements MetodosBasicos<Empleado>//
     {
         for (Empleado aux: empleados)
         {
-            aux.mostrarEmpleado();
+            aux.mostrar();
         }
     }
 

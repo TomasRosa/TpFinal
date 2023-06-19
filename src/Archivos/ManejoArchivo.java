@@ -1,5 +1,6 @@
 package Archivos;
 
+import Empleados.Empleado;
 import Reservas.Pasajero;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JavaType;
@@ -12,15 +13,16 @@ import java.lang.reflect.Type;
 import java.util.*;
 
 public class ManejoArchivo <T> implements Serializable {
-    public void escribirArchivoList (String path, ArrayList<T> lista) throws IOException
+    public void escribirArchivoList (String path, List<T> lista) throws IOException
     {
         File file = new File(path);
         ObjectMapper mapper = new ObjectMapper();
 
         if (!file.exists())
         {
-            file.createNewFile();
-            //throw new IOException();
+            boolean flag = file.createNewFile();
+            if (!flag) System.out.println("\nCreando archivo...");
+            throw new IOException();
         }
 
         try
@@ -30,17 +32,17 @@ public class ManejoArchivo <T> implements Serializable {
             System.out.println(e.getMessage());
         }
     }
-    public ArrayList<T> leerArchivoList (String path) throws IOException
+    public List<T> leerArchivoList (String path, Object tipoObjeto) throws IOException
     {
         File file = new File(path);
         ObjectMapper mapper = new ObjectMapper();
-        ArrayList<T> Lista = new ArrayList<>();
+        List<T> Lista = new ArrayList<>();
 
         if(!file.exists()) throw new IOException();
 
         try
         {
-            JavaType type = mapper.getTypeFactory().constructParametricType(ArrayList.class, Pasajero.class);
+            JavaType type = mapper.getTypeFactory().constructParametricType(ArrayList.class, tipoObjeto.getClass());
             Lista = mapper.readValue(file, type);
         } catch (IOException e)
         {
@@ -56,7 +58,8 @@ public class ManejoArchivo <T> implements Serializable {
 
         if (!file.exists())
         {
-            file.createNewFile();
+            boolean flag = file.createNewFile();
+            if (!flag) System.out.println("\nCreando archivo...");
             throw new IOException();
         }
 
@@ -66,21 +69,27 @@ public class ManejoArchivo <T> implements Serializable {
             System.out.println(e.getMessage());
         }
     }
-    public void leerArchivoSet (String path) throws IOException
+    public Set<T> leerArchivoSet (String path, Object tipoObjeto) throws IOException
     {
         File file = new File(path);
         ObjectMapper mapper = new ObjectMapper();
-        Set<T> set;
+        Set<T> set = new HashSet<>();
 
-        if(!file.exists()) throw new IOException();
+        if(!file.exists())
+        {
+            throw new IOException();
+        }
 
-        try {
-            set = mapper.readValue(file, Set.class);
-            System.out.println(set);
+        try
+        {
+            JavaType type = mapper.getTypeFactory().constructParametricType(Set.class, tipoObjeto.getClass());
+            set = mapper.readValue(file, type);
         } catch (IOException e)
         {
             System.out.println(e.getMessage());
         }
+
+        return set;
     }
     public void escribirArchivoLinked (String path, LinkedHashMap<T, T> linked) throws IOException
     {
@@ -89,7 +98,8 @@ public class ManejoArchivo <T> implements Serializable {
 
         if (!file.exists())
         {
-            file.createNewFile();
+            boolean flag = file.createNewFile();
+            if (!flag) System.out.println("\nCreando archivo...");
             throw new IOException();
         }
 
@@ -99,20 +109,23 @@ public class ManejoArchivo <T> implements Serializable {
             System.out.println(e.getMessage());
         }
     }
-    public void leerArchivoLinked (String path) throws IOException
+    public LinkedHashMap<T, T> leerArchivoLinked (String path, Object tipoObjeto) throws IOException
     {
         File file = new File(path);
         ObjectMapper mapper = new ObjectMapper();
-        LinkedHashMap<T, T> linked;
+        LinkedHashMap<T, T> linked = new LinkedHashMap<>();
 
         if(!file.exists()) throw new IOException();
 
-        try {
-            linked = mapper.readValue(file, LinkedHashMap.class);
-            System.out.println(linked);
+        try
+        {
+            JavaType type = mapper.getTypeFactory().constructParametricType(LinkedHashMap.class, tipoObjeto.getClass());
+            linked = mapper.readValue(file, type);
         } catch (IOException e)
         {
             System.out.println(e.getMessage());
         }
+
+        return linked;
     }
 }
