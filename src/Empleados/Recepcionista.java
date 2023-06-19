@@ -1,18 +1,33 @@
 package Empleados;
-
-import Empleados.Empleado;
 import Interfaces.Sueldos;
+import Reservas.SistemaRecepcionista;
 
 public class Recepcionista extends Empleado implements Sueldos
 {
     private int clientesAtendidos;
+    private final String codigo = "2606";
+    private SistemaRecepcionista recepcionista;
 
-    public Recepcionista(String nombre, String apellido, String dni, String telefono, String domicilio, int experiencia, double salario, int clientesAtendidos) {
+    public Recepcionista(String nombre, String apellido, String dni, String telefono, String domicilio, int experiencia, double salario, int clientesAtendidos,SistemaRecepcionista recepcionista) {
         super(nombre, apellido, dni, telefono, domicilio, experiencia, salario, true);
         this.clientesAtendidos = clientesAtendidos;
+        this.recepcionista = recepcionista;
     }
 
-    public Recepcionista() {
+    public Recepcionista()
+    {
+    }
+
+    public SistemaRecepcionista getRecepcionista() {
+        return recepcionista;
+    }
+
+    public void setRecepcionista(SistemaRecepcionista recepcionista) {
+        this.recepcionista = recepcionista;
+    }
+
+    public String getCodigo() {
+        return codigo;
     }
 
     public int getClientesAtendidos() {
@@ -29,7 +44,6 @@ public class Recepcionista extends Empleado implements Sueldos
         super.mostrar();
         System.out.println("CLIENTES ATENDIDOS: " + clientesAtendidos);
     }
-
     @Override
     public double calcularSueldo()
     {

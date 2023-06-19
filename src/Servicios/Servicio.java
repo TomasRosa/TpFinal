@@ -1,42 +1,53 @@
 package Servicios;
 import Enum.TiposDeServicios;
-import java.util.HashMap;
-
+import Reservas.Pasajero;
+import java.util.HashSet;
 
 public class Servicio
 {
-    private int horarioDeApertura;
-
-    private int horarioDeCierre;
+    private String horarioDeApertura;
+    private String  horarioDeCierre;
     private int cantCupos;
     private TiposDeServicios tipoServicio;
+    private HashSet<Pasajero> pasajerosDelServicio;
 
-    private HashMap<String, Boolean> turnos=new HashMap<>();
-
-
-    public Servicio(int horarioDeApertura, int horarioDeCerrado, int cantCupos, TiposDeServicios tipoServicio) {
+    public Servicio(String horarioDeApertura, String horarioDeCerrado, int cantCupos, TiposDeServicios tipoServicio)
+    {
         this.horarioDeApertura = horarioDeApertura;
         this.horarioDeCierre = horarioDeCerrado;
         this.cantCupos = cantCupos;
         this.tipoServicio = tipoServicio;
     }
 
-    public Servicio() {
+    public Servicio()
+    {
+
     }
 
-    public int getHorarioDeApertura() {
+    public String getHorarioDeApertura()
+    {
         return horarioDeApertura;
     }
 
-    public void setHorarioDeApertura(int horarioDeApertura) {
+    public HashSet<Pasajero> getPasajerosDelServicio() {
+        return pasajerosDelServicio;
+    }
+
+    public void setPasajerosDelServicio(HashSet<Pasajero> pasajerosDelServicio) {
+        this.pasajerosDelServicio = pasajerosDelServicio;
+    }
+
+    public void setHorarioDeApertura(String horarioDeApertura)
+    {
         this.horarioDeApertura = horarioDeApertura;
     }
 
-    public int getHorarioDeCierre() {
+    public String getHorarioDeCierre()
+    {
         return horarioDeCierre;
     }
 
-    public void setHorarioDeCierre(int horarioDeCierre) {
+    public void setHorarioDeCierre(String horarioDeCierre) {
         this.horarioDeCierre = horarioDeCierre;
     }
 
@@ -51,115 +62,72 @@ public class Servicio
     public TiposDeServicios getTipoServicio() {
         return tipoServicio;
     }
-
-    public HashMap<String, Boolean> getTurnos() {
-        return turnos;
-    }
-
-    public void setTurnos(HashMap<String, Boolean> turnos) {
-        this.turnos = turnos;
-    }
-
     public void mostrarServicio (TiposDeServicios servicio)
     {
         System.out.println("\n---------------------SERVICIO: " + servicio + "---------------------");
         System.out.println("ABIERTO DE " + horarioDeApertura + "hs HASTA " + horarioDeCierre + "hs");
         System.out.println("CANTIDAD DE CUPOS: " + cantCupos);
     }
-
-    public void busquedaPorDniServicios(String dni){
-
-        if(turnos.containsKey(dni)){
-            boolean turno=turnos.get(dni);
-
-            System.out.println("En la busqueda de servicios, el dni: " + dni + " tiene el siguiente historial: ");
-
-            if(turno=true){
-
-                System.out.println("Turnos reservados para el servicio: " + tipoServicio);
-
-            }
-            else if(turno=false){
-
-                System.out.println("Turnos cancelados para el servicio: " + tipoServicio);
-            }
-            else{
-
-                System.out.println("El dni no tiene servicios en su historial.");
-            }
-
-        }
-
-    }
-
-    public boolean reservarTurnoPortipo (String dni, String tipo){ ///en el limitamos que el enum no salga de los limites
+    public boolean reservarTurnoPortipo (Pasajero pasajero, String tipo){ ///en el limitamos que el enum no salga de los limites
 
         boolean reservar=false;
 
         if(tipo.equalsIgnoreCase(String.valueOf(TiposDeServicios.GIMNASIO))){
-            reservar=resevarTurno(dni);
+            reservar=resevarTurno(pasajero);
         }
         else if(tipo.equalsIgnoreCase(String.valueOf(TiposDeServicios.PILETA))){
-            reservar=resevarTurno(dni);
+            reservar=resevarTurno(pasajero);
         }
         else if(tipo.equalsIgnoreCase(String.valueOf(TiposDeServicios.DESAYUNADOR))){
-            reservar=resevarTurno(dni);
+            reservar=resevarTurno(pasajero);
         }
 
         return reservar;
-
     }
-
-    public boolean resevarTurno(String dni) {
-
-
-            if (cantCupos > 0) {
-                cantCupos--;
-                System.out.println("Ya tiene su turno para el servicio de:  " + tipoServicio);
-                turnos.put(dni, true);
-                return true;
-
-            } else {
-
-                System.out.println("Disculpe, el turno del servicio elegido no cuenta con disponibilidad de cupos. Intente mas tarde.");
-                return false;
-            }
+    public boolean resevarTurno(Pasajero pasajero)
+    {
+        if (cantCupos > 0)
+        {
+            this.pasajerosDelServicio.add(pasajero);
+            cantCupos--;
+            System.out.println("Ya tiene su turno para el servicio de:  " + tipoServicio);
+            return true;
         }
-
-    public boolean cancelarTurnoPortipo (String dni, String tipo){ ///en el limitamos que el enum no salga de los limites
+        else
+        {
+            System.out.println("Disculpe, el turno del servicio elegido no cuenta con disponibilidad de cupos. Intente mas tarde.");
+            return false;
+        }
+    }
+    public boolean cancelarTurnoPortipo (Pasajero pasajero, String tipo){ ///en el limitamos que el enum no salga de los limites
 
         boolean cancelar=false;
 
         if(tipo.equalsIgnoreCase(String.valueOf(TiposDeServicios.GIMNASIO))){
-            cancelar=cancelarTurno(dni);
+            cancelar=cancelarTurno(pasajero);
         }
         else if(tipo.equalsIgnoreCase(String.valueOf(TiposDeServicios.PILETA))){
-            cancelar=cancelarTurno(dni);
+            cancelar=cancelarTurno(pasajero);
         }
         else if(tipo.equalsIgnoreCase(String.valueOf(TiposDeServicios.DESAYUNADOR))){
-            cancelar=cancelarTurno(dni);
+            cancelar=cancelarTurno(pasajero);
         }
-
         return cancelar;
-
     }
 
-    public boolean cancelarTurno (String dni ){ ///Le paso el dni por el main y cancela el turno del dni reservado
-
-        if(turnos.containsKey(dni)){
-            if(turnos.get(dni)){
-                turnos.put(dni, false);
-                cantCupos++;
-                System.out.println("Su turno ha sido cancelado.");
-                return true;
-            }else{
-
-                System.out.println("El turno con ese DNI, ya ha sido cancelado previamente.");
-            }
-        }else{
-            System.out.println("No se encontro un turno que este asociado con su DNI.");
+    public boolean cancelarTurno (Pasajero pasajero)
+    { ///Le paso el dni por el main y cancela el turno del dni reservado
+        if(this.pasajerosDelServicio.contains(pasajero))
+        {
+            cantCupos++;
+            this.pasajerosDelServicio.remove(pasajero);
+            System.out.println("Su turno ha sido cancelado.");
+            return true;
         }
-        return false;
-
+        else
+        {
+            System.out.println("El turno con ese DNI, ya ha sido cancelado previamente.");
+            return false;
+        }
     }
 }

@@ -1,15 +1,9 @@
 package Archivos;
-
-import Empleados.Empleado;
-import Reservas.Pasajero;
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
 import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
-import java.lang.reflect.Type;
 import java.util.*;
 
 public class ManejoArchivo <T> implements Serializable {

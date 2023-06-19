@@ -1,7 +1,5 @@
 package Reservas;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 public class Pasajero extends Persona
 {
     private String origen;

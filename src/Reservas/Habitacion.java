@@ -1,16 +1,14 @@
 package Reservas;
 import Enum.TiposDeMontosHabitaciones;
 import Enum.MotivoHabitacion;
-public class Habitacion {
+public class Habitacion
+{
     private Boolean ocupadaONo = false; ///La habitacion comienza vacia, una vez que la reserven su estado cambia a true.
     private int numero; ///Numero de habitacion, distintivo.
     private Pasajero pasajeroQueLaOcupa = null; ///Ya que la habitacion comienza vacia esto quiere decir que el pasajero que la ocupa es nulo.
     private int cantDiasQueSeraOcupada; ///Cantidad de dias que estara reservada la habitacion.
     private TiposDeMontosHabitaciones tipo;
     private MotivoHabitacion motivo;
-
-    ///consultar que les parece la idea de hacer un fecha inicio y fecha fin
-
 
     public Habitacion(Boolean ocupadaONo, int numero, Pasajero pasajeroQueLaOcupa, int cantDiasQueSeraOcupada, TiposDeMontosHabitaciones tipo, MotivoHabitacion motivo) {
         this.ocupadaONo = ocupadaONo;
@@ -38,22 +36,6 @@ public class Habitacion {
     }
 
     public Habitacion() {
-    }
-
-    public void desocuparHabitacion() {
-        if (ocupadaONo) {
-
-            ocupadaONo = false;
-            pasajeroQueLaOcupa = null;
-            cantDiasQueSeraOcupada = 0;
-
-            System.out.println("La habitacion : " + numero + " ha sido desocupada con exito.");
-        } else {
-
-            System.out.println("La habitacion: " + numero + " que desea desocupar esta actualmente sin alojaciones.");
-
-        }
-
     }
 
     public Boolean getOcupadaONo() {
@@ -89,7 +71,6 @@ public class Habitacion {
         this.cantDiasQueSeraOcupada = cantDiasQueSeraOcupada;
     }
 
-
     @Override
     public String toString() {
         return "Habitacion{" +
@@ -101,24 +82,18 @@ public class Habitacion {
                 '}';
     }
 
-    public double valorMonto() ///preguntar que se le pasaria
+    public double calculoPorDias(String tipo) ///ver en donde lo implemnetamos en el main CUANDO RESERVE SE LE INFORMA CUANTO LE SALE
     {
-
-        return 0;
-    }
-
-    public double calculoPorDias(String tipo, int cantDias) ///ver en donde lo implemnetamos en el main
-    {
-        if (tipo.equalsIgnoreCase(String.valueOf(TiposDeMontosHabitaciones.SIMPLE))) {
-            return TiposDeMontosHabitaciones.SIMPLE.getPrecioDia() * cantDias;
+        if (tipo.equalsIgnoreCase(String.valueOf(TiposDeMontosHabitaciones.SIMPLE)))
+        {
+            return TiposDeMontosHabitaciones.SIMPLE.getPrecioDia() * this.cantDiasQueSeraOcupada;
         }
-        if (tipo.equalsIgnoreCase(String.valueOf(TiposDeMontosHabitaciones.DOBLE))) {
-            return TiposDeMontosHabitaciones.DOBLE.getPrecioDia() * cantDias;
+        else if(tipo.equalsIgnoreCase(String.valueOf(TiposDeMontosHabitaciones.DOBLE))) {
+            return TiposDeMontosHabitaciones.DOBLE.getPrecioDia() * this.cantDiasQueSeraOcupada;
         }
-        if (tipo.equalsIgnoreCase(String.valueOf(TiposDeMontosHabitaciones.CUADRUPLE))) {
-            return TiposDeMontosHabitaciones.CUADRUPLE.getPrecioDia() * cantDias;
+        else if(tipo.equalsIgnoreCase(String.valueOf(TiposDeMontosHabitaciones.CUADRUPLE))) {
+            return TiposDeMontosHabitaciones.CUADRUPLE.getPrecioDia() * this.cantDiasQueSeraOcupada;
         }
-
-        return 0;
+        return -1;
     }
 }

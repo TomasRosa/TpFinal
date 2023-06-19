@@ -1,17 +1,14 @@
 package Empleados;
-
 import Archivos.ManejoArchivo;
 import Excepciones.*;
 import Interfaces.MetodosBasicos;
 import Reservas.Persona;
-
-import java.io.IOError;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.Scanner;
 import java.util.Set;
 
-public class Administrador extends Persona implements MetodosBasicos<Empleado>//hay que utilizar interfaz generica
+public class Administrador extends Persona implements MetodosBasicos<Empleado>
 {
     private Set<Empleado> empleados = new HashSet<>();
     private final String codigo = "12ab";
@@ -90,7 +87,7 @@ public class Administrador extends Persona implements MetodosBasicos<Empleado>//
     {
         int i = 0;
         boolean flag = false;
-        Empleado []empleados1 = empleados.toArray(new Empleado[0]);
+        Empleado [] empleados1 = empleados.toArray(new Empleado[0]);
 
         if (dni == null)
         {

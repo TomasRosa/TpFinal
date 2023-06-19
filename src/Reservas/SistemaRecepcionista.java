@@ -1,20 +1,17 @@
 package Reservas;
-
 import java.time.LocalDate;
 import java.util.*;
-
-import Reservas.Factura;
-import Reservas.Pasajero;
+import Excepciones.DNINoExiste;
+import Excepciones.StringContieneLetras;
+import Excepciones.Validacion;
 import Servicios.Servicio;
 import Enum.TiposDeMontosHabitaciones;
-import Enum.TiposDeServicios;
 
-public class SistemaRecepcionista //hay q implementar interfaz generica
+public class SistemaRecepcionista
 {
     static final String nombreHotel = "Harmony Retreat";
     private LinkedHashMap<Integer, List<Habitacion>> habitaciones;
     private Set<Pasajero> pasajeros;
-
     private ArrayList<Servicio> servicios;
 
     public SistemaRecepcionista()
@@ -24,7 +21,8 @@ public class SistemaRecepcionista //hay q implementar interfaz generica
         this.servicios = new ArrayList<>();
     }
 
-    public LinkedHashMap<Integer, List<Habitacion>> getHabitaciones() {
+    public LinkedHashMap<Integer, List<Habitacion>> getHabitaciones()
+    {
         return habitaciones;
     }
 
@@ -48,13 +46,14 @@ public class SistemaRecepcionista //hay q implementar interfaz generica
         this.servicios = servicios;
     }
 
-    public Factura reserva (Habitacion habitacionAReservar, Pasajero pasajeroReservador)
+    public Factura reserva (Habitacion habitacionAReservar, Pasajero pasajeroReservador) throws IllegalArgumentException
     {
         ///Se le dice al usuario que ingrese que habitacion quiere (SIMPLE-NORMAL-PREMIUM).
         //Se busca la primer habitacion con esas caracteristicas y se pasa por parametro.
         //Se reserva esa habitacion y se realiza el pago.
         double monto;
-        switch (habitacionAReservar.getTipo()) {
+        switch (habitacionAReservar.getTipo())
+        {
             case SIMPLE:
                 monto = TiposDeMontosHabitaciones.SIMPLE.getPrecioDia();
                 break;
@@ -67,12 +66,8 @@ public class SistemaRecepcionista //hay q implementar interfaz generica
             default:
                 throw new IllegalArgumentException("Tipo de habitación inválido");
         }
-
-        Factura factura = new Factura(pasajeroReservador, UUID.randomUUID(), LocalDate.now(), monto, habitacionAReservar);
-
-        return factura;
+        return new Factura(pasajeroReservador, UUID.randomUUID(), LocalDate.now(), monto, habitacionAReservar);
     }
-
     public void checkIn (Habitacion habitacion, Pasajero pasajero)
     {
         //Este metodo le asigna un pasajero a la habitacion y asigna la habitacion como ocupada
@@ -85,8 +80,18 @@ public class SistemaRecepcionista //hay q implementar interfaz generica
     {
         //Este metodo libera la habitacion cuando el huesped finaliza su estadia
         //En el main se utilizaria cuando el huesped abandonda el hotel
-        habitacion.setOcupadaONo(false);
-        habitacion.setPasajeroQueLaOcupa(null);
+        //Cancela la reserva.
+        if (habitacion.getOcupadaONo())
+        {
+            habitacion.setOcupadaONo(false);
+            habitacion.setPasajeroQueLaOcupa(null);
+            habitacion.setCantDiasQueSeraOcupada(0);
+            System.out.println("La habitacion : " + habitacion.getNumero() + " ha sido desocupada con exito.");
+        }
+        else
+        {
+            System.out.println("La habitacion: " + habitacion.getNumero() + " que desea desocupar esta actualmente sin alojaciones.");
+        }
     }
 
     public void mostrarHabitacionesYdatosDeOcupantes ()
@@ -104,7 +109,6 @@ public class SistemaRecepcionista //hay q implementar interfaz generica
             i++;
         }
     }
-
     public void mostrarHabitacionesDisponibles ()
     {
         int i = 0;
@@ -118,7 +122,6 @@ public class SistemaRecepcionista //hay q implementar interfaz generica
             i++;
         }
     }
-
     ///DETALLAR MOTIVO
     public void mostrarHabitacionesNoDisponibles ()
     {
@@ -129,30 +132,10 @@ public class SistemaRecepcionista //hay q implementar interfaz generica
             if (habi.get(i).getOcupadaONo())
             {
                 System.out.println(habi);
-                System.out.println(habi.get(i).getMotivo().getDescripcion()); //HACER EL ENUM "TIPO" DE HABITACION EN EL PACKAGE DE ENUM
+                System.out.println(habi.get(i).getMotivo().getDescripcion());
             }
         }
     }
-
-    public void verHistorialGeneral() //ESTO ES CON ARCHIVO
-    {
-
-    }
-
-    public void verHistorialPasajeroParticular() //ESTO ES CON ARCHIVO
-    {
-
-    }
-
-    public void mostrarTodosServicios()
-    {
-        TiposDeServicios[] tipos = TiposDeServicios.values();
-        for (int i = 0; i < tipos.length; i++)
-        {
-            System.out.println(tipos[i]);
-        }
-    }
-
     public void verReservaPorDNI(String dni)
     {
         boolean encontrada = false;
@@ -167,7 +150,8 @@ public class SistemaRecepcionista //hay q implementar interfaz generica
                     break; // Sale del bucle cuando se encuentra la reserva
                 }
             }
-            if (encontrada) {
+            if (encontrada)
+            {
                 break; // Sale del bucle externo cuando se encuentra la reserva
             }
         }
@@ -175,6 +159,39 @@ public class SistemaRecepcionista //hay q implementar interfaz generica
         if (!encontrada)
         {
             System.out.println("No se encontró ninguna reserva con el DNI especificado.");
+        }
+    }
+    public void busquedaPorDNIServicio (String dni) throws DNINoExiste
+    {
+        boolean flag = false;
+
+        if (dni == null)
+        {
+            throw new DNINoExiste();
+        }
+        try
+        {
+            Validacion.validarStringNoLetras(dni);
+            for(Servicio servicioBuscar: this.servicios)
+            {
+                Iterator<Pasajero> it = servicioBuscar.getPasajerosDelServicio().iterator();
+                while(it.hasNext() && flag == false)
+                {
+                    if(dni.equals(it.next().getDni()))
+                    {
+                        System.out.println("El pasajero se encuentra anotado en el servicio: " + servicioBuscar.getTipoServicio());
+                        flag = true;
+                    }
+                }
+            }
+            if (!flag)
+            {
+                throw new DNINoExiste();
+            }
+        }
+        catch (StringContieneLetras e)
+        {
+            System.out.println("\nERROR: DNI INVALIDO\n");
         }
     }
 }

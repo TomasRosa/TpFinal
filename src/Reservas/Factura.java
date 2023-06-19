@@ -1,8 +1,6 @@
 package Reservas;
-
 import java.time.LocalDate;
 import java.util.UUID;
-
 public class Factura
 {
     Pasajero pasajero;

@@ -1,18 +1,18 @@
 import Archivos.ManejoArchivo;
 import Empleados.Administrador;
 import Empleados.Empleado;
-import Excepciones.NombreContieneNumeros;
-import Excepciones.ObjetoNullException;
-import Excepciones.StringContieneLetras;
-import Excepciones.Validacion;
+import Empleados.Recepcionista;
+import Excepciones.*;
+import Reservas.Habitacion;
 import Reservas.Pasajero;
+import Reservas.SistemaRecepcionista;
 import Reservas.Tarjeta;
-
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Scanner;
-import java.util.Set;
+import java.util.*;
+import Enum.TiposDeMontosHabitaciones;
+import Enum.MotivoHabitacion;
+import Enum.TiposDeServicios;
+import Servicios.Servicio;
 
 public class Main {
     public static void main(String[] args)
@@ -22,6 +22,106 @@ public class Main {
         //baseDeDatosPasajeros();
         Administrador admin = baseDeDatosEmpleados();
 
+        System.out.println("Como desea ingresar?");
+        System.out.println("[1] Administrador");
+        System.out.println("[2] Recepcionista");
+        System.out.println("[3] Salir");
+
+        int opcion = teclado.nextInt();
+
+        switch (opcion)
+        {
+            case 1:
+            {
+                int intentos = 3;
+                boolean flag = false;
+                do
+                {
+                    System.out.println("Ingrese el codigo para ingresar como administrador");
+                    try
+                    {
+                        String codigo = teclado.nextLine();
+
+                        flag = Validacion.validarCodigoAdmin(admin.getCodigo(), codigo);
+
+                    }catch (CodigoErroneoException e)
+                    {
+                        System.out.println("\nERROR: CODIGO ERRONEO\n");
+                        intentos--;
+                        System.out.println("CANTIDAD DE INTENTOS: " + intentos);
+                    }
+
+                }while (!flag && intentos > 0);
+
+                if (intentos == 0 && !flag)
+                {
+                    System.out.println("Los codigos indicados no fueron correctos. Se cerrara el sistema.");
+                    break;
+                }
+                break;
+            }
+            case 2:
+            {
+                Recepcionista recepcionista = new Recepcionista();
+
+                int intentos = 3;
+                boolean flag = false;
+                do
+                {
+                    System.out.println("Ingrese el codigo para ingresar como recepcionista");
+                    try
+                    {
+                        String codigo = teclado.nextLine();
+
+                        flag = Validacion.validarCodigoAdmin(recepcionista.getCodigo(), codigo);
+
+                    }catch (CodigoErroneoException e)
+                    {
+                        System.out.println("\nERROR: CODIGO ERRONEO\n");
+                        intentos--;
+                        System.out.println("CANTIDAD DE INTENTOS: " + intentos);
+                    }
+
+                }while (!flag && intentos > 0);
+
+                if (intentos == 0 && !flag)
+                {
+                    System.out.println("Los codigos indicados no fueron correctos. Se cerrara el sistema.");
+                    break;
+                }
+                else
+                {
+                    recepcionista.setRecepcionista(baseDeDatosSistema());
+                    System.out.println("Elija que funcion desea realizar.");
+                    System.out.println("[1]. Reservar una habitacion. ");
+                    System.out.println("[2]. Realizar check in. ");
+                    System.out.println("[3]. Realizar check out.");
+                    System.out.println("[4]. Mostrar habitaciones y datos de ocupantes. ");
+                    System.out.println("[5]. Mostrar habitaciones disponibles.");
+                    System.out.println("[6]. Mostrar habitaciones no disponibles. ");
+                    System.out.println("[7]. Ver reserva por DNI. ");
+                    System.out.println("[8]. Ver en que servicio se encuentra una persona por DNI. ");
+                    opcion = teclado.nextInt();
+
+                    switch (opcion)
+                    {
+                        case 1:
+                        {
+
+                        }
+                    }
+                }
+
+                break;
+            }
+            case 3:
+            {
+                System.out.println("Gracias vuelva prontos.");
+                break;
+            }
+        }
+
+        /*
         admin.agregar(cargaUnEmpleado(teclado));
 
         try
@@ -35,7 +135,7 @@ public class Main {
         for (Empleado aux2: admin.getEmpleados())
         {
             aux2.mostrar();
-        }
+        }*/
     }
 
     public static void baseDeDatosPasajeros ()
@@ -52,7 +152,8 @@ public class Main {
         Pasajero p4 = new Pasajero("Carlos", "Rodríguez", "56473829", "2237418529", "Rua Augusta 789", "Brasil", t4);
         Pasajero p5 = new Pasajero("Ana", "Martínez", "38475629", "2233647582", "Broadway Street 456", "Estados Unidos", t5);
 
-        ArrayList<Pasajero> pasajeros = new ArrayList<>();
+
+        Set<Pasajero> pasajeros = new HashSet<>();
         ManejoArchivo<Pasajero> pasajeroManejoArchivo = new ManejoArchivo<>();
 
         pasajeros.add(p1);
@@ -63,17 +164,17 @@ public class Main {
 
         try
         {
-            pasajeroManejoArchivo.escribirArchivoList("archivo_pasajeros.json", pasajeros);
+            pasajeroManejoArchivo.escribirArchivoSet("archivo_pasajeros.json", pasajeros);
         }
         catch (IOException e)
         {
             System.out.println("ARCHIVO NO EXISTE, CREANDOLO...");
         }
-/*          VERIFICAR LECTURA
+    /*          VERIFICAR LECTURA
         try
         {
             Pasajero auxLeer = new Pasajero ();
-            ArrayList<Pasajero> pasajeros1 = pasajeroManejoArchivo.leerArchivoList("archivo_pasajeros.json", auxLeer);
+            Set<Pasajero> pasajeros1 = pasajeroManejoArchivo.leerArchivoSet("archivo_pasajeros.json", auxLeer);
             int i = 0;
 
             while (i < pasajeros1.size())
@@ -87,7 +188,72 @@ public class Main {
             System.out.println(e.getMessage());
         }*/
     }
+    public static SistemaRecepcionista baseDeDatosSistema ()
+    {
+        SistemaRecepcionista sistema = new SistemaRecepcionista();
 
+        ManejoArchivo<Pasajero> pasajeroManejoArchivo = new ManejoArchivo<>();
+        Set<Pasajero> pasajeros1 = new HashSet<>();
+        try
+        {
+            Pasajero auxLeer = new Pasajero ();
+            pasajeros1 = (HashSet<Pasajero>) pasajeroManejoArchivo.leerArchivoSet("archivo_pasajeros.json", auxLeer);
+        }
+        catch (IOException e)
+        {
+            System.out.println(e.getMessage());
+        }
+
+        Pasajero[] pasajeros = pasajeros1.toArray(new Pasajero[0]);
+
+        Habitacion h1 = new Habitacion(true,1,pasajeros[0],14,TiposDeMontosHabitaciones.DOBLE,null);
+        Habitacion h2 = new Habitacion(false,2,null,0,TiposDeMontosHabitaciones.SIMPLE,MotivoHabitacion.DESINFECCION);
+        Habitacion h3 = new Habitacion(false,3,null,0,TiposDeMontosHabitaciones.CUADRUPLE,MotivoHabitacion.LIMPIEZA);
+        Habitacion h4 = new Habitacion(true,4,pasajeros[1],7,TiposDeMontosHabitaciones.CUADRUPLE,null);
+        Habitacion h5 = new Habitacion(false,5,null,0,TiposDeMontosHabitaciones.SIMPLE,null);
+        Habitacion h6 = new Habitacion(true,6,pasajeros[2],21,TiposDeMontosHabitaciones.CUADRUPLE,null);
+        Habitacion h7 = new Habitacion(false,7,null,0,TiposDeMontosHabitaciones.DOBLE,MotivoHabitacion.LIMPIEZA);
+        Habitacion h8 = new Habitacion(true,8,pasajeros[3],30,TiposDeMontosHabitaciones.DOBLE,null);
+        Habitacion h9 = new Habitacion(true,9,pasajeros[4],4,TiposDeMontosHabitaciones.DOBLE,null);
+
+        ArrayList<Habitacion> habitacionesPiso1 = new ArrayList<>();
+        ArrayList<Habitacion> habitacionesPiso2 = new ArrayList<>();
+        ArrayList<Habitacion> habitacionesPiso3 = new ArrayList<>();
+
+        habitacionesPiso1.add(h1);
+        habitacionesPiso1.add(h2);
+        habitacionesPiso1.add(h3);
+
+        habitacionesPiso2.add(h4);
+        habitacionesPiso2.add(h5);
+        habitacionesPiso2.add(h6);
+
+        habitacionesPiso3.add(h7);
+        habitacionesPiso3.add(h8);
+        habitacionesPiso3.add(h9);
+
+        LinkedHashMap<Integer,List<Habitacion>> pisos = new LinkedHashMap<>();
+
+        pisos.put(1,habitacionesPiso1);
+        pisos.put(2,habitacionesPiso2);
+        pisos.put(3,habitacionesPiso3);
+
+        sistema.setHabitaciones(pisos);
+        sistema.setPasajeros(pasajeros1);
+
+        Servicio gimnasio = new Servicio("9:00 am","23:00 pm",25,TiposDeServicios.GIMNASIO);
+        Servicio pileta = new Servicio("14:00 pm","19:00 pm",30,TiposDeServicios.PILETA);
+        Servicio desayunador = new Servicio("6:00 am","12:00 pm",20,TiposDeServicios.DESAYUNADOR);
+
+        ArrayList<Servicio> servicios = new ArrayList<>();
+        servicios.add(gimnasio);
+        servicios.add(pileta);
+        servicios.add(desayunador);
+
+        sistema.setServicios(servicios);
+
+        return sistema;
+    }
     public static Administrador baseDeDatosEmpleados ()
     {
         Empleado empleado1 = new Empleado("Juan", "Perez", "12345678", "2234567890", "Calle 123", 2, 2000.0, true);
@@ -136,7 +302,31 @@ public class Main {
 
         return administrador;
     }
+    public static Habitacion buscarHabitacionDisponible (SistemaRecepcionista sistema, TiposDeMontosHabitaciones tipo)
+    {
+        Habitacion aRetornar = new Habitacion();
+        int i = 0;
+        boolean flag = false;
 
+        for(Map.Entry<Integer,List<Habitacion>> entry: sistema.getHabitaciones().entrySet())
+        {
+            if(i < entry.getValue().size())
+            {
+                if(!entry.getValue().get(i).getOcupadaONo() && tipo.equals(entry.getValue().get(i).getTipo()))
+                {
+                    aRetornar = entry.getValue().get(i);
+                    flag = true;
+                    break;
+                }
+            }
+            i++;
+        }
+        if(!flag)
+        {
+            System.out.println("No se ha encontrado una habitacion disponible para reservar.");
+        }
+        return aRetornar;
+    }
     public static Empleado cargaUnEmpleado (Scanner teclado)
     {
         boolean flag = false;
@@ -217,5 +407,187 @@ public class Main {
         double salario = teclado.nextDouble();
 
         return new Empleado(nombre, apellido, dni, num, domicilio, experiencia, salario, true);
+    }
+    public static Pasajero cargarUnPasajero (Scanner teclado)
+    {
+        boolean flag = false;
+        String nombre = "";
+        String apellido = "";
+        String dni = "";
+        String num= "";
+
+        do
+        {
+            System.out.println("Ingrese el nombre del pasajero");
+            try
+            {
+                nombre = teclado.nextLine();
+                flag = Validacion.validarStringNoNumeros(nombre);
+            }catch (NombreContieneNumeros e)
+            {
+                System.out.println("\nERROR: EL NOMBRE CONTIENE NUMEROS\n");
+            }
+        }while (!flag);
+
+        flag = false;
+
+        do
+        {
+            System.out.println("Ingrese el apellido del pasajero");
+            try
+            {
+                apellido = teclado.next();
+                teclado.nextLine();
+                flag = Validacion.validarStringNoNumeros(apellido);
+            }catch (NombreContieneNumeros e)
+            {
+                System.out.println("\nERROR: EL APELLIDO CONTIENE NUMEROS\n");
+            }
+        }while (!flag);
+
+        flag = false;
+
+        do
+        {
+            System.out.println("Ingrese el DNI del pasajero");
+            try
+            {
+                dni = teclado.next();
+                teclado.nextLine();
+                flag = Validacion.validarStringNoLetras(dni);
+            }catch (StringContieneLetras e)
+            {
+                System.out.println("\nERROR: EL DNI CONTIENE LETRAS\n");
+            }
+        }while (!flag);
+
+        flag = false;
+
+        do
+        {
+            System.out.println("Ingrese el numero de telefono del pasajero");
+            try
+            {
+                num = teclado.next();
+                teclado.nextLine();
+                flag = Validacion.validarStringNoLetras(num);
+            }catch (StringContieneLetras e)
+            {
+                System.out.println("\nERROR: EL NUMERO CONTIENE LETRAS\n");
+            }
+        }while (!flag);
+
+        System.out.println("Ingrese el domicilio del pasajero");
+        String domicilio = teclado.next();
+        teclado.nextLine();
+
+        System.out.println("Ingrese el origen del pasajero");
+        String origen = teclado.nextLine();
+
+        Tarjeta t1 = cargarTarjeta(teclado);
+
+        return new Pasajero(nombre,apellido,dni,num,domicilio,origen,t1);
+    }
+    public static Tarjeta cargarTarjeta (Scanner scan)
+    {
+        String nroTarjeta = " ";
+        String nombreYApellido = " ";
+        String fechaVencimiento = " ";
+        int codigoSeguridad = 0;
+        String dni = " ";
+        boolean flag = false;
+
+        do
+        {
+            System.out.println("Ingrese el numero de la tarjeta. ");
+            try
+            {
+                nroTarjeta = scan.nextLine();
+                scan.nextLine();
+                flag = Validacion.validarStringNoLetras(nroTarjeta);
+                try
+                {
+                    flag = Validacion.validarNroTarjeta(nroTarjeta);
+                }
+                catch (NroTarjetaException e)
+                {
+                    System.out.println("\n ERROR: LA LONGITUD NO ES ADECUADA.\n");
+                }
+            }catch (NombreContieneNumeros e)
+            {
+                System.out.println("\nERROR: EL APELLIDO CONTIENE NUMEROS\n");
+            }
+        }while (!flag);
+        do
+        {
+            System.out.println("Ingrese el nombre y apellido titular de la tarjeta. ");
+            try
+            {
+                nombreYApellido = scan.nextLine();
+                scan.nextLine();
+                flag = Validacion.validarStringNoNumeros(nombreYApellido);
+            }catch (NombreContieneNumeros e)
+            {
+                System.out.println("\nERROR: EL NOMBRE Y APELLIDO CONTIENE NUMEROS\n");
+            }
+        }while (!flag);
+
+        do
+        {
+            System.out.println("Ingrese la fecha de vencimiento de la tarjeta. dd/mm/aaaa ");
+            try
+            {
+                fechaVencimiento = scan.nextLine();
+                scan.nextLine();
+                flag = Validacion.validarStringNoLetras(fechaVencimiento);
+                try
+                {
+                    ////flag = Validacion.validarNroTarjeta(fechaVencimiento);
+                }
+                catch (NroTarjetaException e)
+                {
+                    System.out.println("\n ERROR: LA LONGITUD NO ES ADECUADA.\n");
+                }
+            }catch (NombreContieneNumeros e)
+            {
+                System.out.println("\nERROR: EL APELLIDO CONTIENE NUMEROS\n");
+            }
+        }while (!flag);
+        do
+        {
+            System.out.println("Ingrese el codigo de seguridad de la tarjeta. (3 digitos) ");
+            try
+            {
+                codigoSeguridad = scan.nextInt();
+                flag = Validacion.validarCodigoSeguridad(codigoSeguridad);
+
+            }catch (CodigoSeguridadException e)
+            {
+                System.out.println("\nERROR: EL CODIGO DE SEGURIDAD NO ES APTO.\n");
+            }
+        }while (!flag);
+        do
+        {
+            System.out.println("Ingrese el DNI del pasajero");
+            try
+            {
+                dni = scan.next();
+                scan.nextLine();
+                flag = Validacion.validarStringNoLetras(dni);
+                try
+                {
+                    flag = Validacion.validarLongitudDNI(dni);
+                }
+                catch (DniLongitudException e)
+                {
+                    System.out.println("\n LA LONGITUD DEL DNI NO ES APTA \n");
+                }
+            }
+            catch (StringContieneLetras e)
+            {
+                System.out.println("\nERROR: EL DNI CONTIENE LETRAS\n");
+            }
+        }while (!flag);
+        return new Tarjeta(nroTarjeta,nombreYApellido,fechaVencimiento,codigoSeguridad,dni);
     }
 }
