@@ -3,10 +3,8 @@ import Empleados.Administrador;
 import Empleados.Empleado;
 import Empleados.Recepcionista;
 import Excepciones.*;
-import Reservas.Habitacion;
-import Reservas.Pasajero;
-import Reservas.SistemaRecepcionista;
-import Reservas.Tarjeta;
+import Reservas.*;
+
 import java.io.IOException;
 import java.util.*;
 import Enum.TiposDeMontosHabitaciones;
@@ -95,9 +93,14 @@ public class Main {
                                     dni = teclado.next();
                                     teclado.nextLine();
                                     flag = Validacion.validarStringNoLetras(dni);
+                                    flag=Validacion.validarLongitudDNI(dni);
                                 }catch (StringContieneLetras e)
                                 {
                                     System.out.println("\nERROR: EL DNI CONTIENE LETRAS\n");
+                                }
+                                catch (DniLongitudException e) {
+
+                                    System.out.println("\n ERROR: EL DNI SOLO DEBE CONTENER 8 DIGITOS\n");
                                 }
                             }while (!flag);
 
@@ -126,9 +129,14 @@ public class Main {
                                     dni = teclado.next();
                                     teclado.nextLine();
                                     flag = Validacion.validarStringNoLetras(dni);
+                                    flag=Validacion.validarLongitudDNI(dni);
                                 }catch (StringContieneLetras e)
                                 {
                                     System.out.println("\nERROR: EL DNI CONTIENE LETRAS\n");
+                                }
+                                catch (DniLongitudException e) {
+
+                                    System.out.println("\n ERROR: EL DNI SOLO DEBE CONTENER 8 DIGITOS\n");
                                 }
                             }while (!flag);
 
@@ -153,9 +161,14 @@ public class Main {
                                     dni = teclado.next();
                                     teclado.nextLine();
                                     flag = Validacion.validarStringNoLetras(dni);
+                                    flag=Validacion.validarLongitudDNI(dni);
                                 }catch (StringContieneLetras e)
                                 {
                                     System.out.println("\nERROR: EL DNI CONTIENE LETRAS\n");
+                                }
+                                catch (DniLongitudException e) {
+
+                                    System.out.println("\n ERROR: EL DNI SOLO DEBE CONTENER 8 DIGITOS\n");
                                 }
                             }while (!flag);
 
@@ -185,9 +198,14 @@ public class Main {
                                     dni = teclado.next();
                                     teclado.nextLine();
                                     flag = Validacion.validarStringNoLetras(dni);
+                                    flag=Validacion.validarLongitudDNI(dni);
                                 }catch (StringContieneLetras e)
                                 {
                                     System.out.println("\nERROR: EL DNI CONTIENE LETRAS\n");
+                                }
+                                catch (DniLongitudException e) {
+
+                                    System.out.println("\n ERROR: EL DNI SOLO DEBE CONTENER 8 DIGITOS\n");
                                 }
                             }while (!flag);
 
@@ -222,8 +240,7 @@ public class Main {
                 } while (control == 's' && opcion != 7);
             }
 
-            case 2:
-                {
+            case 2: {
                 Recepcionista recepcionista = new Recepcionista();
 
                 int intentos = 3;
@@ -246,8 +263,11 @@ public class Main {
                 if (intentos == 0) {
                     System.out.println("Los codigos indicados no fueron correctos. Se cerrara el sistema.");
                     break;
-                } else {
-                    recepcionista.setRecepcionista(baseDeDatosSistema());
+                }
+
+
+                else {
+                    recepcionista.setSistemaRecepcionista(baseDeDatosSistema());
                     System.out.println("Elija que funcion desea realizar.");
                     System.out.println("[1]. Reservar una habitacion. ");
                     System.out.println("[2]. Realizar check in. ");
@@ -259,14 +279,145 @@ public class Main {
                     System.out.println("[8]. Ver en que servicio se encuentra una persona por DNI. ");
                     opcion = teclado.nextInt();
 
+                    String tipo = "";
+                    String dni = "";
+
                     switch (opcion) {
                         case 1: {
 
+                            do {
+                                System.out.println("Ingrese el tipo de habitacion que desea reservar (SIMPLE- DOBLE- CUADRUPLE):");
+                                try {
+
+                                    tipo = teclado.next();
+                                    teclado.nextLine();
+                                    flag = Validacion.validarStringNoNumeros(tipo);
+                                    flag = Validacion.verificarTipo(tipo);
+                                } catch (NombreContieneNumeros e) {
+
+                                    System.out.println("ERROR: El tipo no puede contener numeros.");
+                                    break;
+
+                                } catch (TipoIncorrecto e) {
+
+                                    System.out.println("ERROR: El tipo esta fuera de los limites de habitaciones posibles.");
+                                    break;
+                                }
+                            } while (!flag);
+
+
+
+                                System.out.println("Buscando habitaciones...");
+                                Habitacion habitacionDisponible = buscarHabitacionDisponible(recepcionista.getSistemaRecepcionista(), tipo); /// como pasarle el sistema
+
+
+                                if (habitacionDisponible != null) {
+
+                                    System.out.println("Habitacion encontrada para tus requisitos: " + habitacionDisponible);
+
+                                    System.out.println("Cargue sus datos para finalizar la reserva:");
+
+                                    Pasajero pasajero = cargarUnPasajero(teclado);
+
+                                    Factura factura = recepcionista.getSistemaRecepcionista().reserva(habitacionDisponible, pasajero);
+                                    factura.mostrarFactura();
+
+                                } else {
+                                    System.out.println("No hay habitaciones disponibles con los requisitos solicitados.");
+                                }
+
+                            break;
+                        }
+                        case 2: {
+
+                            ///check in
+                        }
+                        case 3: {
+                            ///check out
+                        }
+                        case 4: {
+
+                            System.out.println("A continunacion te mostramos las habitaciones y los datos de los ocupantes:");
+                            recepcionista.getSistemaRecepcionista().mostrarHabitacionesYdatosDeOcupantes();
+
+                            break;
+                        }
+                        case 5: {
+
+                            System.out.println("Habitaciones dipsonibles:");
+                            recepcionista.getSistemaRecepcionista().mostrarHabitacionesDisponibles();
+
+                            break;
+                        }
+                        case 6: {
+                            System.out.println("Habitaciones no disponibles:");
+                            recepcionista.getSistemaRecepcionista().mostrarHabitacionesNoDisponibles();
+                            break;
+                        }
+                        case 7: {
+
+                            do {
+                                System.out.println("Ingrese el DNI para ver la reserva que le corresponde:");
+                                try {
+                                    dni = teclado.next();
+                                    teclado.nextLine();
+                                    flag = Validacion.validarStringNoLetras(dni);
+                                    flag = Validacion.validarLongitudDNI(dni);
+                                } catch (StringContieneLetras e) {
+                                    System.out.println("\nERROR: EL DNI CONTIENE LETRAS\n");
+                                } catch (DniLongitudException e) {
+
+                                    System.out.println("\n ERROR: EL DNI SOLO DEBE CONTENER 8 DIGITOS\n");
+                                }
+                            } while (!flag);
+
+                            recepcionista.getSistemaRecepcionista().verReservaPorDNI(dni);
+                            break;
+                        }
+                        case 8: {
+                            do {
+                                System.out.println("Ingrese el DNI para ver que servicios le corresponden:");
+                                try {
+                                    dni = teclado.next();
+                                    teclado.nextLine();
+                                    flag = Validacion.validarStringNoLetras(dni);
+                                    flag = Validacion.validarLongitudDNI(dni);
+                                } catch (StringContieneLetras e) {
+                                    System.out.println("\nERROR: EL DNI CONTIENE LETRAS\n");
+                                } catch (DniLongitudException e) {
+
+                                    System.out.println("\n ERROR: EL DNI SOLO DEBE CONTENER 8 DIGITOS\n");
+                                }
+                            } while (!flag);
+
+                            recepcionista.getSistemaRecepcionista().busquedaPorDNIServicio(dni);
+                            break;
                         }
                     }
+
+                    do
+                    {
+                        System.out.println("Desea hacer otra cosa? (s | n)");
+                        try
+                        {
+                            control = teclado.next().charAt(0);
+                            flag = Validacion.validarChar(control);
+                        }catch (TeclaIncorrecta e)
+                        {
+                            System.out.println("\nERROR: TECLA INVALIDA\n");
+                        }
+
+                    }while (!flag);
+
+                    if (control == 'n')
+                    {
+                        opcion = 9;
+                    }
+
+                } while (control == 's' && opcion != 9);
                 }
-                break;
-            }
+
+
             case 3:
             {
                 System.out.println("Gracias vuelva prontos.");
@@ -444,7 +595,7 @@ public class Main {
 
         return administrador;
     }
-    public static Habitacion buscarHabitacionDisponible (SistemaRecepcionista sistema, TiposDeMontosHabitaciones tipo)
+    public static Habitacion buscarHabitacionDisponible (SistemaRecepcionista sistema, String tipo)
     {
         Habitacion aRetornar = new Habitacion();
         int i = 0;

@@ -18,11 +18,11 @@ public class Recepcionista extends Empleado implements Sueldos
     {
     }
 
-    public SistemaRecepcionista getRecepcionista() {
+    public SistemaRecepcionista getSistemaRecepcionista() {
         return recepcionista;
     }
 
-    public void setRecepcionista(SistemaRecepcionista recepcionista) {
+    public void setSistemaRecepcionista(SistemaRecepcionista recepcionista) {
         this.recepcionista = recepcionista;
     }
 
