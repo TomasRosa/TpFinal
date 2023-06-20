@@ -18,9 +18,11 @@ public class Main {
     public static void main(String[] args)
     {
         Scanner teclado = new Scanner(System.in);
+
         ManejoArchivo <Empleado> manejoArchivo = new ManejoArchivo<>();
-        //baseDeDatosPasajeros();
-        Administrador admin = baseDeDatosEmpleados();
+        baseDeDatosPasajeros();
+        Administrador admin = new Administrador();
+        char control = 's';
 
         System.out.println("Como desea ingresar?");
         System.out.println("[1] Administrador");
@@ -31,66 +33,220 @@ public class Main {
 
         switch (opcion)
         {
-            case 1:
-            {
+            case 1: {
                 int intentos = 3;
                 boolean flag = false;
-                do
-                {
+                do {
                     System.out.println("Ingrese el codigo para ingresar como administrador");
-                    try
-                    {
+                    try {
                         String codigo = teclado.nextLine();
 
                         flag = Validacion.validarCodigoAdmin(admin.getCodigo(), codigo);
 
-                    }catch (CodigoErroneoException e)
-                    {
+                    } catch (CodigoErroneoException e) {
                         System.out.println("\nERROR: CODIGO ERRONEO\n");
                         intentos--;
                         System.out.println("CANTIDAD DE INTENTOS: " + intentos);
                     }
 
-                }while (!flag && intentos > 0);
+                } while (!flag && intentos > 0);
 
-                if (intentos == 0 && !flag)
-                {
+                if (intentos == 0) {
                     System.out.println("Los codigos indicados no fueron correctos. Se cerrara el sistema.");
                     break;
                 }
-                break;
+
+                admin = baseDeDatosEmpleados(teclado);
+
+                System.out.println("¡Bienvenido: " + admin.getNombre() + " " + admin.getApellido() + "!");
+                do
+                {
+                    System.out.println("\n¿Que desea hacer?");
+                    System.out.println("[1] Agregar un empleado");
+                    System.out.println("[2] Buscar Empleado por DNI");
+                    System.out.println("[3] Dar de baja un empleado");
+                    System.out.println("[4] Dar de alta un empleado");
+                    System.out.println("[5] Ver todos los empleados");
+                    System.out.println("[6] Aumentar sueldo de un empleado");
+                    System.out.println("[7] Salir");
+                    opcion = teclado.nextInt();
+
+                    String dni = "";
+
+                    switch (opcion) {
+                        case 1: {
+                            admin.agregar(cargaUnEmpleado(teclado));
+
+                            try {
+                                manejoArchivo.escribirArchivoSet(admin.getNombreArchivoEmpleados(), admin.getEmpleados());
+                            } catch (IOException e) {
+                                System.out.println("\nERROR AL ESCRIBIR EN EL ARCHIVO DE EMPLEADOS\n");
+                            }
+
+                            break;
+                        }
+                        case 2:
+                        {
+                            do
+                            {
+                                System.out.println("Ingrese el DNI a buscar");
+                                try
+                                {
+                                    dni = teclado.next();
+                                    teclado.nextLine();
+                                    flag = Validacion.validarStringNoLetras(dni);
+                                }catch (StringContieneLetras e)
+                                {
+                                    System.out.println("\nERROR: EL DNI CONTIENE LETRAS\n");
+                                }
+                            }while (!flag);
+
+                            int i = admin.busquedaPorDNI(dni);
+                            Empleado empleadoBuscado = admin.retornarEmpleadoPorPosicion(i);
+
+                            if (empleadoBuscado == null)
+                            {
+                                System.out.println("\nEMPLEADO NO ENCONTRADO");
+                            }
+                            else
+                            {
+                                System.out.println("\nEMPLEADO ENCONTRADO CON EXITO!\n");
+                                empleadoBuscado.mostrar();
+                            }
+
+                            break;
+                        }
+                        case 3:
+                        {
+                            do
+                            {
+                                System.out.println("Ingrese el DNI a buscar");
+                                try
+                                {
+                                    dni = teclado.next();
+                                    teclado.nextLine();
+                                    flag = Validacion.validarStringNoLetras(dni);
+                                }catch (StringContieneLetras e)
+                                {
+                                    System.out.println("\nERROR: EL DNI CONTIENE LETRAS\n");
+                                }
+                            }while (!flag);
+
+                            try
+                            {
+                                admin.darDeBajaEmpleado(dni, teclado);
+                            }
+                            catch (EmpleadoYaDadoDeBaja e)
+                            {
+                                System.out.println("\nERROR: EMPLEADO YA DADO DE BAJA\n");
+                            }
+
+                            break;
+                        }
+                        case 4:
+                        {
+                            do
+                            {
+                                System.out.println("Ingrese el DNI a buscar");
+                                try
+                                {
+                                    dni = teclado.next();
+                                    teclado.nextLine();
+                                    flag = Validacion.validarStringNoLetras(dni);
+                                }catch (StringContieneLetras e)
+                                {
+                                    System.out.println("\nERROR: EL DNI CONTIENE LETRAS\n");
+                                }
+                            }while (!flag);
+
+                            try
+                            {
+                                admin.darDeAltaEmpleado(dni, teclado);
+                            }
+                            catch (EmpleadoYaDadoDeAlta e)
+                            {
+                                System.out.println("\nERROR: EMPLEADO YA DADO DE ALTA\n");
+                            }
+
+                            break;
+                        }
+                        case 5:
+                        {
+                            admin.verEmpleados();
+                            break;
+                        }
+                        case 6:
+                        {
+                            do
+                            {
+                                System.out.println("Ingrese el DNI del empleado a aumentar el sueldo");
+                                try
+                                {
+                                    dni = teclado.next();
+                                    teclado.nextLine();
+                                    flag = Validacion.validarStringNoLetras(dni);
+                                }catch (StringContieneLetras e)
+                                {
+                                    System.out.println("\nERROR: EL DNI CONTIENE LETRAS\n");
+                                }
+                            }while (!flag);
+
+                            System.out.println("Ingrese el nuevo sueldo");
+                            double nuevoSueldo = teclado.nextDouble();
+
+                            admin.aumentarSueldos(dni, nuevoSueldo);
+
+                            break;
+                        }
+                    }
+
+                    do
+                    {
+                        System.out.println("Desea hacer otra cosa? (s | n)");
+                        try
+                        {
+                            control = teclado.next().charAt(0);
+                            flag = Validacion.validarChar(control);
+                        }catch (TeclaIncorrecta e)
+                        {
+                            System.out.println("\nERROR: TECLA INVALIDA\n");
+                        }
+
+                    }while (!flag);
+
+                    if (control == 'n')
+                    {
+                        opcion = 7;
+                    }
+
+                } while (control == 's' && opcion != 7);
             }
+
             case 2:
-            {
+                {
                 Recepcionista recepcionista = new Recepcionista();
 
                 int intentos = 3;
                 boolean flag = false;
-                do
-                {
+                do {
                     System.out.println("Ingrese el codigo para ingresar como recepcionista");
-                    try
-                    {
+                    try {
                         String codigo = teclado.nextLine();
 
                         flag = Validacion.validarCodigoAdmin(recepcionista.getCodigo(), codigo);
 
-                    }catch (CodigoErroneoException e)
-                    {
+                    } catch (CodigoErroneoException e) {
                         System.out.println("\nERROR: CODIGO ERRONEO\n");
                         intentos--;
                         System.out.println("CANTIDAD DE INTENTOS: " + intentos);
                     }
 
-                }while (!flag && intentos > 0);
+                } while (!flag && intentos > 0);
 
-                if (intentos == 0 && !flag)
-                {
+                if (intentos == 0) {
                     System.out.println("Los codigos indicados no fueron correctos. Se cerrara el sistema.");
                     break;
-                }
-                else
-                {
+                } else {
                     recepcionista.setRecepcionista(baseDeDatosSistema());
                     System.out.println("Elija que funcion desea realizar.");
                     System.out.println("[1]. Reservar una habitacion. ");
@@ -103,39 +259,23 @@ public class Main {
                     System.out.println("[8]. Ver en que servicio se encuentra una persona por DNI. ");
                     opcion = teclado.nextInt();
 
-                    switch (opcion)
-                    {
-                        case 1:
-                        {
+                    switch (opcion) {
+                        case 1: {
 
                         }
                     }
                 }
-
                 break;
             }
             case 3:
             {
                 System.out.println("Gracias vuelva prontos.");
+
                 break;
             }
         }
 
-        /*
-        admin.agregar(cargaUnEmpleado(teclado));
-
-        try
-        {
-            manejoArchivo.escribirArchivoSet(admin.getNombreArchivoEmpleados(), admin.getEmpleados());
-        }catch (IOException e)
-        {
-            System.out.println("\nERROR AL ESCRIBIR EN EL ARCHIVO DE EMPLEADOS\n");
-        }
-
-        for (Empleado aux2: admin.getEmpleados())
-        {
-            aux2.mostrar();
-        }*/
+        teclado.close();
     }
 
     public static void baseDeDatosPasajeros ()
@@ -254,7 +394,7 @@ public class Main {
 
         return sistema;
     }
-    public static Administrador baseDeDatosEmpleados ()
+    public static Administrador baseDeDatosEmpleados (Scanner teclado)
     {
         Empleado empleado1 = new Empleado("Juan", "Perez", "12345678", "2234567890", "Calle 123", 2, 2000.0, true);
         Empleado empleado2 = new Empleado("María", "López", "87654321", "2239876543", "Avenida 456", 5, 3000.0, true);
@@ -264,6 +404,8 @@ public class Main {
 
         Administrador administrador = new Administrador();
         ManejoArchivo <Empleado> manejoArchivo = new ManejoArchivo<>();
+
+        administrador = cargaUnAdmin(teclado);
 
         try
         {
@@ -326,6 +468,89 @@ public class Main {
             System.out.println("No se ha encontrado una habitacion disponible para reservar.");
         }
         return aRetornar;
+    }
+    public static Administrador cargaUnAdmin (Scanner teclado)
+    {
+        boolean flag = false;
+        String nombre = "";
+        String apellido = "";
+        String dni = "";
+        String num= "";
+
+        do
+        {
+            System.out.println("Ingrese su nombre");
+            try
+            {
+                nombre = teclado.nextLine();
+                flag = Validacion.validarStringNoNumeros(nombre);
+            }catch (NombreContieneNumeros e)
+            {
+                System.out.println("\nERROR: EL NOMBRE CONTIENE NUMEROS\n");
+            }
+        }while (!flag);
+
+        flag = false;
+
+        do
+        {
+            System.out.println("Ingrese su apellido");
+            try
+            {
+                apellido = teclado.next();
+                teclado.nextLine();
+                flag = Validacion.validarStringNoNumeros(apellido);
+            }catch (NombreContieneNumeros e)
+            {
+                System.out.println("\nERROR: EL APELLIDO CONTIENE NUMEROS\n");
+            }
+        }while (!flag);
+
+        flag = false;
+
+        do
+        {
+            System.out.println("Ingrese su DNI");
+            try
+            {
+                dni = teclado.next();
+                teclado.nextLine();
+                flag = Validacion.validarStringNoLetras(dni);
+            }catch (StringContieneLetras e)
+            {
+                System.out.println("\nERROR: EL DNI CONTIENE LETRAS\n");
+            }
+        }while (!flag);
+
+        flag = false;
+
+        do
+        {
+            System.out.println("Ingrese su numero de telefono");
+            try
+            {
+                num = teclado.next();
+                teclado.nextLine();
+                flag = Validacion.validarStringNoLetras(num);
+            }catch (StringContieneLetras e)
+            {
+                System.out.println("\nERROR: EL NUMERO CONTIENE LETRAS\n");
+            }
+        }while (!flag);
+
+        System.out.println("Ingrese su domicilio");
+        String domicilio = teclado.next();
+        teclado.nextLine();
+
+        Administrador administrador = new Administrador();
+
+        administrador.setNombre(nombre);
+        administrador.setApellido(apellido);
+        administrador.setDni(dni);
+        administrador.setTelefono(num);
+        administrador.setDomicilio(domicilio);
+
+        return administrador;
     }
     public static Empleado cargaUnEmpleado (Scanner teclado)
     {
@@ -539,18 +764,11 @@ public class Main {
             {
                 fechaVencimiento = scan.nextLine();
                 scan.nextLine();
-                flag = Validacion.validarStringNoLetras(fechaVencimiento);
-                try
-                {
-                    ////flag = Validacion.validarNroTarjeta(fechaVencimiento);
-                }
-                catch (NroTarjetaException e)
-                {
-                    System.out.println("\n ERROR: LA LONGITUD NO ES ADECUADA.\n");
-                }
-            }catch (NombreContieneNumeros e)
+                flag = Validacion.validarFecha(fechaVencimiento);
+
+            }catch (FechaInvalida e)
             {
-                System.out.println("\nERROR: EL APELLIDO CONTIENE NUMEROS\n");
+                System.out.println("\nERROR: FECHA INVALIDA\n");
             }
         }while (!flag);
         do
@@ -589,5 +807,15 @@ public class Main {
             }
         }while (!flag);
         return new Tarjeta(nroTarjeta,nombreYApellido,fechaVencimiento,codigoSeguridad,dni);
+    }
+
+    public boolean pagoDeTarjeta ()
+    {
+        Random random = new Random();
+
+        int numRandom = random.nextInt(100) +1;
+
+        ///si es menor a 90 retorna true que quiere decir que se pago, caso contrario no se paga (probabilidad de 90% de que se pague)
+        return (numRandom < 90);
     }
 }

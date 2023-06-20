@@ -83,6 +83,24 @@ public class Administrador extends Persona implements MetodosBasicos<Empleado>
         super.mostrarPersona();
     }
 
+    public Empleado retornarEmpleadoPorPosicion (int pos) throws PosicionInvalida
+    {
+        Empleado aux;
+
+        if (pos == empleados.size())
+        {
+            throw new PosicionInvalida();
+        }
+        else
+        {
+            Empleado []auxArray = empleados.toArray(new Empleado[0]);
+
+            aux = auxArray[pos];
+        }
+
+        return aux;
+    }
+
     public int busquedaPorDNI (String dni) throws DNINoExiste
     {
         int i = 0;
@@ -94,148 +112,112 @@ public class Administrador extends Persona implements MetodosBasicos<Empleado>
             throw new DNINoExiste();
         }
 
-        try
+        while (i < empleados1.length && !flag)
         {
-            Validacion.validarStringNoLetras(dni);
-
-            while (i < empleados1.length && !flag)
+            if (empleados1[i].getDni().equals(dni))
             {
-                if (empleados1[i].getDni().equals(dni))
-                {
-                    flag = true;
-                }
-                else
-                {
-                    i++;
-                }
+                flag = true;
             }
-
-            if (!flag)
+            else
             {
-                throw new DNINoExiste();
+                i++;
             }
         }
-        catch (StringContieneLetras e)
+
+        if (!flag)
         {
-            System.out.println("\nERROR: DNI INVALIDO\n");
+            throw new DNINoExiste();
         }
 
         return i;
     }
-    public void darDeBajaEmpleado (Empleado empleado, Scanner teclado) throws EmpleadoYaDadoDeBaja, PosicionInvalida
+    public void darDeBajaEmpleado (String dni, Scanner teclado) throws EmpleadoYaDadoDeBaja
     {
         try
         {
-            int i = busquedaPorDNI(empleado.getDni());
+            int i = busquedaPorDNI(dni);
+            Empleado empleado1 = retornarEmpleadoPorPosicion(i);
 
-            if (i == empleados.size())
-            {
-                throw new PosicionInvalida();
+            if (empleado1.isAltaOno()) {
+                System.out.println("\nSeguro que desea dar de baja el empleado: " + empleado1.getNombre() + " " + empleado1.getApellido());
+                char confirmacion = teclado.next().charAt(0);
+
+                if (confirmacion == 's') {
+                    empleado1.setAltaOno(false);
+
+                    ///HAGO ESTO PARA MODIFICAR EL EMPLEADO
+                    eliminar(empleado1);
+                    agregar(empleado1);
+
+                    System.out.println("EMPLEADO DADO DE BAJA CON EXITO!\n");
+
+                    try {
+                        manejoArchivo.escribirArchivoSet(nombreArchivoEmpleados, empleados);
+                    } catch (IOException e) {
+                        System.out.println("\nERROR AL ESCRIBIR EN EL ARCHIVO\n");
+                    }
+                } else {
+                    System.out.println("EMPLEADO NO DADO DE BAJA\n");
+                }
             }
             else
             {
-                Empleado []empleados1 = empleados.toArray(new Empleado[0]);
-
-                if (empleados1[i].isAltaOno())
-                {
-                    System.out.println("\nSeguro que desea dar de baja el empleado: " + empleados1[i].getNombre() + " " + empleados1[i].getApellido());
-                    char confirmacion = teclado.next().charAt(0);
-
-                    if (confirmacion == 's')
-                    {
-                        empleados1[i].setAltaOno(false);
-
-                        ///HAGO ESTO PARA MODIFICAR EL EMPLEADO
-                        eliminar(empleados1[i]);
-                        agregar(empleados1[i]);
-
-                        System.out.println("EMPLEADO DADO DE BAJA CON EXITO!\n");
-
-                        try
-                        {
-                            manejoArchivo.escribirArchivoSet(nombreArchivoEmpleados, empleados);
-                        }catch (IOException e)
-                        {
-                            System.out.println("\nERROR AL ESCRIBIR EN EL ARCHIVO\n");
-                        }
-                    }
-                    else
-                    {
-                        System.out.println("EMPLEADO NO DADO DE BAJA\n");
-                    }
-                }
-                else
-                {
-                    throw new EmpleadoYaDadoDeBaja();
-                }
+                throw new EmpleadoYaDadoDeBaja();
             }
 
-        } catch (EmpleadoNoExiste e)
-        {
-            System.out.println("\nERROR: EL EMPLEADO NO EXISTE\n");
         }
         catch (DNINoExiste e)
         {
             System.out.println("\nERROR: EL DNI NO CORRESPONDE A NINGUN EMPLEADO\n");
+        }
+        catch (PosicionInvalida e)
+        {
+            System.out.println("\nERROR: LA POSICION NO EXISTE\n");
         }
     }
 
-    public void darDeAltaEmpleado (Empleado empleado, Scanner teclado) throws EmpleadoYaDadoDeAlta, PosicionInvalida
+    public void darDeAltaEmpleado (String dni, Scanner teclado) throws EmpleadoYaDadoDeAlta
     {
         try
         {
-            int i = busquedaPorDNI(empleado.getDni());
+            int i = busquedaPorDNI(dni);
+            Empleado empleado1 = retornarEmpleadoPorPosicion(i);
 
-            if (i == empleados.size())
-            {
-                throw new PosicionInvalida();
+            if (!empleado1.isAltaOno()) {
+                System.out.println("\nSeguro que desea dar de alta el empleado: " + empleado1.getNombre() + " " + empleado1.getApellido());
+                char confirmacion = teclado.next().charAt(0);
+
+                if (confirmacion == 's') {
+                    empleado1.setAltaOno(true);
+
+                    ///HAGO ESTO PARA MODIFICAR EL EMPLEADO
+                    eliminar(empleado1);
+                    agregar(empleado1);
+
+                    System.out.println("EMPLEADO DADO DE ALTA CON EXITO!\n");
+
+                    try {
+                        manejoArchivo.escribirArchivoSet(nombreArchivoEmpleados, empleados);
+                    } catch (IOException e) {
+                        System.out.println("\nERROR AL ESCRIBIR EN EL ARCHIVO\n");
+                    }
+                } else {
+                    System.out.println("EMPLEADO NO DADO DE ALTA\n");
+                }
             }
             else
             {
-                Empleado []empleados1 = empleados.toArray(new Empleado[0]);
-
-                if (!empleados1[i].isAltaOno())
-                {
-                    System.out.println("\nSeguro que desea dar de alta el empleado: " + empleados1[i].getNombre() + " " + empleados1[i].getApellido());
-                    char confirmacion = teclado.next().charAt(0);
-
-                    if (confirmacion == 's')
-                    {
-                        empleados1[i].setAltaOno(true);
-
-                        ///HAGO ESTO PARA MODIFICAR EL EMPLEADO
-                        eliminar(empleados1[i]);
-                        agregar(empleados1[i]);
-
-                        System.out.println("EMPLEADO DADO DE ALTA CON EXITO!\n");
-
-                        try
-                        {
-                            manejoArchivo.escribirArchivoSet(nombreArchivoEmpleados, empleados);
-                        }catch (IOException e)
-                        {
-                            System.out.println("\nERROR AL ESCRIBIR EN EL ARCHIVO\n");
-                        }
-                    }
-                    else
-                    {
-                        System.out.println("EMPLEADO NO DADO DE ALTA\n");
-                    }
-                }
-                else
-                {
-                    throw new EmpleadoYaDadoDeAlta();
-                }
-
+                throw new EmpleadoYaDadoDeAlta();
             }
-        }
-        catch (EmpleadoNoExiste e)
-        {
-            System.out.println("\nERROR: EL EMPLEADO NO EXISTE\n");
+
         }
         catch (DNINoExiste e)
         {
             System.out.println("\nERROR: EL DNI NO CORRESPONDE A NINGUN EMPLEADO\n");
+        }
+        catch (PosicionInvalida e)
+        {
+            System.out.println("\nERROR: LA POSICION NO EXISTE\n");
         }
     }
 
@@ -247,47 +229,35 @@ public class Administrador extends Persona implements MetodosBasicos<Empleado>
         }
     }
 
-    public void aumentarSueldos (Empleado empleado, double nuevoSueldo) throws PosicionInvalida
+    public void aumentarSueldos (String dni, double nuevoSueldo)
     {
         try
         {
-            int i = busquedaPorDNI(empleado.getDni());
+            int i = busquedaPorDNI(dni);
+            Empleado empleado = retornarEmpleadoPorPosicion(i);
 
-            if (i == empleados.size())
+            empleado.setSalario(nuevoSueldo);
+
+            ///HAGO ESTO PARA MODIFICAR EL EMPLEADO
+            eliminar(empleado);
+            agregar(empleado);
+
+            try
             {
-                throw new PosicionInvalida();
-            }
-            else
+                manejoArchivo.escribirArchivoSet(nombreArchivoEmpleados, empleados);
+            }catch (IOException e)
             {
-                Empleado []empleados1 = empleados.toArray(new Empleado[0]);
-
-                empleados1[i].setSalario(nuevoSueldo);
-
-                ///HAGO ESTO PARA MODIFICAR EL EMPLEADO
-                eliminar(empleados1[i]);
-                agregar(empleados1[i]);
-
-                try
-                {
-                    manejoArchivo.escribirArchivoSet(nombreArchivoEmpleados, empleados);
-
-                }catch (IOException e)
-                {
-                    System.out.println("\nERROR AL ESCRIBIR EN EL ARCHIVO\n");
-                }
+                System.out.println("\nERROR AL ESCRIBIR EN EL ARCHIVO\n");
             }
-        }
-        catch (EmpleadoNoExiste e)
-        {
-            System.out.println("\nERROR: EL EMPLEADO NO EXISTE\n");
+
         }
         catch (DNINoExiste e)
         {
             System.out.println("\nERROR: EL DNI NO CORRESPONDE A NINGUN EMPLEADO\n");
         }
-        catch (ObjetoNullException e)
+        catch (PosicionInvalida e)
         {
-            System.out.println("\nERROR: EL EMPLEADO ES NULO\n");
+            System.out.println("\nERROR: LA POSICION NO EXISTE\n");
         }
     }
 

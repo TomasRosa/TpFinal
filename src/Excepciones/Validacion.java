@@ -3,6 +3,11 @@ package Excepciones;
 import Excepciones.NombreContieneNumeros;
 import Excepciones.StringContieneLetras;
 
+import java.time.DateTimeException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+
 public class Validacion
 {
     public static boolean validarStringNoNumeros(String nombre) throws NombreContieneNumeros
@@ -66,6 +71,69 @@ public class Validacion
         if(dni.length() != 8)
         {
             throw new DniLongitudException();
+        }
+        else
+        {
+            return true;
+        }
+    }
+
+    public static boolean validarChar (char control) throws TeclaIncorrecta
+    {
+        if (control == 's' || control == 'S' || control == 'n' || control == 'N') return true;
+        else
+        {
+            throw new TeclaIncorrecta();
+        }
+    }
+
+    public static boolean esFechaValida(String fecha) {
+        // Validar que se ingresen solo números
+        if (!contieneSoloNumeros(fecha)) {
+            return false;
+        }
+
+        // Validar el formato dd/mm/aaaa
+        if (!esFormatoValido(fecha)) {
+            return false;
+        }
+
+        // Validar si es una fecha válida
+        if (!esFechaReal(fecha)) {
+            return false;
+        }
+
+        return true;
+    }
+
+    private static boolean contieneSoloNumeros(String cadena) {
+        return cadena.matches("^[0-9]+$");
+    }
+
+    private static boolean esFormatoValido(String fecha) {
+        return fecha.matches("^\\d{2}/\\d{2}/\\d{4}$");
+    }
+
+    private static boolean esFechaReal(String fecha) {
+        try {
+            DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            LocalDate.parse(fecha, formato);
+            return true;
+        } catch (DateTimeParseException e) {
+            return false;
+        }
+    }
+
+    public static boolean validarFecha (String fecha) throws FechaInvalida
+    {
+        boolean flag = esFechaValida(fecha);
+        if (!flag) flag = contieneSoloNumeros(fecha);
+        if (!flag) flag = esFormatoValido(fecha);
+        if (!flag) flag = esFechaReal(fecha);
+
+        if (!flag)
+        {
+            throw new FechaInvalida();
         }
         else
         {
