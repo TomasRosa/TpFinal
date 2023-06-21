@@ -210,7 +210,7 @@ public class Main {
                     System.out.println("Ingrese el codigo para ingresar como recepcionista");
                     teclado.nextLine();
                     try {
-                        String codigo = teclado.nextLine();
+                        String codigo = teclado.next();
                         flag = Validacion.validarCodigoAdmin(recepcionista.getCodigo(), codigo);
                     } catch (CodigoErroneoException e) {
                         System.out.println("\nERROR: CODIGO ERRONEO\n");
