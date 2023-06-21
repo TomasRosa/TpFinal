@@ -23,15 +23,15 @@ public class Validacion
         }
     }
 
-    public static boolean validarStringNoLetras(String dni) throws StringContieneLetras
+    public static boolean validarStringNoLetras(String cadena) throws StringContieneLetras
     {
-        if (dni.matches("[a-zA-Z]+"))
+        if (cadena.matches("[0-9]+"))
         {
-            throw new StringContieneLetras();
+            return true;
         }
         else
         {
-            return true;
+            throw new StringContieneLetras();
         }
     }
     public static boolean validarCodigoAdmin(String codigoAdmin, String intento) throws CodigoErroneoException
@@ -45,11 +45,24 @@ public class Validacion
             return true;
         }
     }
-    public static boolean validarNroTarjeta (String numeroTarjeta) throws NroTarjetaException
+
+    public static boolean validarNroTelefono (String telefono) throws LongitudException
+    {
+        if(telefono.length() != 10)
+        {
+            throw new LongitudException();
+        }
+        else
+        {
+            return true;
+        }
+    }
+
+    public static boolean validarNroTarjeta (String numeroTarjeta) throws LongitudException
     {
         if(numeroTarjeta.length() != 16)
         {
-            throw new NroTarjetaException();
+            throw new LongitudException();
         }
         else
         {
@@ -78,11 +91,11 @@ public class Validacion
             throw new DniTarjetaPersonaException();
         }
     }
-    public static boolean validarLongitudDNI (String dni) throws DniLongitudException
+    public static boolean validarLongitudDNI (String dni) throws LongitudException
     {
         if(dni.length() != 8)
         {
-            throw new DniLongitudException();
+            throw new LongitudException();
         }
         else
         {

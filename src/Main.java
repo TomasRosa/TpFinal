@@ -38,7 +38,7 @@ public class Main {
                 do {
                     System.out.println("Ingrese el codigo para ingresar como administrador");
                     try {
-                        String codigo = teclado.nextLine();
+                        String codigo = teclado.next();
 
                         flag = Validacion.validarCodigoAdmin(admin.getCodigo(), codigo);
 
@@ -93,7 +93,7 @@ public class Main {
                                     flag = Validacion.validarLongitudDNI(dni);
                                 } catch (StringContieneLetras e) {
                                     System.out.println("\nERROR: EL DNI CONTIENE LETRAS\n");
-                                } catch (DniLongitudException e) {
+                                } catch (LongitudException e) {
 
                                     System.out.println("\n ERROR: EL DNI SOLO DEBE CONTENER 8 DIGITOS\n");
                                 }
@@ -120,7 +120,7 @@ public class Main {
                                     flag = Validacion.validarLongitudDNI(dni);
                                 } catch (StringContieneLetras e) {
                                     System.out.println("\nERROR: EL DNI CONTIENE LETRAS\n");
-                                } catch (DniLongitudException e) {
+                                } catch (LongitudException e) {
 
                                     System.out.println("\n ERROR: EL DNI SOLO DEBE CONTENER 8 DIGITOS\n");
                                 }
@@ -143,7 +143,7 @@ public class Main {
                                     flag = Validacion.validarLongitudDNI(dni);
                                 } catch (StringContieneLetras e) {
                                     System.out.println("\nERROR: EL DNI CONTIENE LETRAS\n");
-                                } catch (DniLongitudException e) {
+                                } catch (LongitudException e) {
 
                                     System.out.println("\n ERROR: EL DNI SOLO DEBE CONTENER 8 DIGITOS\n");
                                 }
@@ -171,7 +171,7 @@ public class Main {
                                     flag = Validacion.validarLongitudDNI(dni);
                                 } catch (StringContieneLetras e) {
                                     System.out.println("\nERROR: EL DNI CONTIENE LETRAS\n");
-                                } catch (DniLongitudException e) {
+                                } catch (LongitudException e) {
 
                                     System.out.println("\n ERROR: EL DNI SOLO DEBE CONTENER 8 DIGITOS\n");
                                 }
@@ -182,6 +182,11 @@ public class Main {
 
                             admin.aumentarSueldos(dni, nuevoSueldo);
 
+                            break;
+                        }
+                        case 7:
+                        {
+                            control = 'n';
                             break;
                         }
                     }
@@ -366,7 +371,7 @@ public class Main {
                                     flag = Validacion.validarLongitudDNI(dni);
                                 } catch (StringContieneLetras e) {
                                     System.out.println("\nERROR: EL DNI CONTIENE LETRAS\n");
-                                } catch (DniLongitudException e) {
+                                } catch (LongitudException e) {
 
                                     System.out.println("\n ERROR: EL DNI SOLO DEBE CONTENER 8 DIGITOS\n");
                                 }
@@ -388,7 +393,7 @@ public class Main {
                                     flag = Validacion.validarLongitudDNI(dni);
                                 } catch (StringContieneLetras e) {
                                     System.out.println("\nERROR: EL DNI CONTIENE LETRAS\n");
-                                } catch (DniLongitudException e) {
+                                } catch (LongitudException e) {
 
                                     System.out.println("\n ERROR: EL DNI SOLO DEBE CONTENER 8 DIGITOS\n");
                                 }
@@ -620,12 +625,11 @@ public class Main {
             System.out.println("Ingrese su nombre");
             try
             {
-                nombre = teclado.nextLine();
+                nombre = teclado.next();
                 flag = Validacion.validarStringNoNumeros(nombre);
             }catch (NombreContieneNumeros e)
             {
                 System.out.println("\nERROR: EL NOMBRE CONTIENE NUMEROS\n");
-                flag=false;
             }
         }while (!flag);
 
@@ -642,7 +646,6 @@ public class Main {
             }catch (NombreContieneNumeros e)
             {
                 System.out.println("\nERROR: EL APELLIDO CONTIENE NUMEROS\n");
-                flag=false;
             }
         }while (!flag);
 
@@ -654,13 +657,24 @@ public class Main {
             try
             {
                 dni = teclado.next();
-                teclado.nextLine();
                 flag = Validacion.validarStringNoLetras(dni);
+
+                if (flag)
+                {
+                    flag = false;
+                    try
+                    {
+                        flag = Validacion.validarLongitudDNI(dni);
+                    }catch (LongitudException e)
+                    {
+                        System.out.println("\nERROR: EL DNI NO CUMPLE CON LA LONGITUD ADECUADA\n");
+                    }
+                }
             }catch (StringContieneLetras e)
             {
                 System.out.println("\nERROR: EL DNI CONTIENE LETRAS\n");
-                flag=false;
             }
+
         }while (!flag);
 
         flag = false;
@@ -671,18 +685,28 @@ public class Main {
             try
             {
                 num = teclado.next();
-                teclado.nextLine();
                 flag = Validacion.validarStringNoLetras(num);
+
+                if (flag)
+                {
+                    flag = false;
+                    try
+                    {
+                        flag = Validacion.validarNroTelefono(num);
+                    }catch (LongitudException e)
+                    {
+                        System.out.println("\nERROR: EL NUMERO DE TELEFONO NO CUMPLE CON LA LONGITUD ADECUADA\n");
+                    }
+                }
             }catch (StringContieneLetras e)
             {
                 System.out.println("\nERROR: EL NUMERO CONTIENE LETRAS\n");
-                flag=false;
             }
         }while (!flag);
 
         System.out.println("Ingrese su domicilio");
-        String domicilio = teclado.next();
         teclado.nextLine();
+        String domicilio = teclado.nextLine();
 
         Administrador administrador = new Administrador();
 
@@ -834,7 +858,7 @@ public class Main {
                 System.out.println("\nERROR: EL DNI CONTIENE LETRAS\n");
                 flag=false;
             }
-            catch (DniLongitudException e)
+            catch (LongitudException e)
             {
                 System.out.println("\nERROR: EL DNI NO TIENE LA LONGITUD ADECUADA\n");
             }
@@ -893,7 +917,7 @@ public class Main {
                 {
                     flag = Validacion.validarNroTarjeta(nroTarjeta);
                 }
-                catch (NroTarjetaException e)
+                catch (LongitudException e)
                 {
                     System.out.println("\nError: la longitud no es adecuada.\n");
                     flag=false;
@@ -966,7 +990,7 @@ public class Main {
                 scan.nextLine();
                 flag = Validacion.validarStringNoLetras(dni) && Validacion.validarDniSeaIgualATarjeta(dni,intento) && Validacion.validarLongitudDNI(dni);
             }
-            catch (DniLongitudException e)
+            catch (LongitudException e)
             {
                 System.out.println("\n LA LONGITUD DEL DNI NO ES APTA \n");
                 flag=false;
