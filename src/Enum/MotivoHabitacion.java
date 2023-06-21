@@ -2,9 +2,9 @@ package Enum;
 
 public enum MotivoHabitacion {
 
-    LIMPIEZA("Disculpe, esta habitacion esta siendo en proceso de higienizacion"),
-    REPARACION("Disculpe, estamos haciendo remodelaciones en esta habitacion"),
-    DESINFECCION("Disculpe, esta habitacion esta siento desinfectada");
+    LIMPIEZA("Habitacion en proceso de higienizacion."),
+    REPARACION("Habitacion en proceso de remodelacion."),
+    DESINFECCION("Habitacion en proceso de desinfeccion.");
 
     private final String descripcion;
 

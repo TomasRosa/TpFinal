@@ -93,10 +93,14 @@ public class Habitacion
                 System.out.println("Debido a: " + this.motivo);
             }
         }
-        else
+        else if(pasajeroQueLaOcupa != null)
         {
             System.out.println("La habitacion se encuentra ocupada por: ");
-            pasajeroQueLaOcupa.mostrarSoloPersona();
+            pasajeroQueLaOcupa.mostrar();
+        }
+        else
+        {
+            System.out.println("La habitacion se encuentra ocupada por el siguiente motivo: " + this.motivo.getDescripcion());
         }
         if(this.cantDiasQueSeraOcupada > 0)
         {

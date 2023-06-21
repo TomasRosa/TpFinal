@@ -4,22 +4,26 @@ import Excepciones.TurnoNoCancelado;
 import Excepciones.TurnoNoReservado;
 import Reservas.Pasajero;
 import java.util.HashSet;
+import java.util.Set;
 
-public class Servicio {
+public class Servicio
+{
     private String horarioDeApertura;
     private String horarioDeCierre;
     private int cantCupos;
     private TiposDeServicios tipoServicio;
-    private HashSet<Pasajero> pasajerosDelServicio;
+    private Set<Pasajero> pasajerosDelServicio;
 
     public Servicio(String horarioDeApertura, String horarioDeCerrado, int cantCupos, TiposDeServicios tipoServicio) {
         this.horarioDeApertura = horarioDeApertura;
         this.horarioDeCierre = horarioDeCerrado;
         this.cantCupos = cantCupos;
         this.tipoServicio = tipoServicio;
+        this.pasajerosDelServicio = new HashSet<>();
     }
 
-    public Servicio() {
+    public Servicio()
+    {
 
     }
 
@@ -27,11 +31,11 @@ public class Servicio {
         return horarioDeApertura;
     }
 
-    public HashSet<Pasajero> getPasajerosDelServicio() {
+    public Set<Pasajero> getPasajerosDelServicio() {
         return pasajerosDelServicio;
     }
 
-    public void setPasajerosDelServicio(HashSet<Pasajero> pasajerosDelServicio) {
+    public void setPasajerosDelServicio(Set<Pasajero> pasajerosDelServicio) {
         this.pasajerosDelServicio = pasajerosDelServicio;
     }
 
@@ -65,7 +69,8 @@ public class Servicio {
         System.out.println("CANTIDAD DE CUPOS: " + cantCupos);
     }
 
-    public boolean reservarTurnoPortipo(Pasajero pasajero, String tipo) { ///en el limitamos que el enum no salga de los limites
+    public boolean reservarTurnoPortipo(Pasajero pasajero, String tipo)
+    { ///en el limitamos que el enum no salga de los limites
 
         boolean reservar = false;
 

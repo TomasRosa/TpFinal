@@ -1,10 +1,6 @@
 package Excepciones;
-
-import Excepciones.NombreContieneNumeros;
-import Excepciones.StringContieneLetras;
 import Enum.TiposDeMontosHabitaciones;
-
-import java.time.DateTimeException;
+import Enum.TiposDeServicios;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -183,6 +179,16 @@ public class Validacion
         }
         else
         {
+            return true;
+        }
+    }
+    public static boolean validarServicio (String servicio) throws TipoIncorrecto
+    {
+        if (!servicio.equalsIgnoreCase(String.valueOf(TiposDeServicios.DESAYUNADOR)) &&
+                !servicio.equalsIgnoreCase(String.valueOf(TiposDeServicios.PILETA)) &&
+                !servicio.equalsIgnoreCase(String.valueOf(TiposDeServicios.GIMNASIO))) {
+            throw new TipoIncorrecto();
+        } else {
             return true;
         }
     }

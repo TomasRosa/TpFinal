@@ -66,8 +66,8 @@ public class Factura
     public void mostrarFactura ()
     {
         System.out.println("\n-------------------FACTURA-------------------");
-        pasajero.mostrar();
-        System.out.println("\nID: " + id);
+        System.out.println("A cargo de: " + pasajero.getNombre() + " "+ pasajero.getApellido());
+        System.out.println("ID: " + id);
         System.out.println("FECHA: " + fecha);
         System.out.println("MONTO: " + monto);
         habitacion.toString();

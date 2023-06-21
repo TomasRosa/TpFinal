@@ -10,7 +10,12 @@ public class Pasajero extends Persona
         this.origen = origen;
         this.tarjeta = tarjeta;
     }
-
+    public Pasajero (Pasajero pasajero)
+    {
+        super(pasajero.getNombre(),pasajero.getApellido(),pasajero.getDni(),pasajero.getTelefono(),pasajero.getDomicilio());
+        this.origen = pasajero.getOrigen();
+        this.tarjeta = pasajero.getTarjeta();
+    }
     public Pasajero() {
     }
     public String getOrigen() {
@@ -33,12 +38,9 @@ public class Pasajero extends Persona
     public void mostrar()
     {
         System.out.println("\n-----------------------PASAJERO-----------------------");
+        super.mostrarPersona();
         System.out.println("ORIGEN: " + origen);
         ///muestraTarjeta(); no se que tan bien esta que muestre la tarjeta cuando queremos mostrar pasajeros en las habitaciones.
-    }
-    public void mostrarSoloPersona ()
-    {
-        super.mostrarPersona();
     }
 
     public void muestraTarjeta ()
