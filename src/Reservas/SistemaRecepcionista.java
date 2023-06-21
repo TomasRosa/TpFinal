@@ -46,7 +46,7 @@ public class SistemaRecepcionista
         this.servicios = servicios;
     }
 
-    public Factura reserva (Habitacion habitacionAReservar, Pasajero pasajeroReservador) throws IllegalArgumentException
+    public Factura reserva (Habitacion habitacionAReservar, Pasajero pasajeroReservador, int cantDias) throws IllegalArgumentException
     {
         ///Se le dice al usuario que ingrese que habitacion quiere (SIMPLE-NORMAL-PREMIUM).
         //Se busca la primer habitacion con esas caracteristicas y se pasa por parametro.
@@ -66,6 +66,9 @@ public class SistemaRecepcionista
             default:
                 throw new IllegalArgumentException("Tipo de habitación inválido");
         }
+        habitacionAReservar.setOcupadaONo(true);
+        habitacionAReservar.setPasajeroQueLaOcupa(pasajeroReservador);
+        habitacionAReservar.setCantDiasQueSeraOcupada(cantDias);
         return new Factura(pasajeroReservador, UUID.randomUUID(), LocalDate.now(), monto, habitacionAReservar);
     }
     public void checkIn (Habitacion habitacion, Pasajero pasajero)

@@ -5,7 +5,7 @@ import Reservas.SistemaRecepcionista;
 public class Recepcionista extends Empleado implements Sueldos
 {
     private int clientesAtendidos;
-    private final String codigo = "2606";
+    private final String codigo = "26ab";
     private SistemaRecepcionista recepcionista;
 
     public Recepcionista(String nombre, String apellido, String dni, String telefono, String domicilio, int experiencia, double salario, int clientesAtendidos,SistemaRecepcionista recepcionista) {

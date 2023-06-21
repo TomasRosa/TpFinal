@@ -37,6 +37,10 @@ public class Pasajero extends Persona
         System.out.println("ORIGEN: " + origen);
         muestraTarjeta();
     }
+    public void mostrarSoloPersona ()
+    {
+        super.mostrarPersona();
+    }
 
     public void muestraTarjeta ()
     {

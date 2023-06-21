@@ -81,6 +81,30 @@ public class Habitacion
                 ", tipo=" + tipo +
                 '}';
     }
+    public void mostrarHabitacion ()
+    {
+        System.out.println("---Habitacion---");
+        System.out.println("NRO de habitacion: " + this.numero);
+        if(this.ocupadaONo == false)
+        {
+            System.out.println("La habitacion no esta ocupada. ");
+            if(this.motivo != null)
+            {
+                System.out.println("Debido a: " + this.motivo);
+            }
+        }
+        else
+        {
+            System.out.println("La habitacion se encuentra ocupada por: ");
+            pasajeroQueLaOcupa.mostrarSoloPersona();
+        }
+        if(this.cantDiasQueSeraOcupada > 0)
+        {
+            System.out.println("Sera ocupada por: " + this.cantDiasQueSeraOcupada + " dias.");
+
+        }
+        System.out.println("La habitacion es: " + this.tipo);
+    }
 
     public double calculoPorDias(String tipo) ///ver en donde lo implemnetamos en el main CUANDO RESERVE SE LE INFORMA CUANTO LE SALE
     {

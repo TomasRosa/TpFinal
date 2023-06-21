@@ -124,20 +124,17 @@ public class Validacion
             return false;
         }
     }
-
-    public static boolean verificarTipo(String tipo) throws TipoIncorrecto{
-
-        if (!tipo.equalsIgnoreCase(String.valueOf(TiposDeMontosHabitaciones.SIMPLE)) || !tipo.equalsIgnoreCase(String.valueOf(TiposDeMontosHabitaciones.DOBLE)) || !tipo.equalsIgnoreCase(String.valueOf(TiposDeMontosHabitaciones.CUADRUPLE))) {
-
+    public static boolean verificarTipo(String tipo) throws TipoIncorrecto
+    {
+        if (!tipo.equalsIgnoreCase(String.valueOf(TiposDeMontosHabitaciones.SIMPLE)) &&
+                !tipo.equalsIgnoreCase(String.valueOf(TiposDeMontosHabitaciones.DOBLE)) &&
+                !tipo.equalsIgnoreCase(String.valueOf(TiposDeMontosHabitaciones.CUADRUPLE))) {
             throw new TipoIncorrecto();
-        }
-        else{
-
+        } else {
             return true;
-
         }
-
     }
+
     public static boolean validarFecha (String fecha) throws FechaInvalida
     {
         boolean flag = esFechaValida(fecha);
