@@ -252,7 +252,7 @@ public class Main {
                                 teclado.nextLine();
                                 try
                                 {
-                                    tipo = teclado.nextLine();
+                                    tipo = teclado.next();
                                     flag = Validacion.validarStringNoNumeros(tipo) && Validacion.verificarTipo(tipo);
                                 } catch (NombreContieneNumeros e) {
                                     System.out.println("ERROR: El tipo no puede contener numeros.");
@@ -294,7 +294,7 @@ public class Main {
                                 teclado.nextLine();
                                 try
                                 {
-                                    tipo = teclado.nextLine();
+                                    tipo = teclado.next();
                                     flag = Validacion.validarStringNoNumeros(tipo) && Validacion.verificarTipo(tipo);
                                 } catch (NombreContieneNumeros e)
                                 {
@@ -336,7 +336,7 @@ public class Main {
                         }
                         case 5: {
 
-                            System.out.println("Habitaciones dipsonibles:");
+                            System.out.println("Habitaciones disponibles:");
                             recepcionista.getSistemaRecepcionista().mostrarHabitacionesDisponibles();
 
                             break;
@@ -612,6 +612,7 @@ public class Main {
             }catch (NombreContieneNumeros e)
             {
                 System.out.println("\nERROR: EL NOMBRE CONTIENE NUMEROS\n");
+                flag=false;
             }
         }while (!flag);
 
@@ -628,6 +629,7 @@ public class Main {
             }catch (NombreContieneNumeros e)
             {
                 System.out.println("\nERROR: EL APELLIDO CONTIENE NUMEROS\n");
+                flag=false;
             }
         }while (!flag);
 
@@ -644,6 +646,7 @@ public class Main {
             }catch (StringContieneLetras e)
             {
                 System.out.println("\nERROR: EL DNI CONTIENE LETRAS\n");
+                flag=false;
             }
         }while (!flag);
 
@@ -660,6 +663,7 @@ public class Main {
             }catch (StringContieneLetras e)
             {
                 System.out.println("\nERROR: EL NUMERO CONTIENE LETRAS\n");
+                flag=false;
             }
         }while (!flag);
 
@@ -695,6 +699,7 @@ public class Main {
             }catch (NombreContieneNumeros e)
             {
                 System.out.println("\nERROR: EL NOMBRE CONTIENE NUMEROS\n");
+                flag=false;
             }
         }while (!flag);
 
@@ -711,6 +716,7 @@ public class Main {
             }catch (NombreContieneNumeros e)
             {
                 System.out.println("\nERROR: EL APELLIDO CONTIENE NUMEROS\n");
+                flag=false;
             }
         }while (!flag);
 
@@ -727,6 +733,7 @@ public class Main {
             }catch (StringContieneLetras e)
             {
                 System.out.println("\nERROR: EL DNI CONTIENE LETRAS\n");
+                flag=false;
             }
         }while (!flag);
 
@@ -743,6 +750,7 @@ public class Main {
             }catch (StringContieneLetras e)
             {
                 System.out.println("\nERROR: EL NUMERO CONTIENE LETRAS\n");
+                flag=false;
             }
         }while (!flag);
 
@@ -776,6 +784,7 @@ public class Main {
             }catch (NombreContieneNumeros e)
             {
                 System.out.println("\nERROR: EL NOMBRE CONTIENE NUMEROS\n");
+                flag=false;
             }
         }while (!flag);
 
@@ -792,6 +801,7 @@ public class Main {
             }catch (NombreContieneNumeros e)
             {
                 System.out.println("\nERROR: EL APELLIDO CONTIENE NUMEROS\n");
+                flag=false;
             }
         }while (!flag);
 
@@ -808,6 +818,7 @@ public class Main {
             }catch (StringContieneLetras e)
             {
                 System.out.println("\nERROR: EL DNI CONTIENE LETRAS\n");
+                flag=false;
             }
         }while (!flag);
 
@@ -824,6 +835,7 @@ public class Main {
             }catch (StringContieneLetras e)
             {
                 System.out.println("\nERROR: EL NUMERO CONTIENE LETRAS\n");
+                flag=false;
             }
         }while (!flag);
 
@@ -866,10 +878,12 @@ public class Main {
                 catch (NroTarjetaException e)
                 {
                     System.out.println("\n ERROR: LA LONGITUD NO ES ADECUADA.\n");
+                    flag=false;
                 }
             }catch (NombreContieneNumeros e)
             {
                 System.out.println("\nERROR: EL APELLIDO CONTIENE NUMEROS\n");
+                flag=false;
             }
         }while (!flag);
         do
@@ -882,6 +896,8 @@ public class Main {
             }catch (NombreContieneNumeros e)
             {
                 System.out.println("\nERROR: EL NOMBRE Y APELLIDO CONTIENE NUMEROS\n");
+                flag=false;
+
             }
         }while (!flag);
 
@@ -896,6 +912,7 @@ public class Main {
             }catch (FechaInvalida e)
             {
                 System.out.println("\nERROR: FECHA INVALIDA\n");
+                flag=false;
             }
         }while (!flag);
         do
@@ -908,6 +925,7 @@ public class Main {
             }catch (CodigoSeguridadException e)
             {
                 System.out.println("\nERROR: EL CODIGO DE SEGURIDAD NO ES APTO.\n");
+                flag=false;
             }
         }while (!flag);
         do
@@ -925,11 +943,13 @@ public class Main {
                 catch (DniLongitudException e)
                 {
                     System.out.println("\n LA LONGITUD DEL DNI NO ES APTA \n");
+                    flag=false;
                 }
             }
             catch (StringContieneLetras e)
             {
                 System.out.println("\nERROR: EL DNI CONTIENE LETRAS\n");
+                flag=false;
             }
         }while (!flag);
         return new Tarjeta(nroTarjeta,nombreYApellido,fechaVencimiento,codigoSeguridad,dni);
