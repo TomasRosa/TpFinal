@@ -105,40 +105,50 @@ public class SistemaRecepcionista
         {
             if (habi.get(i).getOcupadaONo())
             {
-                System.out.println(habi);
+                habi.get(i).mostrarHabitacion();
                 Pasajero pasajero = habi.get(i).getPasajeroQueLaOcupa();
                 pasajero.mostrar();
             }
             i++;
         }
     }
-    public void mostrarHabitacionesDisponibles ()
+    public void mostrarHabitacionesDisponibles()
     {
-        int i = 0;
-
-        for (List <Habitacion> habi: habitaciones.values())
+        for (List<Habitacion> habitacionList : habitaciones.values())
         {
-            if (!habi.get(i).getOcupadaONo())
+            for (Habitacion habitacion : habitacionList)
             {
-                System.out.println(habi);
+                if (!habitacion.getOcupadaONo())
+                {
+                    habitacion.mostrarHabitacion();
+                }
             }
-            i++;
         }
     }
+
     ///DETALLAR MOTIVO
-    public void mostrarHabitacionesNoDisponibles ()
+    public void mostrarHabitacionesNoDisponibles() throws NullPointerException
     {
-        int i = 0;
-
-        for (List <Habitacion> habi: habitaciones.values())
+        for (List<Habitacion> habitacionList : habitaciones.values())
         {
-            if (habi.get(i).getOcupadaONo())
+            for (Habitacion habitacion : habitacionList)
             {
-                System.out.println(habi);
-                System.out.println(habi.get(i).getMotivo().getDescripcion());
+                if (habitacion.getOcupadaONo())
+                {
+                    habitacion.mostrarHabitacion();
+                    try
+                    {
+                        System.out.println(habitacion.getMotivo().getDescripcion());
+                    }
+                    catch (NullPointerException e)
+                    {
+                        System.out.println("No esta disponible ya que se encuentra ocupada.");
+                    }
+                }
             }
         }
     }
+
     public void verReservaPorDNI(String dni)
     {
         boolean encontrada = false;
@@ -148,7 +158,7 @@ public class SistemaRecepcionista
             for (Habitacion habitacion : listaHabitaciones)
             {
                 if (habitacion.getPasajeroQueLaOcupa() != null && habitacion.getPasajeroQueLaOcupa().getDni().equals(dni)) {
-                    System.out.println(habitacion);
+                    habitacion.mostrarHabitacion();
                     encontrada = true;
                     break; // Sale del bucle cuando se encuentra la reserva
                 }

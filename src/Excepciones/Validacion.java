@@ -60,11 +60,22 @@ public class Validacion
     {
         if(codigoSeguridad > 99 && codigoSeguridad < 1000)
         {
-            throw new CodigoSeguridadException();
+            return true;
         }
         else
         {
+            throw new CodigoSeguridadException();
+        }
+    }
+    public static boolean validarDniSeaIgualATarjeta (String dni, String intento) throws DniTarjetaPersonaException
+    {
+        if(dni.equals(intento))
+        {
             return true;
+        }
+        else
+        {
+            throw new DniTarjetaPersonaException();
         }
     }
     public static boolean validarLongitudDNI (String dni) throws DniLongitudException
@@ -76,6 +87,17 @@ public class Validacion
         else
         {
             return true;
+        }
+    }
+    public static boolean validarFechaVencimientoTarjeta (LocalDate fecha) throws FechaVencidaException
+    {
+        if(fecha.isAfter(LocalDate.now()))
+        {
+            return true;
+        }
+        else
+        {
+            throw new FechaVencidaException();
         }
     }
 

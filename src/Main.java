@@ -5,6 +5,8 @@ import Empleados.Recepcionista;
 import Excepciones.*;
 import Reservas.*;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import Enum.TiposDeMontosHabitaciones;
 import Enum.MotivoHabitacion;
@@ -29,7 +31,8 @@ public class Main {
         int opcion = teclado.nextInt();
 
         switch (opcion) {
-            case 1: {
+            case 1:
+            {
                 int intentos = 3;
                 boolean flag = false;
                 do {
@@ -201,18 +204,22 @@ public class Main {
                 } while (control == 's' && opcion != 7);
             }
 
-            case 2: {
+            case 2:
+            {
                 Recepcionista recepcionista = new Recepcionista();
 
                 int intentos = 3;
                 boolean flag = false;
-                do {
+                do
+                {
                     System.out.println("Ingrese el codigo para ingresar como recepcionista");
                     teclado.nextLine();
-                    try {
+                    try
+                    {
                         String codigo = teclado.next();
                         flag = Validacion.validarCodigoAdmin(recepcionista.getCodigo(), codigo);
-                    } catch (CodigoErroneoException e) {
+                    } catch (CodigoErroneoException e)
+                    {
                         System.out.println("\nERROR: CODIGO ERRONEO\n");
                         intentos--;
                         System.out.println("CANTIDAD DE INTENTOS: " + intentos);
@@ -255,9 +262,9 @@ public class Main {
                                     tipo = teclado.next();
                                     flag = Validacion.validarStringNoNumeros(tipo) && Validacion.verificarTipo(tipo);
                                 } catch (NombreContieneNumeros e) {
-                                    System.out.println("ERROR: El tipo no puede contener numeros.");
+                                    System.out.println("Error: El tipo no puede contener numeros.");
                                 } catch (TipoIncorrecto e) {
-                                    System.out.println("ERROR: El tipo esta fuera de los limites de habitaciones posibles.");
+                                    System.out.println("Error: El tipo esta fuera de los limites de habitaciones posibles.");
                                 }
                                 if (!flag) {
                                     System.out.println("Por favor, ingrese el tipo de habitacion de nuevo, de manera correcta.");
@@ -279,7 +286,8 @@ public class Main {
                                 System.out.println("Datos de la habitacion: ");
                                 habitacionDisponible.mostrarHabitacion();
                                 factura.mostrarFactura();
-                            } else
+                            }
+                            else
                             {
                                 System.out.println("No hay habitaciones disponibles con los requisitos solicitados.");
                                 ///Caso de hotel lleno.
@@ -327,28 +335,29 @@ public class Main {
                             System.out.println("Dejando la habitacion...");
                            // recepcionista.getSistemaRecepcionista().checkOut();
                         }
-                        case 4: {
-
+                        case 4:
+                        {
                             System.out.println("A continunacion te mostramos las habitaciones y los datos de los ocupantes:");
                             recepcionista.getSistemaRecepcionista().mostrarHabitacionesYdatosDeOcupantes();
-
                             break;
                         }
-                        case 5: {
-
+                        case 5:
+                        {
                             System.out.println("Habitaciones disponibles:");
                             recepcionista.getSistemaRecepcionista().mostrarHabitacionesDisponibles();
-
+                            ///ver con los chicos, funciona igual.
                             break;
                         }
-                        case 6: {
+                        case 6:
+                        {
                             System.out.println("Habitaciones no disponibles:");
                             recepcionista.getSistemaRecepcionista().mostrarHabitacionesNoDisponibles();
                             break;
                         }
-                        case 7: {
-
-                            do {
+                        case 7:
+                        {
+                            do
+                            {
                                 System.out.println("Ingrese el DNI para ver la reserva que le corresponde:");
                                 try {
                                     dni = teclado.next();
@@ -366,8 +375,11 @@ public class Main {
                             recepcionista.getSistemaRecepcionista().verReservaPorDNI(dni);
                             break;
                         }
-                        case 8: {
-                            do {
+                        case 8:
+                        {
+                            ///Este no puede probarse
+                            do
+                            {
                                 System.out.println("Ingrese el DNI para ver que servicios le corresponden:");
                                 try {
                                     dni = teclado.next();
@@ -482,13 +494,14 @@ public class Main {
         Pasajero[] pasajeros = pasajeros1.toArray(new Pasajero[0]);
 
         Habitacion h1 = new Habitacion(true,1,pasajeros[0],14,TiposDeMontosHabitaciones.DOBLE,null);
-        Habitacion h2 = new Habitacion(false,2,null,0,TiposDeMontosHabitaciones.SIMPLE,MotivoHabitacion.DESINFECCION);
-        Habitacion h3 = new Habitacion(false,3,null,0,TiposDeMontosHabitaciones.CUADRUPLE,MotivoHabitacion.LIMPIEZA);
+        Habitacion h2 = new Habitacion(false,2,null,0,TiposDeMontosHabitaciones.SIMPLE,null);
+        ///ANA MARTINEZ H3, VER CON LOS CHICOS.
+        Habitacion h3 = new Habitacion(true,3,pasajeros[3],0,TiposDeMontosHabitaciones.CUADRUPLE,MotivoHabitacion.LIMPIEZA);
         Habitacion h4 = new Habitacion(true,4,pasajeros[1],7,TiposDeMontosHabitaciones.CUADRUPLE,null);
         Habitacion h5 = new Habitacion(false,5,null,0,TiposDeMontosHabitaciones.SIMPLE,null);
         Habitacion h6 = new Habitacion(true,6,pasajeros[2],21,TiposDeMontosHabitaciones.CUADRUPLE,null);
         Habitacion h7 = new Habitacion(false,7,null,0,TiposDeMontosHabitaciones.DOBLE,MotivoHabitacion.LIMPIEZA);
-        Habitacion h8 = new Habitacion(true,8,pasajeros[3],30,TiposDeMontosHabitaciones.DOBLE,null);
+        Habitacion h8 = new Habitacion(false,8,null,0,TiposDeMontosHabitaciones.DOBLE,MotivoHabitacion.REPARACION);
         Habitacion h9 = new Habitacion(true,9,pasajeros[4],4,TiposDeMontosHabitaciones.DOBLE,null);
 
         ArrayList<Habitacion> habitacionesPiso1 = new ArrayList<>();
@@ -814,11 +827,16 @@ public class Main {
             {
                 dni = teclado.next();
                 teclado.nextLine();
-                flag = Validacion.validarStringNoLetras(dni);
-            }catch (StringContieneLetras e)
+                flag = Validacion.validarStringNoLetras(dni) && Validacion.validarLongitudDNI(dni);
+            }
+            catch (StringContieneLetras e)
             {
                 System.out.println("\nERROR: EL DNI CONTIENE LETRAS\n");
                 flag=false;
+            }
+            catch (DniLongitudException e)
+            {
+                System.out.println("\nERROR: EL DNI NO TIENE LA LONGITUD ADECUADA\n");
             }
         }while (!flag);
 
@@ -846,7 +864,7 @@ public class Main {
         System.out.println("Ingrese el origen del pasajero");
         String origen = teclado.nextLine();
 
-        Tarjeta t1 = cargarTarjeta(teclado);
+        Tarjeta t1 = cargarTarjeta(teclado,dni);
 
         return new Pasajero(nombre,apellido,dni,num,domicilio,origen,t1);
     }
@@ -855,7 +873,7 @@ public class Main {
         Pasajero pasajerito = null;
         return pasajerito;
     }
-    public static Tarjeta cargarTarjeta (Scanner scan)
+    public static Tarjeta cargarTarjeta (Scanner scan,String intento)
     {
         String nroTarjeta = " ";
         String nombreYApellido = " ";
@@ -877,12 +895,12 @@ public class Main {
                 }
                 catch (NroTarjetaException e)
                 {
-                    System.out.println("\n ERROR: LA LONGITUD NO ES ADECUADA.\n");
+                    System.out.println("\nError: la longitud no es adecuada.\n");
                     flag=false;
                 }
             }catch (NombreContieneNumeros e)
             {
-                System.out.println("\nERROR: EL APELLIDO CONTIENE NUMEROS\n");
+                System.out.println("\nError: el apellido contiene numeros\n");
                 flag=false;
             }
         }while (!flag);
@@ -895,12 +913,11 @@ public class Main {
                 flag = Validacion.validarStringNoNumeros(nombreYApellido);
             }catch (NombreContieneNumeros e)
             {
-                System.out.println("\nERROR: EL NOMBRE Y APELLIDO CONTIENE NUMEROS\n");
+                System.out.println("\nError: el nombre y apellido contiene numeros\n");
                 flag=false;
 
             }
         }while (!flag);
-
         do
         {
             System.out.println("Ingrese la fecha de vencimiento de la tarjeta. dd/mm/aaaa ");
@@ -911,8 +928,19 @@ public class Main {
 
             }catch (FechaInvalida e)
             {
-                System.out.println("\nERROR: FECHA INVALIDA\n");
+                System.out.println("\nError: fecha invalida\n");
                 flag=false;
+            }
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            LocalDate fecha = LocalDate.parse(fechaVencimiento,formatter);
+            try
+            {
+                flag = Validacion.validarFechaVencimientoTarjeta(fecha);
+            }
+            catch (FechaVencidaException e)
+            {
+                System.out.println("La fecha de su tarjeta esta vencida. Asegurese de escribirla bien. (dd/MM/yyyy)");
+                flag = false;
             }
         }while (!flag);
         do
@@ -922,7 +950,8 @@ public class Main {
             {
                 codigoSeguridad = scan.nextInt();
                 flag = Validacion.validarCodigoSeguridad(codigoSeguridad);
-            }catch (CodigoSeguridadException e)
+            }
+            catch (CodigoSeguridadException e)
             {
                 System.out.println("\nERROR: EL CODIGO DE SEGURIDAD NO ES APTO.\n");
                 flag=false;
@@ -935,22 +964,24 @@ public class Main {
             {
                 dni = scan.next();
                 scan.nextLine();
-                flag = Validacion.validarStringNoLetras(dni);
-                try
-                {
-                    flag = Validacion.validarLongitudDNI(dni);
-                }
-                catch (DniLongitudException e)
-                {
-                    System.out.println("\n LA LONGITUD DEL DNI NO ES APTA \n");
-                    flag=false;
-                }
+                flag = Validacion.validarStringNoLetras(dni) && Validacion.validarDniSeaIgualATarjeta(dni,intento) && Validacion.validarLongitudDNI(dni);
+            }
+            catch (DniLongitudException e)
+            {
+                System.out.println("\n LA LONGITUD DEL DNI NO ES APTA \n");
+                flag=false;
+            }
+            catch (DniTarjetaPersonaException e)
+            {
+                System.out.println("\n EL DNI INGRESADO NO ES EL MISMO QUE EL DE LA PERSONA TITULAR.");
+                flag = false;
             }
             catch (StringContieneLetras e)
             {
                 System.out.println("\nERROR: EL DNI CONTIENE LETRAS\n");
                 flag=false;
             }
+
         }while (!flag);
         return new Tarjeta(nroTarjeta,nombreYApellido,fechaVencimiento,codigoSeguridad,dni);
     }

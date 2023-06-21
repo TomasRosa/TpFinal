@@ -33,9 +33,8 @@ public class Pasajero extends Persona
     public void mostrar()
     {
         System.out.println("\n-----------------------PASAJERO-----------------------");
-        super.mostrarPersona();
         System.out.println("ORIGEN: " + origen);
-        muestraTarjeta();
+        ///muestraTarjeta(); no se que tan bien esta que muestre la tarjeta cuando queremos mostrar pasajeros en las habitaciones.
     }
     public void mostrarSoloPersona ()
     {
