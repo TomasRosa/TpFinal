@@ -10,16 +10,16 @@ public class Servicio
 {
     private String horarioDeApertura;
     private String horarioDeCierre;
-    private int cantCupos;
-    private TiposDeServicios tipoServicio;
-    private Set<Pasajero> pasajerosDelServicio;
+    private static int  cantCupos;
+    private static TiposDeServicios tipoServicio;
+    private static Set<Pasajero> pasajerosDelServicio;
 
     public Servicio(String horarioDeApertura, String horarioDeCerrado, int cantCupos, TiposDeServicios tipoServicio) {
         this.horarioDeApertura = horarioDeApertura;
         this.horarioDeCierre = horarioDeCerrado;
-        this.cantCupos = cantCupos;
-        this.tipoServicio = tipoServicio;
-        this.pasajerosDelServicio = new HashSet<>();
+        Servicio.cantCupos = cantCupos;
+        Servicio.tipoServicio = tipoServicio;
+        pasajerosDelServicio = new HashSet<>();
     }
 
     public Servicio()
@@ -36,7 +36,7 @@ public class Servicio
     }
 
     public void setPasajerosDelServicio(Set<Pasajero> pasajerosDelServicio) {
-        this.pasajerosDelServicio = pasajerosDelServicio;
+        Servicio.pasajerosDelServicio = pasajerosDelServicio;
     }
 
     public void setHorarioDeApertura(String horarioDeApertura) {
@@ -56,7 +56,7 @@ public class Servicio
     }
 
     public void setCantCupos(int cantCupos) {
-        this.cantCupos = cantCupos;
+        Servicio.cantCupos = cantCupos;
     }
 
     public TiposDeServicios getTipoServicio() {
@@ -69,7 +69,7 @@ public class Servicio
         System.out.println("CANTIDAD DE CUPOS: " + cantCupos);
     }
 
-    public boolean reservarTurnoPortipo(Pasajero pasajero, String tipo)
+    public static boolean reservarTurnoPortipo(Pasajero pasajero, String tipo)
     { ///en el limitamos que el enum no salga de los limites
 
         boolean reservar = false;
@@ -85,11 +85,11 @@ public class Servicio
         return reservar;
     }
 
-    public boolean resevarTurno(Pasajero pasajero) throws TurnoNoReservado {
+    public static boolean resevarTurno(Pasajero pasajero) throws TurnoNoReservado {
 
         try {
             if (cantCupos > 0) {
-                this.pasajerosDelServicio.add(pasajero);
+                pasajerosDelServicio.add(pasajero);
                 cantCupos--;
                 System.out.println("Ya tiene su turno para el servicio de:  " + tipoServicio);
                 return true;
@@ -103,7 +103,7 @@ public class Servicio
         }
     }
 
-    public boolean cancelarTurnoPortipo(Pasajero pasajero, String tipo) { ///en el limitamos que el enum no salga de los limites
+    public static boolean cancelarTurnoPortipo(Pasajero pasajero, String tipo) { ///en el limitamos que el enum no salga de los limites
 
         boolean cancelar = false;
 
@@ -117,11 +117,11 @@ public class Servicio
         return cancelar;
     }
 
-    public boolean cancelarTurno(Pasajero pasajero) throws TurnoNoCancelado {
+    public static boolean cancelarTurno(Pasajero pasajero) throws TurnoNoCancelado {
         try {
-            if (this.pasajerosDelServicio.contains(pasajero)) {
+            if (pasajerosDelServicio.contains(pasajero)) {
                 cantCupos++;
-                this.pasajerosDelServicio.remove(pasajero);
+                pasajerosDelServicio.remove(pasajero);
                 System.out.println("Su turno ha sido cancelado.");
                 return true;
             } else {

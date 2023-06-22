@@ -18,7 +18,8 @@ public class Main {
     {
         Scanner teclado = new Scanner(System.in);
 
-        ManejoArchivo <Empleado> manejoArchivo = new ManejoArchivo<>();
+        ManejoArchivo <Empleado> manejoArchivoEmpleado = new ManejoArchivo<>();
+        ManejoArchivo <Pasajero> manejoArchivoPasajero = new ManejoArchivo<>();
         baseDeDatosPasajeros();
         Administrador admin = new Administrador();
         char control = 's';
@@ -76,7 +77,7 @@ public class Main {
                             admin.agregar(cargaUnEmpleado(teclado));
 
                             try {
-                                manejoArchivo.escribirArchivoSet(admin.getNombreArchivoEmpleados(), admin.getEmpleados());
+                                manejoArchivoEmpleado.escribirArchivoSet(admin.getNombreArchivoEmpleados(), admin.getEmpleados());
                             } catch (IOException e) {
                                 System.out.println("\nERROR AL ESCRIBIR EN EL ARCHIVO DE EMPLEADOS\n");
                             }
@@ -388,7 +389,7 @@ public class Main {
                                             do
                                             {
                                                 System.out.println("¿A que servicio desea anotarse? GIMNASIO-PILETA-DESAYUNADOR");
-                                                teclado.nextLine();
+
                                                 try
                                                 {
                                                     tipo = teclado.next();
@@ -406,15 +407,89 @@ public class Main {
                                                     System.out.println("Por favor, ingrese el tipo de servicio de nuevo, de manera correcta.");
                                                 }
                                             } while (!flag);
-                                                Servicio servicios = new Servicio();
+
+                                            boolean reservadoONo = Servicio.reservarTurnoPortipo(pasajero, tipo);
+
+                                            if (reservadoONo)
+                                            {
+                                                System.out.println("\nLa reserva se ha producido con exito!");
+                                            }
+                                            else
+                                            {
+                                                System.out.println("\nLa reserva no se ha producido");
+                                            }
                                         }
                                         else if (opcion == 2)
                                         {
+                                            do
+                                            {
+                                                System.out.println("Ingrese el dni del pasajero a utilizar");
+                                                try {
+                                                    dni = teclado.next();
+                                                    teclado.nextLine();
+                                                    flag = Validacion.validarStringNoLetras(dni);
+                                                    flag = Validacion.validarLongitudDNI(dni);
+                                                } catch (StringContieneLetras e) {
+                                                    System.out.println("\nERROR: EL DNI CONTIENE LETRAS\n");
+                                                } catch (LongitudException e) {
 
+                                                    System.out.println("\n ERROR: EL DNI SOLO DEBE CONTENER 8 DIGITOS\n");
+                                                }
+                                            } while (!flag);
+
+                                            Pasajero pasajeroRetornado = new Pasajero();
+
+                                            try
+                                            {
+                                                int i = recepcionista.getSistemaRecepcionista().busquedaPorDNIPasajero(dni);
+                                                pasajeroRetornado = recepcionista.getSistemaRecepcionista().retornarPasajeroPorPosicion(i);
+                                            }
+                                            catch (DNINoExiste e)
+                                            {
+                                                System.out.println("\nERROR: EL DNI NO CORRESPONDE A NINGUN EMPLEADO\n");
+                                            }
+                                            catch (PosicionInvalida e)
+                                            {
+                                                System.out.println("\nERROR: LA POSICION NO EXISTE\n");
+                                            }
+
+                                            do
+                                            {
+                                                System.out.println("¿A que servicio desea anotarse? GIMNASIO-PILETA-DESAYUNADOR");
+
+                                                try
+                                                {
+                                                    tipo = teclado.next();
+                                                    flag = Validacion.validarStringNoNumeros(tipo) && Validacion.validarServicio(tipo);
+                                                }
+                                                catch (NombreContieneNumeros e)
+                                                {
+                                                    System.out.println("Error: El servicio no puede contener numeros.");
+                                                } catch (TipoIncorrecto e)
+                                                {
+                                                    System.out.println("Error: El servicio es invalido.");
+                                                }
+                                                if (!flag)
+                                                {
+                                                    System.out.println("Por favor, ingrese el tipo de servicio de nuevo, de manera correcta.");
+                                                }
+                                            } while (!flag);
+
+                                            boolean reservadoONo = Servicio.reservarTurnoPortipo(pasajeroRetornado, tipo);
+
+                                            if (reservadoONo)
+                                            {
+                                                System.out.println("\nLa reserva se ha producido con exito!");
+                                            }
+                                            else
+                                            {
+                                                System.out.println("\nLa reserva no se ha producido");
+                                            }
                                         }
                                         else
                                         {
-                                            System.out.println("HIJO DE PUTA ELEGI UNO O DOS. ");
+                                            ///TIRAR EXCEPCION
+                                            System.out.println("OPCION INVALIDA");
                                         }
                                         break;
                                     }

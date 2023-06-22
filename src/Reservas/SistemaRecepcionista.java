@@ -3,6 +3,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
+import Empleados.Empleado;
 import Excepciones.*;
 import Servicios.Servicio;
 import Enum.TiposDeMontosHabitaciones;
@@ -404,7 +405,7 @@ public class SistemaRecepcionista
             for(Servicio servicioBuscar: this.servicios)
             {
                 Iterator<Pasajero> it = servicioBuscar.getPasajerosDelServicio().iterator();
-                while(it.hasNext() && flag == false)
+                while(it.hasNext() && !flag)
                 {
                     if(dni.equals(it.next().getDni()))
                     {
@@ -422,5 +423,54 @@ public class SistemaRecepcionista
         {
             System.out.println("\nERROR: DNI INVALIDO\n");
         }
+    }
+
+    public Pasajero retornarPasajeroPorPosicion (int pos) throws PosicionInvalida
+    {
+        Pasajero aux;
+
+        if (pos == pasajeros.size())
+        {
+            throw new PosicionInvalida();
+        }
+        else
+        {
+            Pasajero []auxArray = pasajeros.toArray(new Pasajero[0]);
+
+            aux = auxArray[pos];
+        }
+
+        return aux;
+    }
+
+    public int busquedaPorDNIPasajero (String dni) throws DNINoExiste
+    {
+        int i = 0;
+        boolean flag = false;
+        Pasajero [] pasajeros1 = pasajeros.toArray(new Pasajero[0]);
+
+        if (dni == null)
+        {
+            throw new DNINoExiste();
+        }
+
+        while (i < pasajeros1.length && !flag)
+        {
+            if (pasajeros1[i].getDni().equals(dni))
+            {
+                flag = true;
+            }
+            else
+            {
+                i++;
+            }
+        }
+
+        if (!flag)
+        {
+            throw new DNINoExiste();
+        }
+
+        return i;
     }
 }
