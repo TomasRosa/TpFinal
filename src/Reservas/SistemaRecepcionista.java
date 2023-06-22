@@ -91,7 +91,7 @@ public class SistemaRecepcionista
 
         return pasajero;
     }
-    public static Tarjeta cargarTarjeta (Scanner scan,String intento)
+    public static Tarjeta cargarTarjeta (Scanner scan, String dniPasajero)
     {
         String nroTarjeta = " ";
         String nombreYApellido = " ";
@@ -105,10 +105,11 @@ public class SistemaRecepcionista
             System.out.println("Ingrese el numero de la tarjeta. ");
             try
             {
-                nroTarjeta = scan.nextLine();
+                nroTarjeta = scan.next();
                 flag = Validacion.validarStringNoLetras(nroTarjeta);
                 if (flag)
                 {
+                    flag = false;
                     try
                     {
                         flag = Validacion.validarNroTarjeta(nroTarjeta);
@@ -131,9 +132,11 @@ public class SistemaRecepcionista
             System.out.println("Ingrese el nombre y apellido titular de la tarjeta. ");
             try
             {
+                scan.next();
                 nombreYApellido = scan.nextLine();
                 flag = Validacion.validarStringNoNumeros(nombreYApellido);
-            }catch (NombreContieneNumeros e)
+            }
+            catch (NombreContieneNumeros e)
             {
                 System.out.println("\nError: el nombre y apellido contiene numeros\n");
             }
@@ -143,7 +146,7 @@ public class SistemaRecepcionista
 
         do
         {
-            System.out.println("Ingrese la fecha de vencimiento de la tarjeta. dd/mm/aaaa ");
+            System.out.println("Ingrese la fecha de vencimiento de la tarjeta. dd/MMM/yyyy ");
             try
             {
                 fechaVencimiento = scan.nextLine();
@@ -151,6 +154,7 @@ public class SistemaRecepcionista
 
                 if (flag)
                 {
+                    flag = false;
                     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
                     LocalDate fecha = LocalDate.parse(fechaVencimiento,formatter);
 
@@ -177,10 +181,7 @@ public class SistemaRecepcionista
             System.out.println("Ingrese el codigo de seguridad de la tarjeta. (3 digitos) ");
             try
             {
-                codigoSeguridad = scan.nextInt();
-                flag = Validacion.validarCodigoSeguridad(codigoSeguridad);
-                if (flag)
-                {
+                    codigoSeguridad = scan.nextInt();
                     try
                     {
                         flag = Validacion.validarCodigoSeguridad(codigoSeguridad);
@@ -189,8 +190,6 @@ public class SistemaRecepcionista
                     {
                         System.out.println("\nERROR: CODIGO INVALIDO\n");
                     }
-                }
-
             }
             catch (InputMismatchException e)
             {
@@ -207,7 +206,7 @@ public class SistemaRecepcionista
             {
                 dni = scan.next();
                 scan.nextLine();
-                flag = Validacion.validarStringNoLetras(dni) && Validacion.validarDniSeaIgualATarjeta(dni,intento) && Validacion.validarLongitudDNI(dni);
+                flag = Validacion.validarStringNoLetras(dni) && Validacion.validarDniSeaIgualATarjeta(dniPasajero,dni) && Validacion.validarLongitudDNI(dni);
             }
             catch (LongitudException e)
             {
@@ -298,6 +297,7 @@ public class SistemaRecepcionista
                 flag = Validacion.validarStringNoLetras(num);
                 if (flag)
                 {
+                    flag = false;
                     try {
                         flag = Validacion.validarNroTelefono(num);
                     }catch (LongitudException e)
@@ -312,13 +312,11 @@ public class SistemaRecepcionista
         }while (!flag);
 
         System.out.println("Ingrese el domicilio del pasajero");
-        teclado.nextLine();
         String domicilio = teclado.nextLine();
 
         flag = false;
 
-        do
-        {
+       do {
             System.out.println("Ingrese el origen del pasajero");
             try
             {
@@ -332,9 +330,7 @@ public class SistemaRecepcionista
             }
         }while (!flag);
 
-        Tarjeta t1 = cargarTarjeta(teclado,dni);
-
-        return new Pasajero(nombre,apellido,dni,num,domicilio,origen,t1);
+        return new Pasajero(nombre,apellido,dni,num,domicilio,origen,null);
     }
 
     public void checkOut (Habitacion habitacion)
@@ -360,22 +356,24 @@ public class SistemaRecepcionista
             System.out.println("La habitacion: " + habitacion.getNumero() + " que desea desocupar esta actualmente sin alojaciones.");
         }
     }
-    public Habitacion buscarHabitacionPorNumero (int nroHabitacion)
+    public Habitacion buscarHabitacionPorNumero(int nroHabitacion)
     {
-        int i = 0;
         Habitacion habitacion = null;
 
-        for (List <Habitacion> habi: habitaciones.values())
-        {
-            if (habi.get(i).getNumero() == nroHabitacion)
-            {
-                habitacion = habi.get(i);
+        for (List<Habitacion> habi : habitaciones.values()) {
+            for (Habitacion h : habi) {
+                if (h.getNumero() == nroHabitacion) {
+                    habitacion = h;
+                    break;
+                }
+            }
+            if (habitacion != null) {
                 break;
             }
-            i++;
         }
         return habitacion;
     }
+
 
     public void mostrarHabitacionesYdatosDeOcupantes ()
     {

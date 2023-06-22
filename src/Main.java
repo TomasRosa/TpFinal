@@ -260,7 +260,7 @@ public class Main
 
                             String tipo = "";
                             String dni = "";
-                            int cantDias;
+                            int cantDias = 0;
                             flag = false;
 
                             switch (opcion) {
@@ -285,11 +285,20 @@ public class Main
                                     if (habitacionDisponible != null) {
                                         System.out.println("Se le asigno la habitacion nro: " + habitacionDisponible.getNumero());
 
-
-                                        System.out.println("Ingrese cuantos dias va a quedarse en el hotel: ");
-                                        teclado.nextLine();
-                                        cantDias = teclado.nextInt();
-
+                                        do
+                                        {
+                                            System.out.println("Ingrese cuantos dias va a quedarse en el hotel: ");
+                                            try
+                                            {
+                                                cantDias = teclado.nextInt();
+                                                flag = true;
+                                            } catch (InputMismatchException e)
+                                            {
+                                                System.out.println("\nERROR: DEBE SER SOLO UN NUMERO\n");
+                                                flag = false;
+                                                teclado.nextLine();
+                                            }
+                                        }while (!flag);
                                         teclado.nextLine();
                                         System.out.println("Cargue sus datos para realizar el check in y finalizar la reserva:");
 
@@ -322,6 +331,7 @@ public class Main
                                         {
                                             if (opcion == 1)
                                             {
+                                                pasajero.setTarjeta(SistemaRecepcionista.cargarTarjeta(teclado,pasajero.getDni()));
                                                 do
                                                 {
                                                     pagoONo = pagoDeTarjeta();
