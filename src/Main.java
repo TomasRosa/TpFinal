@@ -237,9 +237,10 @@ public class Main
                     System.out.println("Los codigos indicados no fueron correctos. Se cerrara el sistema.");
                     break;
                 }
-                else {
+                else
+                {
+                    recepcionista.setSistemaRecepcionista(baseDeDatosSistema());
                     do {
-                        recepcionista.setSistemaRecepcionista(baseDeDatosSistema());
                         System.out.println("Elija que funcion desea realizar.");
                         System.out.println("[1]. Reservar una habitacion + check in. ");
                         System.out.println("[2]. Realizar check out.");
@@ -350,24 +351,6 @@ public class Main
                             }
                             case 7:
                             {
-                                /*
-                                do {
-                                    System.out.println("Ingrese el DNI para ver que servicios le corresponden:");
-                                    try {
-                                        dni = teclado.next();
-                                        teclado.nextLine();
-                                        flag = Validacion.validarStringNoLetras(dni);
-                                        flag = Validacion.validarLongitudDNI(dni);
-                                    } catch (StringContieneLetras e) {
-                                        System.out.println("\nERROR: EL DNI CONTIENE LETRAS\n");
-                                    } catch (LongitudException e) {
-
-                                        System.out.println("\n ERROR: EL DNI SOLO DEBE CONTENER 8 DIGITOS\n");
-                                    }
-                                } while (!flag);
-
-                                recepcionista.getSistemaRecepcionista().busquedaPorDNIServicio(dni);
-                                 */
                                 System.out.println("Que desea realizar en el apartado de servicios? ");
                                 System.out.println("[1]. Reservar turno en algun servicio.");
                                 System.out.println("[2]. Cancelar turno en algun servicio.");
@@ -413,6 +396,9 @@ public class Main
                                             try
                                             {
                                                 boolean reservadoONo = aux.reservarTurnoPortipo(pasajero, tipo);
+
+                                                actualizarDatosDeServicios(recepcionista, aux);
+
                                                 if (reservadoONo)
                                                 {
                                                     System.out.println("Se reservo el turno con exito!");
@@ -477,7 +463,6 @@ public class Main
                                                     System.out.println("Por favor, ingrese el tipo de servicio de nuevo, de manera correcta.");
                                                 }
 
-                                                System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
                                             } while (!flag);
 
                                             Servicio aux = recepcionista.getSistemaRecepcionista().retornarServicio(tipo);
@@ -485,6 +470,9 @@ public class Main
                                             try
                                             {
                                                 boolean reservadoONo = aux.reservarTurnoPortipo(pasajeroRetornado, tipo);
+
+                                                actualizarDatosDeServicios(recepcionista, aux);
+
                                                 if (reservadoONo)
                                                 {
                                                     System.out.println("Se reservo el turno con exito!");
@@ -557,11 +545,14 @@ public class Main
                                                 }
                                             } while (!flag);
 
-                                        Servicio aux = recepcionista.getSistemaRecepcionista().retornarServicio(tipo);
+                                            Servicio aux = recepcionista.getSistemaRecepcionista().retornarServicio(tipo);
 
                                             try
                                             {
-                                                boolean canceladaONo = aux.cancelarTurnoPortipo(pasajeroRetornado, tipo.toUpperCase());
+                                                boolean canceladaONo = aux.cancelarTurnoPortipo(pasajeroRetornado, tipo);
+
+                                                actualizarDatosDeServicios(recepcionista, aux);
+
                                                 if (canceladaONo)
                                                 {
                                                     System.out.println("Se cancelo el turno con exito!");
@@ -579,6 +570,22 @@ public class Main
                                     }
                                     case 4:
                                     {
+                                        do {
+                                            System.out.println("Ingrese el DNI para ver que servicios le corresponden:");
+                                            try {
+                                                dni = teclado.next();
+                                                teclado.nextLine();
+                                                flag = Validacion.validarStringNoLetras(dni);
+                                                flag = Validacion.validarLongitudDNI(dni);
+                                            } catch (StringContieneLetras e) {
+                                                System.out.println("\nERROR: EL DNI CONTIENE LETRAS\n");
+                                            } catch (LongitudException e) {
+
+                                                System.out.println("\n ERROR: EL DNI SOLO DEBE CONTENER 8 DIGITOS\n");
+                                            }
+                                        } while (!flag);
+
+                                        recepcionista.getSistemaRecepcionista().busquedaPorDNIServicio(dni);
 
                                         break;
                                     }
@@ -1015,5 +1022,16 @@ public class Main
 
         ///si es menor a 90 retorna true que quiere decir que se pago, caso contrario no se paga (probabilidad de 90% de que se pague)
         return (numRandom < 90);
+    }
+
+    public static void actualizarDatosDeServicios (Recepcionista recepcionista, Servicio servicioAActualizar)
+    {
+        ArrayList <Servicio> servicios = recepcionista.getSistemaRecepcionista().getServicios();
+
+        servicios.remove(servicioAActualizar);
+        servicios.add(servicioAActualizar);
+
+        recepcionista.getSistemaRecepcionista().setServicios(servicios);
+
     }
 }

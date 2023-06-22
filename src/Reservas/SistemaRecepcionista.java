@@ -404,19 +404,12 @@ public class SistemaRecepcionista
             Validacion.validarStringNoLetras(dni);
             for(Servicio servicioBuscar: this.servicios)
             {
-                Iterator<Pasajero> it = servicioBuscar.getPasajerosDelServicio().iterator();
-                while(it.hasNext() && !flag)
+                for (Pasajero aux: servicioBuscar.getPasajerosDelServicio())
                 {
-                    if(dni.equals(it.next().getDni()))
-                    {
+                    if (dni.equals(aux.getDni())) {
                         System.out.println("El pasajero se encuentra anotado en el servicio: " + servicioBuscar.getTipoServicio());
-                        flag = true;
                     }
                 }
-            }
-            if (!flag)
-            {
-                throw new DNINoExiste();
             }
         }
         catch (StringContieneLetras e)
@@ -506,10 +499,9 @@ public class SistemaRecepcionista
             {
                 aux = servicios.get(i);
             }
-            else
-            {
-                i++;
-            }
+
+            i++;
+
         }
 
         return aux;
