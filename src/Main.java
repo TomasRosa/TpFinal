@@ -350,6 +350,7 @@ public class Main
                             }
                             case 7:
                             {
+                                Servicio auxFunciones = new Servicio();
                                 /*
                                 do {
                                     System.out.println("Ingrese el DNI para ver que servicios le corresponden:");
@@ -373,6 +374,7 @@ public class Main
                                 System.out.println("[2]. Cancelar turno en algun servicio.");
                                 System.out.println("[3]. Ver los servicios disponibles.");
                                 System.out.println("[4]. Ver que servicios le corresponden a un dni determinado.");
+                                System.out.println("[5]. Ver servicios y pasajeros");
                                 opcion = teclado.nextInt();
                                 switch (opcion)
                                 {
@@ -407,7 +409,7 @@ public class Main
                                                 }
                                             } while (!flag);
 
-                                            boolean reservadoONo = Servicio.reservarTurnoPortipo(pasajero, tipo);
+                                            boolean reservadoONo = auxFunciones.reservarTurnoPortipo(pasajero, tipo);
 
                                             if (reservadoONo)
                                             {
@@ -474,7 +476,7 @@ public class Main
                                                 }
                                             } while (!flag);
 
-                                            boolean reservadoONo = Servicio.reservarTurnoPortipo(pasajeroRetornado, tipo);
+                                            boolean reservadoONo = auxFunciones.reservarTurnoPortipo(pasajeroRetornado, tipo);
 
                                             if (reservadoONo)
                                             {
@@ -494,12 +496,133 @@ public class Main
                                     }
                                     case 2:
                                     {
+                                        System.out.println("¿Como desea cancelar la reserva?");
+                                        System.out.println("[1]. Cargar un nuevo pasajero.");
+                                        System.out.println("[2]. Utilizar un pasajero ya cargado.");
+                                        opcion = teclado.nextInt();
+                                        if(opcion == 1)
+                                        {
+                                            Pasajero pasajero = SistemaRecepcionista.cargarUnPasajero(teclado);
+                                            do
+                                            {
+                                                System.out.println("¿A que servicio desea anotarse? GIMNASIO-PILETA-DESAYUNADOR");
+
+                                                try
+                                                {
+                                                    tipo = teclado.next();
+                                                    flag = Validacion.validarStringNoNumeros(tipo) && Validacion.validarServicio(tipo);
+                                                }
+                                                catch (NombreContieneNumeros e)
+                                                {
+                                                    System.out.println("Error: El servicio no puede contener numeros.");
+                                                } catch (TipoIncorrecto e)
+                                                {
+                                                    System.out.println("Error: El servicio es invalido.");
+                                                }
+                                                if (!flag)
+                                                {
+                                                    System.out.println("Por favor, ingrese el tipo de servicio de nuevo, de manera correcta.");
+                                                }
+                                            } while (!flag);
+
+                                            boolean reservadoONo = auxFunciones.reservarTurnoPortipo(pasajero, tipo);
+
+                                            if (reservadoONo)
+                                            {
+                                                System.out.println("\nLa reserva se ha producido con exito!");
+                                            }
+                                            else
+                                            {
+                                                System.out.println("\nLa reserva no se ha producido");
+                                            }
+                                        }
+                                        else if (opcion == 2)
+                                        {
+                                            do
+                                            {
+                                                System.out.println("Ingrese el dni del pasajero a utilizar");
+                                                try {
+                                                    dni = teclado.next();
+                                                    teclado.nextLine();
+                                                    flag = Validacion.validarStringNoLetras(dni);
+                                                    flag = Validacion.validarLongitudDNI(dni);
+                                                } catch (StringContieneLetras e) {
+                                                    System.out.println("\nERROR: EL DNI CONTIENE LETRAS\n");
+                                                } catch (LongitudException e) {
+
+                                                    System.out.println("\n ERROR: EL DNI SOLO DEBE CONTENER 8 DIGITOS\n");
+                                                }
+                                            } while (!flag);
+
+                                            Pasajero pasajeroRetornado = new Pasajero();
+
+                                            try
+                                            {
+                                                int i = recepcionista.getSistemaRecepcionista().busquedaPorDNIPasajero(dni);
+                                                pasajeroRetornado = recepcionista.getSistemaRecepcionista().retornarPasajeroPorPosicion(i);
+                                            }
+                                            catch (DNINoExiste e)
+                                            {
+                                                System.out.println("\nERROR: EL DNI NO CORRESPONDE A NINGUN EMPLEADO\n");
+                                            }
+                                            catch (PosicionInvalida e)
+                                            {
+                                                System.out.println("\nERROR: LA POSICION NO EXISTE\n");
+                                            }
+
+                                            do
+                                            {
+                                                System.out.println("¿A que servicio desea anotarse? GIMNASIO-PILETA-DESAYUNADOR");
+
+                                                try
+                                                {
+                                                    tipo = teclado.next();
+                                                    flag = Validacion.validarStringNoNumeros(tipo) && Validacion.validarServicio(tipo);
+                                                }
+                                                catch (NombreContieneNumeros e)
+                                                {
+                                                    System.out.println("Error: El servicio no puede contener numeros.");
+                                                } catch (TipoIncorrecto e)
+                                                {
+                                                    System.out.println("Error: El servicio es invalido.");
+                                                }
+                                                if (!flag)
+                                                {
+                                                    System.out.println("Por favor, ingrese el tipo de servicio de nuevo, de manera correcta.");
+                                                }
+                                            } while (!flag);
+
+                                            boolean reservadoONo = auxFunciones.reservarTurnoPortipo(pasajeroRetornado, tipo);
+
+                                            if (reservadoONo)
+                                            {
+                                                System.out.println("\nLa reserva se ha producido con exito!");
+                                            }
+                                            else
+                                            {
+                                                System.out.println("\nLa reserva no se ha producido");
+                                            }
+                                        }
+                                        else
+                                        {
+                                            ///TIRAR EXCEPCION
+                                            System.out.println("OPCION INVALIDA");
+                                        }
                                         break;
                                     }
                                     case 3:
                                     {
-                                        System.out.println("Servicios...");
                                         recepcionista.getSistemaRecepcionista().mostrarTodosLosServicios();
+                                        break;
+                                    }
+                                    case 4:
+                                    {
+
+                                        break;
+                                    }
+                                    case 5:
+                                    {
+
                                         break;
                                     }
                                 }
