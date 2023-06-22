@@ -63,8 +63,9 @@ public class Servicio
         return tipoServicio;
     }
 
-    public void mostrarServicio(TiposDeServicios servicio) {
-        System.out.println("\n---------------------SERVICIO: " + servicio + "---------------------");
+    public void mostrarServicio()
+    {
+        System.out.println("\n---------------------SERVICIO: " + tipoServicio + "---------------------");
         System.out.println("ABIERTO DE " + horarioDeApertura + "hs HASTA " + horarioDeCierre + "hs");
         System.out.println("CANTIDAD DE CUPOS: " + cantCupos);
     }
@@ -88,14 +89,14 @@ public class Servicio
     public static boolean resevarTurno(Pasajero pasajero) throws TurnoNoReservado {
 
         try {
-            if (cantCupos > 0) {
+            if (cantCupos > 0)
+            {
                 pasajerosDelServicio.add(pasajero);
                 cantCupos--;
-                System.out.println("Ya tiene su turno para el servicio de:  " + tipoServicio);
                 return true;
-            } else {
+            } else
+            {
                 throw new TurnoNoReservado();
-
             }
         } catch (TurnoNoReservado e) {
             System.out.println("Disculpe, el turno del servicio elegido no cuenta con disponibilidad de cupos. Intente mas tarde.");

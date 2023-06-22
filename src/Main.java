@@ -5,15 +5,14 @@ import Empleados.Recepcionista;
 import Excepciones.*;
 import Reservas.*;
 import java.io.IOException;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 import Enum.TiposDeMontosHabitaciones;
 import Enum.MotivoHabitacion;
 import Enum.TiposDeServicios;
 import Servicios.Servicio;
 
-public class Main {
+public class Main
+{
     public static void main(String[] args)
     {
         Scanner teclado = new Scanner(System.in);
@@ -493,6 +492,16 @@ public class Main {
                                         }
                                         break;
                                     }
+                                    case 2:
+                                    {
+                                        break;
+                                    }
+                                    case 3:
+                                    {
+                                        System.out.println("Servicios...");
+                                        recepcionista.getSistemaRecepcionista().mostrarTodosLosServicios();
+                                        break;
+                                    }
                                 }
                                 break;
                             }
@@ -645,8 +654,9 @@ public class Main {
 
         ArrayList<Servicio> servicios = new ArrayList<>();
         servicios.add(gimnasio);
-        servicios.add(pileta);
         servicios.add(desayunador);
+        servicios.add(pileta);
+
 
         sistema.setServicios(servicios);
 

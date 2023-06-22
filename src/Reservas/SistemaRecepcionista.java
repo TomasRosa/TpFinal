@@ -473,4 +473,11 @@ public class SistemaRecepcionista
 
         return i;
     }
+    public void mostrarTodosLosServicios ()
+    {
+        for(Servicio servi: this.servicios)
+        {
+            servi.mostrarServicio();
+        }
+    }
 }
