@@ -11,7 +11,6 @@ import java.util.Set;
 public class Administrador extends Persona implements MetodosBasicos<Empleado>
 {
     private Set<Empleado> empleados = new HashSet<>();
-    private final String codigo = "12ab";
     private final String nombreArchivoEmpleados = "Empleados.json";
     private final ManejoArchivo<Empleado> manejoArchivo = new ManejoArchivo<>();
 
@@ -36,7 +35,7 @@ public class Administrador extends Persona implements MetodosBasicos<Empleado>
     }
 
     public String getCodigo() {
-        return codigo;
+        return "12ab";
     }
 
     @Override

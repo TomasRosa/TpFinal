@@ -3,15 +3,12 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
-import Empleados.Empleado;
 import Excepciones.*;
 import Servicios.Servicio;
 import Enum.TiposDeMontosHabitaciones;
-import com.sun.tools.javac.Main;
 
 public class SistemaRecepcionista
 {
-    static final String nombreHotel = "Harmony Retreat";
     private LinkedHashMap<Integer, List<Habitacion>> habitaciones;
     private Set<Pasajero> pasajeros;
     private ArrayList<Servicio> servicios;
@@ -75,7 +72,9 @@ public class SistemaRecepcionista
     }
     public Pasajero checkIn (Habitacion habitacion, Scanner teclado)
     {
-        Pasajero pasajero= cargarUnPasajero(teclado);
+        Pasajero pasajero = cargarUnPasajero(teclado);
+
+        pasajeros.add(pasajero);
 
         habitacion.setOcupadaONo(true);
         habitacion.setPasajeroQueLaOcupa(pasajero);
@@ -98,21 +97,25 @@ public class SistemaRecepcionista
             {
                 nroTarjeta = scan.nextLine();
                 flag = Validacion.validarStringNoLetras(nroTarjeta);
-                try
+                if (flag)
                 {
-                    flag = Validacion.validarNroTarjeta(nroTarjeta);
-                }
-                catch (LongitudException e)
-                {
-                    System.out.println("\nError: la longitud no es adecuada.\n");
-                    flag=false;
+                    try
+                    {
+                        flag = Validacion.validarNroTarjeta(nroTarjeta);
+                    }
+                    catch (LongitudException e)
+                    {
+                        System.out.println("\nError: la longitud no es adecuada.\n");
+                    }
                 }
             }catch (NombreContieneNumeros e)
             {
                 System.out.println("\nError: el apellido contiene numeros\n");
-                flag=false;
             }
         }while (!flag);
+
+        flag = false;
+
         do
         {
             System.out.println("Ingrese el nombre y apellido titular de la tarjeta. ");
@@ -123,10 +126,11 @@ public class SistemaRecepcionista
             }catch (NombreContieneNumeros e)
             {
                 System.out.println("\nError: el nombre y apellido contiene numeros\n");
-                flag=false;
-
             }
         }while (!flag);
+
+        flag = false;
+
         do
         {
             System.out.println("Ingrese la fecha de vencimiento de la tarjeta. dd/mm/aaaa ");
@@ -135,23 +139,29 @@ public class SistemaRecepcionista
                 fechaVencimiento = scan.nextLine();
                 flag = Validacion.validarFecha(fechaVencimiento);
 
+                if (flag)
+                {
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+                    LocalDate fecha = LocalDate.parse(fechaVencimiento,formatter);
+
+                    try
+                    {
+                        flag = Validacion.validarFechaVencimientoTarjeta(fecha);
+                    }
+                    catch (FechaVencidaException e)
+                    {
+                        System.out.println("La fecha de su tarjeta esta vencida. Asegurese de escribirla bien. (dd/MM/yyyy)");
+                    }
+                }
+
             }catch (FechaInvalida e)
             {
                 System.out.println("\nError: fecha invalida\n");
-                flag=false;
-            }
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-            LocalDate fecha = LocalDate.parse(fechaVencimiento,formatter);
-            try
-            {
-                flag = Validacion.validarFechaVencimientoTarjeta(fecha);
-            }
-            catch (FechaVencidaException e)
-            {
-                System.out.println("La fecha de su tarjeta esta vencida. Asegurese de escribirla bien. (dd/MM/yyyy)");
-                flag = false;
             }
         }while (!flag);
+
+        flag = false;
+
         do
         {
             System.out.println("Ingrese el codigo de seguridad de la tarjeta. (3 digitos) ");
@@ -159,13 +169,27 @@ public class SistemaRecepcionista
             {
                 codigoSeguridad = scan.nextInt();
                 flag = Validacion.validarCodigoSeguridad(codigoSeguridad);
+                if (flag)
+                {
+                    try
+                    {
+                        flag = Validacion.validarCodigoSeguridad(codigoSeguridad);
+
+                    }catch (CodigoSeguridadException e)
+                    {
+                        System.out.println("\nERROR: CODIGO INVALIDO\n");
+                    }
+                }
+
             }
-            catch (CodigoSeguridadException e)
+            catch (InputMismatchException e)
             {
-                System.out.println("\nERROR: EL CODIGO DE SEGURIDAD NO ES APTO.\n");
-                flag=false;
+                System.out.println("\nERROR: EL CODIGO DE SEGURIDAD DEBE SER NUMEROS.\n");
             }
         }while (!flag);
+
+        flag = false;
+
         do
         {
             System.out.println("Ingrese el DNI del pasajero");
@@ -178,20 +202,19 @@ public class SistemaRecepcionista
             catch (LongitudException e)
             {
                 System.out.println("\n LA LONGITUD DEL DNI NO ES APTA \n");
-                flag=false;
             }
             catch (DniTarjetaPersonaException e)
             {
                 System.out.println("\n EL DNI INGRESADO NO ES EL MISMO QUE EL DE LA PERSONA TITULAR.");
-                flag = false;
             }
             catch (StringContieneLetras e)
             {
                 System.out.println("\nERROR: EL DNI CONTIENE LETRAS\n");
-                flag=false;
             }
 
         }while (!flag);
+
+
         return new Tarjeta(nroTarjeta,nombreYApellido,fechaVencimiento,codigoSeguridad,dni);
     }
     public static Pasajero cargarUnPasajero (Scanner teclado)
@@ -201,6 +224,7 @@ public class SistemaRecepcionista
         String apellido = "";
         String dni = "";
         String num= "";
+        String origen = "";
 
         do
         {
@@ -212,7 +236,6 @@ public class SistemaRecepcionista
             }catch (NombreContieneNumeros e)
             {
                 System.out.println("\nERROR: EL NOMBRE CONTIENE NUMEROS\n");
-                flag=false;
             }
         }while (!flag);
 
@@ -229,7 +252,6 @@ public class SistemaRecepcionista
             }catch (NombreContieneNumeros e)
             {
                 System.out.println("\nERROR: EL APELLIDO CONTIENE NUMEROS\n");
-                flag=false;
             }
         }while (!flag);
 
@@ -247,7 +269,6 @@ public class SistemaRecepcionista
             catch (StringContieneLetras e)
             {
                 System.out.println("\nERROR: EL DNI CONTIENE LETRAS\n");
-                flag=false;
             }
             catch (LongitudException e)
             {
@@ -265,19 +286,41 @@ public class SistemaRecepcionista
                 num = teclado.next();
                 teclado.nextLine();
                 flag = Validacion.validarStringNoLetras(num);
+                if (flag)
+                {
+                    try {
+                        flag = Validacion.validarNroTelefono(num);
+                    }catch (LongitudException e)
+                    {
+                        System.out.println("\nERROR: LONGITUD INVALIDA");
+                    }
+                }
             }catch (StringContieneLetras e)
             {
                 System.out.println("\nERROR: EL NUMERO CONTIENE LETRAS\n");
-                flag=false;
             }
         }while (!flag);
 
         System.out.println("Ingrese el domicilio del pasajero");
-        String domicilio = teclado.next();
         teclado.nextLine();
+        String domicilio = teclado.nextLine();
 
-        System.out.println("Ingrese el origen del pasajero");
-        String origen = teclado.nextLine();
+        flag = false;
+
+        do
+        {
+            System.out.println("Ingrese el origen del pasajero");
+            try
+            {
+                origen = teclado.next();
+                teclado.nextLine();
+                flag = Validacion.validarStringNoNumeros(origen);
+
+            }catch (NombreContieneNumeros e)
+            {
+                System.out.println("\nERROR: EL ORIGEN CONTIENE NUMEROS\n");
+            }
+        }while (!flag);
 
         Tarjeta t1 = cargarTarjeta(teclado,dni);
 
@@ -351,7 +394,6 @@ public class SistemaRecepcionista
         }
     }
 
-    ///DETALLAR MOTIVO
     public void mostrarHabitacionesNoDisponibles() throws NullPointerException
     {
         for (List<Habitacion> habitacionList : habitaciones.values())
@@ -510,5 +552,19 @@ public class SistemaRecepcionista
         }
 
         return aux;
+    }
+
+    public Habitacion buscarHabitacionDisponible(String tipo)
+    {
+        tipo = tipo.toUpperCase();
+
+        for (List<Habitacion> habitaciones : habitaciones.values()) {
+            for (Habitacion habitacion : habitaciones) {
+                if (!habitacion.getOcupadaONo() && habitacion.getTipo().equals(TiposDeMontosHabitaciones.valueOf(tipo))) {
+                    return habitacion;
+                }
+            }
+        }
+        return null; // No se encontró ninguna habitación disponible
     }
 }

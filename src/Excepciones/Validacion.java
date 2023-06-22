@@ -112,7 +112,7 @@ public class Validacion
 
     public static boolean validarChar (char control) throws TeclaIncorrecta
     {
-        if (control == 's' || control == 'S' || control == 'n' || control == 'N') return true;
+        if (control == 's' || control == 'n') return true;
         else
         {
             throw new TeclaIncorrecta();
@@ -193,18 +193,16 @@ public class Validacion
         }
     }
 
-    public static boolean validarEnteroSoloNumeros(int numero) throws EnteroSoloNumeros {
-
-            String cadena = String.valueOf(numero);
-
-            for (int i = 0; i < cadena.length(); i++) {
-                if (!Character.isDigit(cadena.charAt(i))) {
-                    throw new EnteroSoloNumeros();
-                }
-            }
-
+    public static boolean validarOpcion (int opcion) throws OpcionIncorrecta
+    {
+        if (opcion == 1 || opcion == 2)
+        {
             return true;
         }
-
+        else
+        {
+            throw new OpcionIncorrecta();
+        }
     }
+}
 

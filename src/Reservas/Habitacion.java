@@ -83,9 +83,9 @@ public class Habitacion
     }
     public void mostrarHabitacion ()
     {
-        System.out.println("---Habitacion---");
+        System.out.println("--------------------HABITACION--------------------");
         System.out.println("NRO de habitacion: " + this.numero);
-        if(this.ocupadaONo == false)
+        if(!this.ocupadaONo)
         {
             System.out.println("La habitacion no esta ocupada. ");
             if(this.motivo != null)

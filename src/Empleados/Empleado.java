@@ -49,5 +49,14 @@ public class Empleado extends Persona implements Serializable
         super.mostrarPersona();
         System.out.println("AÑOS DE EXPERIENCIA: " + experiencia);
         System.out.println("SALARIO: " + salario);
+        System.out.print("ESTADO: ");
+        if (!altaOno)
+        {
+            System.out.println(" DE BAJA\n");
+        }
+        else
+        {
+            System.out.println(" DE ALTA\n");
+        }
     }
 }
