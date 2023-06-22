@@ -242,7 +242,7 @@ public class Main
                 }
                 else
                 {
-                    recepcionista.setSistemaRecepcionista(baseDeDatosSistema());
+                    recepcionista.setRecepcionista(baseDeDatosSistema());
                     do {
                         int opcionVolverAtras = 0;
                         do {
@@ -281,7 +281,7 @@ public class Main
                                         }
                                     } while (!flag);
                                     System.out.println("Buscando habitaciones...");
-                                    Habitacion habitacionDisponible = recepcionista.getSistemaRecepcionista().buscarHabitacionDisponible(tipo);
+                                    Habitacion habitacionDisponible = recepcionista.getRecepcionista().buscarHabitacionDisponible(tipo);
                                     if (habitacionDisponible != null) {
                                         System.out.println("Se le asigno la habitacion nro: " + habitacionDisponible.getNumero());
 
@@ -293,10 +293,10 @@ public class Main
                                         teclado.nextLine();
                                         System.out.println("Cargue sus datos para realizar el check in y finalizar la reserva:");
 
-                                        Pasajero pasajero = recepcionista.getSistemaRecepcionista().checkIn(habitacionDisponible, teclado);
+                                        Pasajero pasajero = recepcionista.getRecepcionista().checkIn(habitacionDisponible, teclado);
 
                                         try {
-                                            manejoArchivoPasajero.escribirArchivoSet(recepcionista.getSistemaRecepcionista().getNombreArchPasajeros(), recepcionista.getSistemaRecepcionista().getPasajeros());
+                                            manejoArchivoPasajero.escribirArchivoSet(recepcionista.getRecepcionista().getNombreArchPasajeros(), recepcionista.getRecepcionista().getPasajeros());
                                         } catch (IOException e) {
                                             System.out.println("\nERROR AL ESCRIBIR EN EL ARCHIVO DE PASAJEROS\n");
                                         }
@@ -357,7 +357,7 @@ public class Main
                                             }
                                         }while (!pagoONo);
 
-                                        Factura factura = recepcionista.getSistemaRecepcionista().reserva(habitacionDisponible, pasajero, cantDias);
+                                        Factura factura = recepcionista.getRecepcionista().reserva(habitacionDisponible, pasajero, cantDias);
                                         System.out.println("Datos de la habitacion: ");
                                         habitacionDisponible.mostrarHabitacion();
                                         factura.mostrarFactura();
@@ -370,23 +370,23 @@ public class Main
                                     System.out.println("Ingrese el NRO de habitacion que desea desocupar.  ");
                                     int num = teclado.nextInt();
                                     try {
-                                        Habitacion habitacion = recepcionista.getSistemaRecepcionista().buscarHabitacionPorNumero(num);
-                                        recepcionista.getSistemaRecepcionista().checkOut(habitacion);
+                                        Habitacion habitacion = recepcionista.getRecepcionista().buscarHabitacionPorNumero(num);
+                                        recepcionista.getRecepcionista().checkOut(habitacion);
                                     } catch (NullPointerException e) {
                                         System.out.println("La habitacion: " + num + " que desea desocupar esta actualmente sin alojaciones.");
                                     }
                                 }
                                 case 3 -> {
                                     System.out.println("A continunacion te mostramos las habitaciones y los datos de los ocupantes:");
-                                    recepcionista.getSistemaRecepcionista().mostrarHabitacionesYdatosDeOcupantes();
+                                    recepcionista.getRecepcionista().mostrarHabitacionesYdatosDeOcupantes();
                                 }
                                 case 4 -> {
                                     System.out.println("Habitaciones disponibles:");
-                                    recepcionista.getSistemaRecepcionista().mostrarHabitacionesDisponibles();
+                                    recepcionista.getRecepcionista().mostrarHabitacionesDisponibles();
                                 }
                                 case 5 -> {
                                     System.out.println("Habitaciones no disponibles:");
-                                    recepcionista.getSistemaRecepcionista().mostrarHabitacionesNoDisponibles();
+                                    recepcionista.getRecepcionista().mostrarHabitacionesNoDisponibles();
                                 }
                                 case 6 -> {
                                     do {
@@ -410,10 +410,10 @@ public class Main
                                         }
                                     } while (!flag);
 
-                                    recepcionista.getSistemaRecepcionista().verReservaPorDNI(dni);
+                                    recepcionista.getRecepcionista().verReservaPorDNI(dni);
                                 }
                                 case 7 ->
-                                    recepcionista.getSistemaRecepcionista().verPasajeros();
+                                    recepcionista.getRecepcionista().verPasajeros();
 
                                 case 8-> {
                                     System.out.println("Que desea realizar en el apartado de servicios? ");
@@ -455,7 +455,7 @@ public class Main
                                                     }
                                                 } while (!flag);
 
-                                                Servicio aux = recepcionista.getSistemaRecepcionista().retornarServicio(tipo);
+                                                Servicio aux = recepcionista.getRecepcionista().retornarServicio(tipo);
 
                                                 try {
                                                     boolean reservadoONo = aux.reservarTurnoPortipo(pasajero, tipo);
@@ -487,8 +487,8 @@ public class Main
                                                 Pasajero pasajeroRetornado = new Pasajero();
 
                                                 try {
-                                                    int i = recepcionista.getSistemaRecepcionista().busquedaPorDNIPasajero(dni);
-                                                    pasajeroRetornado = recepcionista.getSistemaRecepcionista().retornarPasajeroPorPosicion(i);
+                                                    int i = recepcionista.getRecepcionista().busquedaPorDNIPasajero(dni);
+                                                    pasajeroRetornado = recepcionista.getRecepcionista().retornarPasajeroPorPosicion(i);
                                                 } catch (DNINoExiste e) {
                                                     System.out.println("\nERROR: EL DNI NO CORRESPONDE A NINGUN EMPLEADO\n");
                                                 } catch (PosicionInvalida e) {
@@ -512,7 +512,7 @@ public class Main
 
                                                 } while (!flag);
 
-                                                Servicio aux = recepcionista.getSistemaRecepcionista().retornarServicio(tipo);
+                                                Servicio aux = recepcionista.getRecepcionista().retornarServicio(tipo);
 
                                                 try {
                                                     boolean reservadoONo = aux.reservarTurnoPortipo(pasajeroRetornado, tipo);
@@ -549,8 +549,8 @@ public class Main
                                             Pasajero pasajeroRetornado = new Pasajero();
 
                                             try {
-                                                int i = recepcionista.getSistemaRecepcionista().busquedaPorDNIPasajero(dni);
-                                                pasajeroRetornado = recepcionista.getSistemaRecepcionista().retornarPasajeroPorPosicion(i);
+                                                int i = recepcionista.getRecepcionista().busquedaPorDNIPasajero(dni);
+                                                pasajeroRetornado = recepcionista.getRecepcionista().retornarPasajeroPorPosicion(i);
                                             } catch (DNINoExiste e) {
                                                 System.out.println("\nERROR: EL DNI NO CORRESPONDE A NINGUN EMPLEADO\n");
                                             } catch (PosicionInvalida e) {
@@ -573,7 +573,7 @@ public class Main
                                                 }
                                             } while (!flag);
 
-                                            Servicio aux = recepcionista.getSistemaRecepcionista().retornarServicio(tipo);
+                                            Servicio aux = recepcionista.getRecepcionista().retornarServicio(tipo);
 
                                             try {
                                                 boolean canceladaONo = aux.cancelarTurnoPortipo(pasajeroRetornado, tipo);
@@ -588,7 +588,7 @@ public class Main
                                             }
 
                                         }
-                                        case 3 -> recepcionista.getSistemaRecepcionista().mostrarTodosLosServicios();
+                                        case 3 -> recepcionista.getRecepcionista().mostrarTodosLosServicios();
                                         case 4 -> {
                                             do {
                                                 System.out.println("Ingrese el DNI para ver que servicios le corresponden:");
@@ -605,9 +605,9 @@ public class Main
                                                 }
                                             } while (!flag);
 
-                                            recepcionista.getSistemaRecepcionista().busquedaPorDNIServicio(dni);
+                                            recepcionista.getRecepcionista().busquedaPorDNIServicio(dni);
                                         }
-                                        case 5 -> recepcionista.getSistemaRecepcionista().mostrarServiciosYPasajeros();
+                                        case 5 -> recepcionista.getRecepcionista().mostrarServiciosYPasajeros();
                                     }
                                 }
                                 case 9->
@@ -782,15 +782,31 @@ public class Main
 
         try
         {
-            administrador.agregar(recepcionista);
             administrador.agregar(empleado2);
             administrador.agregar(empleado3);
             administrador.agregar(empleado4);
             administrador.agregar(conserje1);
+            administrador.agregar(recepcionista);
         }
         catch (ObjetoNullException e)
         {
             System.out.println("\nERROR: EMPLEADO NULO\n");
+        }
+
+        try
+        {
+            manejoArchivo.escribirArchivoRecepcionista("Recepcionista.json", recepcionista);
+        }catch (IOException e)
+        {
+            System.out.println("\nERROR AL ESCRIBIR EN EL ARCHIVO DE RECEPCIONISTA\n");
+        }
+
+        try
+        {
+            manejoArchivo.escribirArchivoConserje("Conserje.json", conserje1);
+        }catch (IOException e)
+        {
+            System.out.println("\nERROR AL ESCRIBIR EN EL ARCHIVO DE CONSERJE\n");
         }
 
         try
@@ -1053,12 +1069,12 @@ public class Main
     }
     public static void actualizarDatosDeServicios (Recepcionista recepcionista, Servicio servicioAActualizar)
     {
-        ArrayList <Servicio> servicios = recepcionista.getSistemaRecepcionista().getServicios();
+        ArrayList <Servicio> servicios = recepcionista.getRecepcionista().getServicios();
 
         servicios.remove(servicioAActualizar);
         servicios.add(servicioAActualizar);
 
-        recepcionista.getSistemaRecepcionista().setServicios(servicios);
+        recepcionista.getRecepcionista().setServicios(servicios);
 
     }
 }

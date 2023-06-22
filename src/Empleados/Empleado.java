@@ -59,4 +59,6 @@ public class Empleado extends Persona implements Serializable
             System.out.println(" DE ALTA\n");
         }
     }
+
+
 }

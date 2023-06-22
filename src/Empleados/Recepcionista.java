@@ -7,7 +7,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 public class Recepcionista extends Empleado implements Sueldos
 {
-    @JsonIgnore
+
     private int clientesAtendidos;
     @JsonIgnore
     private SistemaRecepcionista recepcionista;
@@ -22,17 +22,16 @@ public class Recepcionista extends Empleado implements Sueldos
     {
     }
     @JsonIgnore
-    public SistemaRecepcionista getSistemaRecepcionista() {
-        return recepcionista;
-    }
-    @JsonIgnore
-    public void setSistemaRecepcionista(SistemaRecepcionista recepcionista) {
-        this.recepcionista = recepcionista;
-    }
-
-    @JsonIgnore
     public String getCodigo() {
         return "26ab";
+    }
+
+    public SistemaRecepcionista getRecepcionista() {
+        return recepcionista;
+    }
+
+    public void setRecepcionista(SistemaRecepcionista recepcionista) {
+        this.recepcionista = recepcionista;
     }
 
     public int getClientesAtendidos() {
@@ -47,6 +46,11 @@ public class Recepcionista extends Empleado implements Sueldos
     public void mostrar()
     {
         super.mostrar();
+    }
+
+    public void mostrarRecepcionista ()
+    {
+        mostrar();
         System.out.println("CLIENTES ATENDIDOS: " + clientesAtendidos);
         System.out.println("SUELDO CON EXTRA: " + sueldoExtra());
     }

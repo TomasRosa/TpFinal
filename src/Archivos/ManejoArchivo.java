@@ -1,4 +1,6 @@
 package Archivos;
+import Empleados.Conserje;
+import Empleados.Recepcionista;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.File;
@@ -121,5 +123,81 @@ public class ManejoArchivo <T> implements Serializable {
         }
 
         return linked;
+    }
+
+    public void escribirArchivoRecepcionista (String path, Recepcionista recepcionista) throws IOException
+    {
+        File file = new File(path);
+        ObjectMapper mapper = new ObjectMapper();
+
+        if (!file.exists())
+        {
+            boolean flag = file.createNewFile();
+            if (!flag) System.out.println("\nCreando archivo...");
+            throw new IOException();
+        }
+
+        try {
+            mapper.writeValue(file, recepcionista);
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public Recepcionista leerArchivoRecepcionista (String path) throws IOException
+    {
+        File file = new File(path);
+        ObjectMapper mapper = new ObjectMapper();
+        Recepcionista recepcionista = new Recepcionista();
+
+        if(!file.exists()) throw new IOException();
+
+        try
+        {
+            recepcionista = mapper.readValue(file, Recepcionista.class);
+        } catch (IOException e)
+        {
+            System.out.println(e.getMessage());
+        }
+
+        return recepcionista;
+    }
+
+    public void escribirArchivoConserje (String path, Conserje conserje) throws IOException
+    {
+        File file = new File(path);
+        ObjectMapper mapper = new ObjectMapper();
+
+        if (!file.exists())
+        {
+            boolean flag = file.createNewFile();
+            if (!flag) System.out.println("\nCreando archivo...");
+            throw new IOException();
+        }
+
+        try {
+            mapper.writeValue(file, conserje);
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public Conserje leerArchivoConserje (String path) throws IOException
+    {
+        File file = new File(path);
+        ObjectMapper mapper = new ObjectMapper();
+        Conserje conserje = new Conserje();
+
+        if(!file.exists()) throw new IOException();
+
+        try
+        {
+            conserje = mapper.readValue(file, Conserje.class);
+        } catch (IOException e)
+        {
+            System.out.println(e.getMessage());
+        }
+
+        return conserje;
     }
 }

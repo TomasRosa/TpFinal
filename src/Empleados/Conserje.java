@@ -2,10 +2,10 @@ package Empleados;
 
 import Interfaces.Sueldos;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 public class Conserje extends Empleado implements Sueldos
 {
-    @JsonIgnore
     private int horasExtras;
 
     public Conserje(String nombre, String apellido, String dni, String telefono, String domicilio, int experiencia, double salario, int horasExtras, boolean altaONo) {
@@ -15,11 +15,12 @@ public class Conserje extends Empleado implements Sueldos
 
     public Conserje() {
     }
-    @JsonIgnore
+
+
     public int getHorasExtras() {
         return horasExtras;
     }
-    @JsonIgnore
+
     public void setHorasExtras(int horasExtras) {
         this.horasExtras = horasExtras;
     }
@@ -28,6 +29,11 @@ public class Conserje extends Empleado implements Sueldos
     public void mostrar()
     {
         super.mostrar();
+    }
+
+    public void mostrarConserje ()
+    {
+        mostrar();
         System.out.println("HORAS EXTRAS: " + horasExtras);
         System.out.println("SUELDO CON EXTRA: " + sueldoExtra());
     }

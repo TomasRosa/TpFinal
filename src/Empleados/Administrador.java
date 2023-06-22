@@ -223,19 +223,7 @@ public class Administrador extends Persona implements MetodosBasicos<Empleado>
 
     public void verEmpleados ()
     {
-        ManejoArchivo<Empleado> empleadoManejoArchivo = new ManejoArchivo<>();
-        Set<Empleado> empleados1 = new HashSet<>();
-        try
-        {
-            Empleado auxLeer = new Empleado ();
-            empleados1 = empleadoManejoArchivo.leerArchivoSet(nombreArchivoEmpleados, auxLeer);
-        }
-        catch (IOException e)
-        {
-            System.out.println(e.getMessage());
-        }
-
-        for (Empleado aux: empleados1)
+        for (Empleado aux: empleados)
         {
             aux.mostrar();
         }
@@ -275,28 +263,22 @@ public class Administrador extends Persona implements MetodosBasicos<Empleado>
 
     public void verSueldosExtrasDeEmpleados ()
     {
-        ManejoArchivo<Empleado> empleadoManejoArchivo = new ManejoArchivo<>();
-        Set<Empleado> empleados1 = new HashSet<>();
+        ManejoArchivo<Recepcionista> recepcionistaManejoArchivo = new ManejoArchivo<>();
+        ManejoArchivo<Conserje> conserjeManejoArchivo = new ManejoArchivo<>();
+        Recepcionista auxLeer = new Recepcionista();
+        Conserje auxLeerConserje = new Conserje();
+
         try
         {
-            Empleado auxLeer = new Empleado ();
-            empleados1 = empleadoManejoArchivo.leerArchivoSet(nombreArchivoEmpleados, auxLeer);
+            auxLeer = recepcionistaManejoArchivo.leerArchivoRecepcionista("Recepcionista.json");
+            auxLeerConserje = recepcionistaManejoArchivo.leerArchivoConserje("Conserje.json");
         }
         catch (IOException e)
         {
             System.out.println(e.getMessage());
         }
 
-        for (Empleado aux: empleados1)
-        {
-            if (aux instanceof Recepcionista)
-            {
-                aux.mostrar();
-            }
-            else if (aux instanceof Conserje)
-            {
-                aux.mostrar();
-            }
-        }
+        auxLeer.mostrarRecepcionista();
+        auxLeerConserje.mostrarConserje();
     }
 }
