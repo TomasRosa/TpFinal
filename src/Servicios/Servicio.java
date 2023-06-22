@@ -10,16 +10,15 @@ public class Servicio
 {
     private String horarioDeApertura;
     private String horarioDeCierre;
-    private int  cantCupos;
+    private int cantCupos;
     private TiposDeServicios tipoServicio;
-    private Set<Pasajero> pasajerosDelServicio;
+    private Set<Pasajero> pasajerosDelServicio = new HashSet<>();
 
     public Servicio(String horarioDeApertura, String horarioDeCerrado, int cantCupos, TiposDeServicios tipoServicio) {
         this.horarioDeApertura = horarioDeApertura;
         this.horarioDeCierre = horarioDeCerrado;
         this.cantCupos = cantCupos;
         this.tipoServicio = tipoServicio;
-        pasajerosDelServicio = new HashSet<>();
     }
 
     public Servicio()
@@ -75,64 +74,60 @@ public class Servicio
 
         boolean reservar = false;
 
-        if (tipo.equalsIgnoreCase(String.valueOf(TiposDeServicios.GIMNASIO))) {
-            reservar = resevarTurno(pasajero);
-        } else if (tipo.equalsIgnoreCase(String.valueOf(TiposDeServicios.PILETA))) {
-            reservar = resevarTurno(pasajero);
-        } else if (tipo.equalsIgnoreCase(String.valueOf(TiposDeServicios.DESAYUNADOR))) {
-            reservar = resevarTurno(pasajero);
+        if (tipo.equalsIgnoreCase((TiposDeServicios.GIMNASIO.getServicios())))
+        {
+            reservar = reservarTurno(pasajero);
+        } else if (tipo.equalsIgnoreCase((TiposDeServicios.PILETA.getServicios())))
+        {
+            reservar = reservarTurno(pasajero);
+        } else if (tipo.equalsIgnoreCase((TiposDeServicios.DESAYUNADOR.getServicios())))
+        {
+            reservar = reservarTurno(pasajero);
         }
 
         return reservar;
     }
 
-    public boolean resevarTurno(Pasajero pasajero) throws TurnoNoReservado {
-
-        try {
+    public boolean reservarTurno(Pasajero pasajero) throws TurnoNoReservado
+    {
             if (cantCupos > 0)
             {
                 pasajerosDelServicio.add(pasajero);
                 cantCupos--;
                 return true;
-            } else
+            }
+            else
             {
                 throw new TurnoNoReservado();
             }
-        } catch (TurnoNoReservado e) {
-            System.out.println("Disculpe, el turno del servicio elegido no cuenta con disponibilidad de cupos. Intente mas tarde.");
-            return false;
-        }
     }
 
     public boolean cancelarTurnoPortipo(Pasajero pasajero, String tipo) { ///en el limitamos que el enum no salga de los limites
 
         boolean cancelar = false;
 
-        if (tipo.equalsIgnoreCase(String.valueOf(TiposDeServicios.GIMNASIO))) {
+        if (tipo.equalsIgnoreCase((TiposDeServicios.GIMNASIO.getServicios()))) {
             cancelar = cancelarTurno(pasajero);
-        } else if (tipo.equalsIgnoreCase(String.valueOf(TiposDeServicios.PILETA))) {
+        } else if (tipo.equalsIgnoreCase((TiposDeServicios.PILETA.getServicios()))) {
             cancelar = cancelarTurno(pasajero);
-        } else if (tipo.equalsIgnoreCase(String.valueOf(TiposDeServicios.DESAYUNADOR))) {
+        } else if (tipo.equalsIgnoreCase((TiposDeServicios.DESAYUNADOR.getServicios()))) {
             cancelar = cancelarTurno(pasajero);
         }
         return cancelar;
     }
 
-    public boolean cancelarTurno(Pasajero pasajero) throws TurnoNoCancelado {
-        try {
+    public boolean cancelarTurno(Pasajero pasajero) throws TurnoNoCancelado{
+
             if (pasajerosDelServicio.contains(pasajero)) {
                 cantCupos++;
                 pasajerosDelServicio.remove(pasajero);
                 System.out.println("Su turno ha sido cancelado.");
                 return true;
-            } else {
-                throw new TurnoNoCancelado();
-
             }
-        } catch (TurnoNoCancelado E) {
-            System.out.println("El turno no puede ser cancelado porque no se encuentra al pasajero dentro de servicios");
-            return false;
-        }
+            else
+            {
+                throw new TurnoNoCancelado();
+            }
     }
 }
 

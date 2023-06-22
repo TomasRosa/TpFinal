@@ -476,15 +476,16 @@ public class Main
                                                 }
                                             } while (!flag);
 
-                                            boolean reservadoONo = auxFunciones.reservarTurnoPortipo(pasajeroRetornado, tipo);
-
-                                            if (reservadoONo)
+                                            try
                                             {
-                                                System.out.println("\nLa reserva se ha producido con exito!");
-                                            }
-                                            else
+                                                boolean reservadoONo = auxFunciones.reservarTurnoPortipo(pasajeroRetornado, tipo);
+                                                if (reservadoONo)
+                                                {
+                                                    System.out.println("Se reservo el turno con exito!");
+                                                }
+                                            }catch (TurnoNoReservado e)
                                             {
-                                                System.out.println("\nLa reserva no se ha producido");
+                                                System.out.println("\nNo se pudo reservar el turno\n");
                                             }
                                         }
                                         else
@@ -496,7 +497,6 @@ public class Main
                                     }
                                     case 2:
                                     {
-
                                             do
                                             {
                                                 System.out.println("Ingrese el dni del pasajero a utilizar");
@@ -531,7 +531,7 @@ public class Main
 
                                             do
                                             {
-                                                System.out.println("¿A que servicio desea anotarse? GIMNASIO-PILETA-DESAYUNADOR");
+                                                System.out.println("¿Que servicio de ese dni desea cancelar? GIMNASIO-PILETA-DESAYUNADOR");
 
                                                 try
                                                 {
@@ -551,15 +551,16 @@ public class Main
                                                 }
                                             } while (!flag);
 
-                                            boolean reservadoONo = auxFunciones.reservarTurnoPortipo(pasajeroRetornado, tipo);
-
-                                            if (reservadoONo)
+                                            try
                                             {
-                                                System.out.println("\nLa reserva se ha producido con exito!");
-                                            }
-                                            else
+                                                boolean canceladaONo = auxFunciones.cancelarTurnoPortipo(pasajeroRetornado, tipo);
+                                                if (canceladaONo)
+                                                {
+                                                    System.out.println("Se cancelo el turno con exito!");
+                                                }
+                                            }catch (TurnoNoCancelado e)
                                             {
-                                                System.out.println("\nLa reserva no se ha producido");
+                                                System.out.println("\nNo se pudo cancelar el turno\n");
                                             }
                                         break;
                                     }
@@ -575,7 +576,7 @@ public class Main
                                     }
                                     case 5:
                                     {
-
+                                        recepcionista.getSistemaRecepcionista().mostrarServiciosYPasajeros();
                                         break;
                                     }
                                 }
@@ -678,7 +679,6 @@ public class Main
 
         Habitacion h1 = new Habitacion(true,1,pasajeros[0],14,TiposDeMontosHabitaciones.DOBLE,null);
         Habitacion h2 = new Habitacion(false,2,null,0,TiposDeMontosHabitaciones.SIMPLE,null);
-        ///ANA MARTINEZ H3, VER CON LOS CHICOS.
         Habitacion h3 = new Habitacion(false,3,null,0,TiposDeMontosHabitaciones.CUADRUPLE,null);
         Habitacion h4 = new Habitacion(true,4,pasajeros[1],7,TiposDeMontosHabitaciones.CUADRUPLE,null);
         Habitacion h5 = new Habitacion(false,5,null,0,TiposDeMontosHabitaciones.SIMPLE,null);
@@ -732,7 +732,6 @@ public class Main
         servicios.add(gimnasio);
         servicios.add(desayunador);
         servicios.add(pileta);
-
 
         sistema.setServicios(servicios);
 

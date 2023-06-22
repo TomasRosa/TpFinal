@@ -480,4 +480,18 @@ public class SistemaRecepcionista
             servi.mostrarServicio();
         }
     }
+
+    public void mostrarServiciosYPasajeros ()
+    {
+        for(Servicio servi: this.servicios)
+        {
+            System.out.println("\n----------------NOMBRE DE SERVICIO: " + servi.getTipoServicio() + "----------------");
+            System.out.println("PASAJEROS QUE LO RESERVARON: ");
+
+            for (Pasajero aux: servi.getPasajerosDelServicio())
+            {
+                aux.mostrar();
+            }
+        }
+    }
 }
