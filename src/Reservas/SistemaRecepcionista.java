@@ -408,8 +408,13 @@ public class SistemaRecepcionista
                 {
                     if (dni.equals(aux.getDni())) {
                         System.out.println("El pasajero se encuentra anotado en el servicio: " + servicioBuscar.getTipoServicio());
+                        flag=true;
                     }
+
                 }
+            }
+            if(!flag){
+                System.out.println("El dni no se encuentra asociado a ningún servicio.");
             }
         }
         catch (StringContieneLetras e)

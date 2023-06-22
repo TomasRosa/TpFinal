@@ -69,6 +69,7 @@ public class Factura
         System.out.println("A cargo de: " + pasajero.getNombre() + " "+ pasajero.getApellido());
         System.out.println("ID: " + id);
         System.out.println("FECHA: " + fecha);
+        monto=habitacion.calculoPorDias(habitacion.getTipo().name());
         System.out.println("MONTO: " + monto);
         habitacion.toString();
     }

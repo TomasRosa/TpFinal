@@ -253,6 +253,7 @@ public class Main
 
                         String tipo = "";
                         String dni = "";
+                        int cantDias=0;
                         flag = false;
 
                         switch (opcion) {
@@ -279,8 +280,12 @@ public class Main
                                 if (habitacionDisponible != null)
                                 {
                                     System.out.println("Se le asigno la habitacion nro: " + habitacionDisponible.getNumero());
-                                    System.out.println("Ingrese cuantos dias va a quedarse en el hotel: ");
-                                    int cantDias = teclado.nextInt();
+
+
+                                      System.out.println("Ingrese cuantos dias va a quedarse en el hotel: ");
+                                      teclado.nextLine();
+                                        cantDias = teclado.nextInt();
+
                                     teclado.nextLine();
                                     System.out.println("Cargue sus datos para realizar el check in y finalizar la reserva:");
 
