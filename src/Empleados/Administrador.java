@@ -229,7 +229,7 @@ public class Administrador extends Persona implements MetodosBasicos<Empleado>
         }
     }
 
-    public void aumentarSueldos (String dni, double nuevoSueldo)
+    public void modificarSueldos (String dni, double nuevoSueldo)
     {
         try
         {
