@@ -1,11 +1,15 @@
 package Empleados;
 import Interfaces.Sueldos;
 import Reservas.SistemaRecepcionista;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 
 public class Recepcionista extends Empleado implements Sueldos
 {
+    @JsonIgnore
     private int clientesAtendidos;
-    private final String codigo = "26ab";
+    @JsonIgnore
     private SistemaRecepcionista recepcionista;
 
     public Recepcionista(String nombre, String apellido, String dni, String telefono, String domicilio, int experiencia, double salario, int clientesAtendidos,SistemaRecepcionista recepcionista) {
@@ -17,17 +21,18 @@ public class Recepcionista extends Empleado implements Sueldos
     public Recepcionista()
     {
     }
-
+    @JsonIgnore
     public SistemaRecepcionista getSistemaRecepcionista() {
         return recepcionista;
     }
-
+    @JsonIgnore
     public void setSistemaRecepcionista(SistemaRecepcionista recepcionista) {
         this.recepcionista = recepcionista;
     }
 
+    @JsonIgnore
     public String getCodigo() {
-        return codigo;
+        return "26ab";
     }
 
     public int getClientesAtendidos() {
@@ -43,9 +48,10 @@ public class Recepcionista extends Empleado implements Sueldos
     {
         super.mostrar();
         System.out.println("CLIENTES ATENDIDOS: " + clientesAtendidos);
+        System.out.println("SUELDO CON EXTRA: " + sueldoExtra());
     }
     @Override
-    public double calcularSueldo()
+    public double sueldoExtra()
     {
         return getSalario() + (200 * clientesAtendidos);
     }

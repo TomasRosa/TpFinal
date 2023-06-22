@@ -1,5 +1,6 @@
 import Archivos.ManejoArchivo;
 import Empleados.Administrador;
+import Empleados.Conserje;
 import Empleados.Empleado;
 import Empleados.Recepcionista;
 import Excepciones.*;
@@ -13,7 +14,6 @@ import Servicios.Servicio;
 
 public class Main
 {
-    private static final String nombreArchPasajeros = "Pasajeros.json";
     public static void main(String[] args)
     {
         Scanner teclado = new Scanner(System.in);
@@ -64,13 +64,15 @@ public class Main
                 System.out.println("¡Bienvenido: " + admin.getNombre() + " " + admin.getApellido() + "!");
                 do {
                     System.out.println("\n¿Que desea hacer?");
-                    System.out.println("[1] Agregar un empleado");
-                    System.out.println("[2] Buscar Empleado por DNI");
-                    System.out.println("[3] Dar de baja un empleado");
-                    System.out.println("[4] Dar de alta un empleado");
-                    System.out.println("[5] Ver todos los empleados");
-                    System.out.println("[6] Aumentar sueldo de un empleado");
-                    System.out.println("[7] Salir");
+                    System.out.println("[1]. Agregar un empleado");
+                    System.out.println("[2]. Buscar Empleado por DNI");
+                    System.out.println("[3]. Dar de baja un empleado");
+                    System.out.println("[4]. Dar de alta un empleado");
+                    System.out.println("[5]. Ver archivo de empleados");
+                    System.out.println("[6]. Aumentar sueldo de un empleado");
+                    System.out.println("[7]. Ver sus datos");
+                    System.out.println("[8]. Ver sueldos con extras de los empleados");
+                    System.out.println("[9]. Salir");
                     opcion = teclado.nextInt();
 
                     String dni = "";
@@ -183,6 +185,11 @@ public class Main
 
                         }
                         case 7 ->
+                            admin.mostrar();
+                        case 8 ->
+                            admin.verSueldosExtrasDeEmpleados();
+
+                        case 9 ->
                             control = 'n';
                     }
 
@@ -246,8 +253,9 @@ public class Main
                             System.out.println("[4]. Mostrar habitaciones disponibles.");
                             System.out.println("[5]. Mostrar habitaciones no disponibles. ");
                             System.out.println("[6]. Ver reserva por DNI. ");
-                            System.out.println("[7]. Servicios. ");
-                            System.out.println("[8]. Salir");
+                            System.out.println("[7]. Ver archivo de pasajeros del hotel");
+                            System.out.println("[8]. Servicios. ");
+                            System.out.println("[9]. Salir");
                             opcion = teclado.nextInt();
 
                             String tipo = "";
@@ -288,7 +296,7 @@ public class Main
                                         Pasajero pasajero = recepcionista.getSistemaRecepcionista().checkIn(habitacionDisponible, teclado);
 
                                         try {
-                                            manejoArchivoPasajero.escribirArchivoSet(nombreArchPasajeros, recepcionista.getSistemaRecepcionista().getPasajeros());
+                                            manejoArchivoPasajero.escribirArchivoSet(recepcionista.getSistemaRecepcionista().getNombreArchPasajeros(), recepcionista.getSistemaRecepcionista().getPasajeros());
                                         } catch (IOException e) {
                                             System.out.println("\nERROR AL ESCRIBIR EN EL ARCHIVO DE PASAJEROS\n");
                                         }
@@ -404,7 +412,10 @@ public class Main
 
                                     recepcionista.getSistemaRecepcionista().verReservaPorDNI(dni);
                                 }
-                                case 7 -> {
+                                case 7 ->
+                                    recepcionista.getSistemaRecepcionista().verPasajeros();
+
+                                case 8-> {
                                     System.out.println("Que desea realizar en el apartado de servicios? ");
                                     System.out.println("[1]. Reservar turno en algun servicio.");
                                     System.out.println("[2]. Cancelar turno en algun servicio.");
@@ -415,17 +426,14 @@ public class Main
                                     opcionVolverAtras = teclado.nextInt();
                                     switch (opcionVolverAtras) {
                                         case 1 -> {
-                                            do
-                                            {
+                                            do {
                                                 System.out.println("¿Como desea realizar la reserva?");
                                                 System.out.println("[1]. Cargar un nuevo pasajero.");
                                                 System.out.println("[2]. Utilizar un pasajero ya cargado.");
                                                 opcion = teclado.nextInt();
-                                                try
-                                                {
+                                                try {
                                                     flag = Validacion.validarOpcion(opcion);
-                                                }catch (OpcionIncorrecta e)
-                                                {
+                                                } catch (OpcionIncorrecta e) {
                                                     System.out.println("\nERROR: OPCION INVALIDA\n");
                                                 }
                                             } while (!flag);
@@ -518,7 +526,6 @@ public class Main
                                                     System.out.println("\nNo se pudo reservar el turno\n");
                                                 }
                                             } else {
-                                                ///TIRAR EXCEPCION
                                                 System.out.println("OPCION INVALIDA");
                                             }
 
@@ -581,8 +588,7 @@ public class Main
                                             }
 
                                         }
-                                        case 3 ->
-                                            recepcionista.getSistemaRecepcionista().mostrarTodosLosServicios();
+                                        case 3 -> recepcionista.getSistemaRecepcionista().mostrarTodosLosServicios();
                                         case 4 -> {
                                             do {
                                                 System.out.println("Ingrese el DNI para ver que servicios le corresponden:");
@@ -601,22 +607,21 @@ public class Main
 
                                             recepcionista.getSistemaRecepcionista().busquedaPorDNIServicio(dni);
                                         }
-                                        case 5 ->
-                                            recepcionista.getSistemaRecepcionista().mostrarServiciosYPasajeros();
+                                        case 5 -> recepcionista.getSistemaRecepcionista().mostrarServiciosYPasajeros();
                                     }
                                 }
-                                case 8->
+                                case 9->
                                 {
                                     opcionVolverAtras = 0;
                                     control = 'n';
                                 }
                             }
-                            if (opcion != 7)
+                            if (opcion != 8)
                             {
                                 opcionVolverAtras = 0;
                             }
 
-                        }while (opcionVolverAtras == 6);
+                        }while (opcionVolverAtras == 7);
 
                         if (control != 'n')
                         {
@@ -668,29 +673,12 @@ public class Main
 
         try
         {
-            pasajeroManejoArchivo.escribirArchivoSet(nombreArchPasajeros, pasajeros);
+            pasajeroManejoArchivo.escribirArchivoSet(new SistemaRecepcionista().getNombreArchPasajeros(), pasajeros);
         }
         catch (IOException e)
         {
             System.out.println("ARCHIVO NO EXISTE, CREANDOLO...");
         }
-    /*          VERIFICAR LECTURA
-        try
-        {
-            Pasajero auxLeer = new Pasajero ();
-            Set<Pasajero> pasajeros1 = pasajeroManejoArchivo.leerArchivoSet("archivo_pasajeros.json", auxLeer);
-            int i = 0;
-
-            while (i < pasajeros1.size())
-            {
-                pasajeros1.get(i).mostrar();
-                i++;
-            }
-        }
-        catch (IOException e)
-        {
-            System.out.println(e.getMessage());
-        }*/
     }
     public static SistemaRecepcionista baseDeDatosSistema ()
     {
@@ -701,7 +689,7 @@ public class Main
         try
         {
             Pasajero auxLeer = new Pasajero ();
-            pasajeros1 = pasajeroManejoArchivo.leerArchivoSet("archivo_pasajeros.json", auxLeer);
+            pasajeros1 = pasajeroManejoArchivo.leerArchivoSet(sistema.getNombreArchPasajeros(), auxLeer);
         }
         catch (IOException e)
         {
@@ -744,7 +732,16 @@ public class Main
 
         sistema.setHabitaciones(pisos);
         sistema.setPasajeros(pasajeros1);
-
+/*
+        try
+        {
+            pasajeroManejoArchivo.escribirArchivoSet(nombreArchPasajeros, pasajeros);
+        }
+        catch (IOException e)
+        {
+            System.out.println("ARCHIVO NO EXISTE, CREANDOLO...");
+        }
+*/
         Servicio gimnasio = new Servicio("9:00 am","23:00 pm",25,TiposDeServicios.GIMNASIO);
         Servicio pileta = new Servicio("14:00 pm","19:00 pm",30,TiposDeServicios.PILETA);
         Servicio desayunador = new Servicio("6:00 am","12:00 pm",20,TiposDeServicios.DESAYUNADOR);
@@ -772,11 +769,11 @@ public class Main
     }
     public static Administrador baseDeDatosEmpleados (Scanner teclado)
     {
-        Empleado empleado1 = new Empleado("Juan", "Perez", "12345678", "2234567890", "Calle 123", 2, 2000.0, true);
-        Empleado empleado2 = new Empleado("María", "López", "87654321", "2239876543", "Avenida 456", 5, 3000.0, true);
-        Empleado empleado3 = new Empleado("Carlos", "Gómez", "45678901", "2237418529", "Calle Principal 789", 3, 2500.0, true);
-        Empleado empleado4 = new Empleado("Ana", "Martínez", "10987654", "2233647582", "Avenida Central 987", 1, 1800.0, true);
-        Empleado empleado5 = new Empleado("Luis", "Rodríguez", "34567890", "2235647382", "Calle Secundaria 654", 4, 2800.0, true);
+        Recepcionista recepcionista = new Recepcionista("Marcos", "Perez", "12345678", "2234567890", "Calle 123", 2, 2000.0, 15, baseDeDatosSistema());
+        Empleado empleado2 = new Empleado("Florencia", "López", "85555321", "2239876543", "Avenida 456", 5, 3000.0, true);
+        Empleado empleado3 = new Empleado("Pepe", "Gómez", "45333901", "2237418529", "Calle Principal 789", 3, 2500.0, true);
+        Empleado empleado4 = new Empleado("Marina", "Martínez", "10999654", "2233647582", "Avenida Central 987", 1, 1800.0, true);
+        Conserje conserje1 = new Conserje("Alberto", "Rodríguez", "34562890", "2235647382", "Calle Secundaria 654", 4, 2800.0, 10, true);
 
         Administrador administrador;
         ManejoArchivo <Empleado> manejoArchivo = new ManejoArchivo<>();
@@ -785,11 +782,11 @@ public class Main
 
         try
         {
-            administrador.agregar(empleado1);
+            administrador.agregar(recepcionista);
             administrador.agregar(empleado2);
             administrador.agregar(empleado3);
             administrador.agregar(empleado4);
-            administrador.agregar(empleado5);
+            administrador.agregar(conserje1);
         }
         catch (ObjetoNullException e)
         {
@@ -803,20 +800,6 @@ public class Main
         {
             System.out.println("\nERROR AL ESCRIBIR EN EL ARCHIVO DE EMPLEADOS\n");
         }
-/*      ///VERIFICAR LECTURA
-        try
-        {
-            Empleado auxLeer = new Empleado();
-            Set <Empleado> aux = manejoArchivo.leerArchivoSet(administrador.getNombreArchivoEmpleados(), auxLeer);
-
-            for (Empleado aux2: aux)
-            {
-                aux2.mostrar();
-            }
-        }catch (IOException e)
-        {
-            System.out.println("\nERROR AL LEER EL ARCHIVO DE EMPLEADOS");
-        }*/
 
         return administrador;
     }
@@ -1068,7 +1051,6 @@ public class Main
         ///si es menor a 90 retorna true que quiere decir que se pago, caso contrario no se paga (probabilidad de 90% de que se pague)
         return (numRandom < 90);
     }
-
     public static void actualizarDatosDeServicios (Recepcionista recepcionista, Servicio servicioAActualizar)
     {
         ArrayList <Servicio> servicios = recepcionista.getSistemaRecepcionista().getServicios();

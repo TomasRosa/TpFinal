@@ -2,6 +2,7 @@ package Empleados;
 import Archivos.ManejoArchivo;
 import Excepciones.*;
 import Interfaces.MetodosBasicos;
+import Reservas.Pasajero;
 import Reservas.Persona;
 import java.io.IOException;
 import java.util.HashSet;
@@ -222,7 +223,19 @@ public class Administrador extends Persona implements MetodosBasicos<Empleado>
 
     public void verEmpleados ()
     {
-        for (Empleado aux: empleados)
+        ManejoArchivo<Empleado> empleadoManejoArchivo = new ManejoArchivo<>();
+        Set<Empleado> empleados1 = new HashSet<>();
+        try
+        {
+            Empleado auxLeer = new Empleado ();
+            empleados1 = empleadoManejoArchivo.leerArchivoSet(nombreArchivoEmpleados, auxLeer);
+        }
+        catch (IOException e)
+        {
+            System.out.println(e.getMessage());
+        }
+
+        for (Empleado aux: empleados1)
         {
             aux.mostrar();
         }
@@ -260,4 +273,30 @@ public class Administrador extends Persona implements MetodosBasicos<Empleado>
         }
     }
 
+    public void verSueldosExtrasDeEmpleados ()
+    {
+        ManejoArchivo<Empleado> empleadoManejoArchivo = new ManejoArchivo<>();
+        Set<Empleado> empleados1 = new HashSet<>();
+        try
+        {
+            Empleado auxLeer = new Empleado ();
+            empleados1 = empleadoManejoArchivo.leerArchivoSet(nombreArchivoEmpleados, auxLeer);
+        }
+        catch (IOException e)
+        {
+            System.out.println(e.getMessage());
+        }
+
+        for (Empleado aux: empleados1)
+        {
+            if (aux instanceof Recepcionista)
+            {
+                aux.mostrar();
+            }
+            else if (aux instanceof Conserje)
+            {
+                aux.mostrar();
+            }
+        }
+    }
 }

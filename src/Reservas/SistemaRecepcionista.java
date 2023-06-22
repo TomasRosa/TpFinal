@@ -1,8 +1,10 @@
 package Reservas;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
+import Archivos.ManejoArchivo;
 import Excepciones.*;
 import Servicios.Servicio;
 import Enum.TiposDeMontosHabitaciones;
@@ -12,7 +14,6 @@ public class SistemaRecepcionista
     private LinkedHashMap<Integer, List<Habitacion>> habitaciones;
     private Set<Pasajero> pasajeros;
     private ArrayList<Servicio> servicios;
-
     public SistemaRecepcionista()
     {
         this.habitaciones = new LinkedHashMap<>();
@@ -29,6 +30,7 @@ public class SistemaRecepcionista
         this.habitaciones = habitaciones;
     }
 
+
     public Set<Pasajero> getPasajeros() {
         return pasajeros;
     }
@@ -43,6 +45,14 @@ public class SistemaRecepcionista
 
     public void setServicios(ArrayList<Servicio> servicios) {
         this.servicios = servicios;
+    }
+
+    public String getNombreArchPasajeros() {
+        return "Pasajeros.json";
+    }
+
+    public String getNombreArchHabitaciones() {
+        return "Habitaciones.json";
     }
 
     public Factura reserva (Habitacion habitacionAReservar, Pasajero pasajeroReservador, int cantDias) throws IllegalArgumentException
@@ -566,5 +576,25 @@ public class SistemaRecepcionista
             }
         }
         return null; // No se encontró ninguna habitación disponible
+    }
+
+    public void verPasajeros ()
+    {
+        ManejoArchivo<Pasajero> pasajeroManejoArchivo = new ManejoArchivo<>();
+        Set<Pasajero> pasajeros1 = new HashSet<>();
+        try
+        {
+            Pasajero auxLeer = new Pasajero ();
+            pasajeros1 = pasajeroManejoArchivo.leerArchivoSet(getNombreArchPasajeros(), auxLeer);
+        }
+        catch (IOException e)
+        {
+            System.out.println(e.getMessage());
+        }
+
+        for (Pasajero aux: pasajeros1)
+        {
+            aux.mostrar();
+        }
     }
 }
