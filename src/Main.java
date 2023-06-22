@@ -350,7 +350,6 @@ public class Main
                             }
                             case 7:
                             {
-                                Servicio auxFunciones = new Servicio();
                                 /*
                                 do {
                                     System.out.println("Ingrese el DNI para ver que servicios le corresponden:");
@@ -409,15 +408,18 @@ public class Main
                                                 }
                                             } while (!flag);
 
-                                            boolean reservadoONo = auxFunciones.reservarTurnoPortipo(pasajero, tipo);
+                                            Servicio aux = recepcionista.getSistemaRecepcionista().retornarServicio(tipo);
 
-                                            if (reservadoONo)
+                                            try
                                             {
-                                                System.out.println("\nLa reserva se ha producido con exito!");
-                                            }
-                                            else
+                                                boolean reservadoONo = aux.reservarTurnoPortipo(pasajero, tipo);
+                                                if (reservadoONo)
+                                                {
+                                                    System.out.println("Se reservo el turno con exito!");
+                                                }
+                                            }catch (TurnoNoReservado e)
                                             {
-                                                System.out.println("\nLa reserva no se ha producido");
+                                                System.out.println("\nNo se pudo reservar el turno\n");
                                             }
                                         }
                                         else if (opcion == 2)
@@ -474,11 +476,15 @@ public class Main
                                                 {
                                                     System.out.println("Por favor, ingrese el tipo de servicio de nuevo, de manera correcta.");
                                                 }
+
+                                                System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
                                             } while (!flag);
+
+                                            Servicio aux = recepcionista.getSistemaRecepcionista().retornarServicio(tipo);
 
                                             try
                                             {
-                                                boolean reservadoONo = auxFunciones.reservarTurnoPortipo(pasajeroRetornado, tipo);
+                                                boolean reservadoONo = aux.reservarTurnoPortipo(pasajeroRetornado, tipo);
                                                 if (reservadoONo)
                                                 {
                                                     System.out.println("Se reservo el turno con exito!");
@@ -551,9 +557,11 @@ public class Main
                                                 }
                                             } while (!flag);
 
+                                        Servicio aux = recepcionista.getSistemaRecepcionista().retornarServicio(tipo);
+
                                             try
                                             {
-                                                boolean canceladaONo = auxFunciones.cancelarTurnoPortipo(pasajeroRetornado, tipo);
+                                                boolean canceladaONo = aux.cancelarTurnoPortipo(pasajeroRetornado, tipo.toUpperCase());
                                                 if (canceladaONo)
                                                 {
                                                     System.out.println("Se cancelo el turno con exito!");

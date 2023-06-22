@@ -494,4 +494,24 @@ public class SistemaRecepcionista
             }
         }
     }
+
+    public Servicio retornarServicio (String tipo)
+    {
+        Servicio aux = new Servicio();
+        int i = 0;
+
+        while (i < servicios.size())
+        {
+            if (servicios.get(i).getTipoServicio().getServicios().equalsIgnoreCase(tipo))
+            {
+                aux = servicios.get(i);
+            }
+            else
+            {
+                i++;
+            }
+        }
+
+        return aux;
+    }
 }

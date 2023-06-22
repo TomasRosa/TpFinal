@@ -1,9 +1,9 @@
 package Enum;
 
 public enum TiposDeServicios {
-    GIMNASIO("Gimnasio"),
-    PILETA("Pileta"),
-    DESAYUNADOR("Desayunador");
+    GIMNASIO("GIMNASIO"),
+    PILETA("PILETA"),
+    DESAYUNADOR("DESAYUNADOR");
     private final String servicios;
 
     TiposDeServicios(String servicios) {
