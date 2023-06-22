@@ -496,48 +496,7 @@ public class Main
                                     }
                                     case 2:
                                     {
-                                        System.out.println("¿Como desea cancelar la reserva?");
-                                        System.out.println("[1]. Cargar un nuevo pasajero.");
-                                        System.out.println("[2]. Utilizar un pasajero ya cargado.");
-                                        opcion = teclado.nextInt();
-                                        if(opcion == 1)
-                                        {
-                                            Pasajero pasajero = SistemaRecepcionista.cargarUnPasajero(teclado);
-                                            do
-                                            {
-                                                System.out.println("¿A que servicio desea anotarse? GIMNASIO-PILETA-DESAYUNADOR");
 
-                                                try
-                                                {
-                                                    tipo = teclado.next();
-                                                    flag = Validacion.validarStringNoNumeros(tipo) && Validacion.validarServicio(tipo);
-                                                }
-                                                catch (NombreContieneNumeros e)
-                                                {
-                                                    System.out.println("Error: El servicio no puede contener numeros.");
-                                                } catch (TipoIncorrecto e)
-                                                {
-                                                    System.out.println("Error: El servicio es invalido.");
-                                                }
-                                                if (!flag)
-                                                {
-                                                    System.out.println("Por favor, ingrese el tipo de servicio de nuevo, de manera correcta.");
-                                                }
-                                            } while (!flag);
-
-                                            boolean reservadoONo = auxFunciones.reservarTurnoPortipo(pasajero, tipo);
-
-                                            if (reservadoONo)
-                                            {
-                                                System.out.println("\nLa reserva se ha producido con exito!");
-                                            }
-                                            else
-                                            {
-                                                System.out.println("\nLa reserva no se ha producido");
-                                            }
-                                        }
-                                        else if (opcion == 2)
-                                        {
                                             do
                                             {
                                                 System.out.println("Ingrese el dni del pasajero a utilizar");
@@ -602,12 +561,6 @@ public class Main
                                             {
                                                 System.out.println("\nLa reserva no se ha producido");
                                             }
-                                        }
-                                        else
-                                        {
-                                            ///TIRAR EXCEPCION
-                                            System.out.println("OPCION INVALIDA");
-                                        }
                                         break;
                                     }
                                     case 3:
